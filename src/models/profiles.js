@@ -15,7 +15,7 @@ export const profilesList = [
     {
         id: '2',
         imgSrc: '/img/circle_gray.svg',
-        name: 'Профиль 2',
+        name: 'Профиль 22',
         login: 'profile_2',
         password: 'password_2',
         email: 'email@email.ru',
