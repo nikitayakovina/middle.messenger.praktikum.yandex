@@ -25,11 +25,14 @@
         }
     }
 
-    &__form {
-        display: flex;
-        flex-direction: column;
-        width: 269px;
+    &__main {
         justify-self: center;
         margin-top: 55px;
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 269px;
+        }
     }
 }

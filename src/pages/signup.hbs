@@ -3,10 +3,12 @@
         <header class="signup__title">
             <span class="signup__title__text">{{ title }}</span>
         </header>
-        <main class="signup__form">
-            {{#each inputs}}
-                {{> Input this}}
-            {{/each}}
+        <main class="signup__main">
+            <form>
+                {{#each inputs}}
+                    {{> Input this}}
+                {{/each}}
+            </form>
         </main>
         <p class="error__message" id="error__message"></p>
         <footer>

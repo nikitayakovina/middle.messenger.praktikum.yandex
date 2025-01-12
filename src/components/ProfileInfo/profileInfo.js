@@ -9,7 +9,7 @@ export default `
         <div class="main__name">
             <span>{{ first_name }}</span>
         </div>
-        <div class="main__info" id="main__info">
+        <form class="main__info" id="main__info">
             {{#if mode}}
                 {{> Input 
                     labelFor="password"
@@ -84,7 +84,7 @@ export default `
                         value=phone
                     }}
             {{/if}}
-        </div>
+        </form>
         <div class="main__actions" id="main__actions">
             {{#if mode}}
                 <span class="main__actions-accept action" data-id="save">Сохранить</span>
