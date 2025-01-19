@@ -1,18 +1,19 @@
 import signup from '../../pages/signup.hbs';
 import './signup.scss';
-import { onCustomEvent } from '../../utils/event.js';
+import { onCustomEvent } from '../../utils/event';
 import { profilesList } from '../../models/profiles';
+import { IProfile } from '../../types/profile';
+import { IData } from '../../types/auth';
+import { IInputField } from '../../types/input';
+import AbstractClass from '../abstract';
 
-export default class SignUp {
-    container;
-    template;
-
-    constructor(container) {
-        this.container = container;
+export default class SignUp extends AbstractClass {
+    constructor(container: HTMLElement) {
+        super(container);
     }
 
-    render() {
-        const data = {
+    render(): void {
+        const data: IData = {
             title: 'Регистрация',
             inputs: [
                 {
@@ -68,18 +69,20 @@ export default class SignUp {
 
         this.container.innerHTML = signup(data);
 
-        document.getElementById('footer').addEventListener('click', (event) => {
+        document.getElementById('footer').addEventListener('click', (event: MouseEvent) => {
+            // @ts-ignore
             const element = event.target.closest('.footer__action');
-            const id = element?.dataset?.id;
-            let createdProfile = {
-                id: Number(profilesList[profilesList.length-1].id) + 1,
+            const id: string = element?.dataset?.id;
+            let createdProfile: IProfile = {
+                id: (Number(profilesList[profilesList.length-1].id) + 1).toString(),
                 imgSrc: '/img/circle_gray.svg'
             };
             
             if (id === 'signUp') {
-                const errorMessage = document.getElementById('error__message');
+                const errorMessage: HTMLElement = document.getElementById('error__message');
 
-                data.inputs.forEach(input => {
+                data.inputs.forEach((input: IInputField) => {
+                    // @ts-ignore
                     createdProfile[input.id] = document.getElementById(input.id).value;
                 });
 

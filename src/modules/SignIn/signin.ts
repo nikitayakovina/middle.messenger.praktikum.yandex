@@ -3,22 +3,23 @@ import Handlebars from "handlebars";
 import './signin.scss';
 import Input from '../../components/Input/input.js';
 import Footer from '../../components/Footer/footer.js';
-import { onCustomEvent } from '../../utils/event.js';
+import { onCustomEvent } from '../../utils/event';
 import { profilesList } from '../../models/profiles.js';
+import { IInputField } from '../../types/input';
+import { IProfile } from '../../types/profile';
+import { IData, IUser } from '../../types/auth';
+import AbstractClass from '../abstract';
 
 Handlebars.registerPartial('Input', Input);
 Handlebars.registerPartial('Footer', Footer);
 
-export default class SignIn {
-    container;
-    template;
-
-    constructor(container) {
-        this.container = container;
+export default class SignIn extends AbstractClass {
+    constructor(container: HTMLElement) {
+        super(container);
     }
 
-    render() {
-        const data = {
+    render(): void {
+        const data: IData = {
             title: 'Вход',
             inputs: [
                 {
@@ -46,19 +47,20 @@ export default class SignIn {
 
         this.container.innerHTML = signIn(data);
 
-        document.getElementById('footer').addEventListener('click', (event) => {
-            const element = event.target.closest('.footer__action');
-            const id = element?.dataset?.id;
+        document.getElementById('footer')?.addEventListener('click', (event: Event) => {
+            const element: Element = (event.target as HTMLElement)?.closest('.footer__action');
+            // @ts-ignore
+            const id: string = element?.dataset?.id;
             
             if (id === 'signIn') {
-                let user = {};
+                let user: IUser;
 
-                data.inputs.forEach(input => {
-                    user[input.id] = document.getElementById(input.id).value;
+                data.inputs.forEach((input: IInputField) => {
+                    user[input.id] = (document.getElementById(input.id) as HTMLInputElement)?.value;
                 });
 
-                const findProfile = profilesList.find(profile => profile.login === user.login);
-                const error = document.getElementById('error__message');
+                const findProfile: IProfile = profilesList.find((profile: IProfile) => profile.login === user.login);
+                const error: HTMLElement = document.getElementById('error__message');
 
                 if (!findProfile || findProfile.password !== user.password) {
                     error.classList.add('error__message-visible');

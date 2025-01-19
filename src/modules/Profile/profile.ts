@@ -4,41 +4,51 @@ import Handlebars from "handlebars";
 import ProfileInfo from '../../components/ProfileInfo/profileInfo';
 import ProfileSelected from '../../components/ProfileSelected/profileSelected';
 import { profilesList } from '../../models/profiles';
-import { onCustomEvent } from '../../utils/event.js';
+import { onCustomEvent } from '../../utils/event';
+import { IProfile } from '../../types/profile';
+import AbstractClass from '../abstract';
 
 Handlebars.registerPartial('ProfileSelected', ProfileSelected);
 Handlebars.registerPartial('ProfileInfo', ProfileInfo);
 
-export default class Profile {
-    container;
-    template;
-    profile;
-    data = {
+type ProfileType = IProfile & { mode?: string };
+
+interface IData {
+    profiles: IProfile[];
+    profile?: ProfileType
+}
+
+export default class Profile extends AbstractClass {
+    profile: IProfile;
+    data: IData = {
         profiles: profilesList
     };
-    mode;
+    mode: string;
 
-    constructor(container) {
-        this.container = container;
+    constructor(container: HTMLElement) {
+        super(container);
     }
 
-    displayTemplate() {
+    displayTemplate(): void {
         this.container.innerHTML = profile(this.data);
 
         if (this.data?.profile) {
-            document.getElementById('main').addEventListener('click', (event) => {
-                const actionElement = event.target.closest('.action');
-                const actionId = actionElement?.dataset?.id;
+            document.getElementById('main').addEventListener('click', (event: MouseEvent) => {
+                // @ts-ignore
+                const actionElement: Element = event.target.closest('.action');
+                // @ts-ignore
+                const actionId: string = actionElement?.dataset?.id;
     
                 if (!actionElement) {
                     return;
                 }
 
                 if (actionId === 'changeData') {
-                    const newProfile = { ...this.data.profile };
-                    const index = profilesList.indexOf(this.data.profile);
+                    const newProfile: ProfileType = { ...this.data.profile };
+                    const index: number = profilesList.indexOf(this.data.profile);
 
-                    Object.keys(this.data.profile).forEach(key => {
+                    Object.keys(this.data.profile).forEach((key: string) => {
+                        // @ts-ignore
                         newProfile[key] = document.getElementById(key)?.value;
                     });
 
@@ -64,14 +74,14 @@ export default class Profile {
                 } else if (actionId === 'save') {
                     
                 } else if (actionId === 'changePhoto') {
-                    const fileInput = document.getElementById('avatar');
+                    const fileInput: HTMLElement = document.getElementById('avatar');
 
                     fileInput.click();
                     fileInput.addEventListener('change', (event) => {
                         
                     });
                 } else if (actionId === 'remove') {
-                    const index = profilesList.indexOf(this.data.profile);
+                    const index: number = profilesList.indexOf(this.data.profile);
 
                     if (index !== -1) {
                         profilesList.splice(index, 1);
@@ -81,13 +91,15 @@ export default class Profile {
             });
         }
 
-        document.getElementById('profiles__sidebar__list').addEventListener('click', (event) => {
-            const profileElement = event.target.closest('.profile');
+        document.getElementById('profiles__sidebar__list').addEventListener('click', (event: MouseEvent) => {
+            // @ts-ignore
+            const profileElement: Element = event.target.closest('.profile');
 
             if (profileElement) {
-                profilesList.forEach(item => item.selected = false);
+                profilesList.forEach((item: IProfile) => item.selected = false);
 
-                const profile = profilesList.find(profile => Number(profile.id) === Number(profileElement?.dataset?.id));
+                // @ts-ignore
+                const profile: IProfile = profilesList.find((profile: IProfile) => Number(profile.id) === Number(profileElement?.dataset?.id));
                 profile.selected = true;
 
                 this.data = { ...this.data, profile };
@@ -100,7 +112,7 @@ export default class Profile {
         });
     }
 
-    render() {
+    render(): void {
         this.displayTemplate();
     }
 }

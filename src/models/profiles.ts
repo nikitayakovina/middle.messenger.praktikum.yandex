@@ -1,4 +1,6 @@
-export const profilesList = [
+import { IProfile } from '../types/profile';
+
+export const profilesList: IProfile[] = [
     {
         id: '1',
         imgSrc: '/img/circle_gray.svg',

@@ -3,10 +3,11 @@ import Chats from "./modules/Chats/chats";
 import NotFound from "./modules/NotFound/notFound";
 import Profile from "./modules/Profile/profile";
 import SignUp from "./modules/Signup/signup";
+import AbstractClass from "./modules/abstract";
 
 export default class App {
-    appTemplate = document.getElementById('app');
-    pages = {
+    private appTemplate: HTMLElement = document.getElementById('app');
+    private pages: Record<string, AbstractClass> = {
         redirectSignIn: new SignIn(this.appTemplate),
         redirectSignUp: new SignUp(this.appTemplate),
         chats: new Chats(this.appTemplate),
@@ -17,10 +18,11 @@ export default class App {
 
     constructor() {}
 
-    init() {
+    public init(): void {
         this.pages.redirectSignIn.render();
 
-        window.addEventListener('navigate', (event) => {
+        window.addEventListener('navigate', (event: Event) => {
+            // @ts-ignore
             const page = event.detail.page;
 
             if (!this.pages[page]) {
