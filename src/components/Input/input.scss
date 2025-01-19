@@ -1,4 +1,4 @@
-@import '../../style.scss';
+@import url('../../style.scss');
 
 .form-field {
     position: relative;
@@ -17,12 +17,6 @@
       border-radius: 4px;
       background-color: $inputFon;
     }
-
-    &__input:focus + &__label,
-    &__input:not(:placeholder-shown) + &__label {
-      top: 23%;
-      font-size: 12px;
-    }
   
     &__label {
       position: absolute;
@@ -32,5 +26,11 @@
       font-size: 16px;
       color: $gray;
       transition: all 0.2s ease;
+    }
+
+    &__input:focus + &__label,
+    &__input:not(:placeholder-shown) + &__label {
+      top: 23%;
+      font-size: 12px;
     }
   }

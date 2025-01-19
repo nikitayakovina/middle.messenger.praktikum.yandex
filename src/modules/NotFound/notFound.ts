@@ -1,7 +1,6 @@
 import notFound from '../../pages/notFound.hbs';
-import './notFound.scss';
 import Handlebars from "handlebars";
-import Error from '../../components/Error/error.js';
+import Error from '../../components/Error/error';
 import { onCustomEvent } from '../../utils/event';
 import AbstractClass from '../abstract';
 
