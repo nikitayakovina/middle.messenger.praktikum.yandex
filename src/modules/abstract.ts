@@ -1,6 +1,6 @@
 export default class AbstractClass {
     container: HTMLElement;
-    template: HTMLElement | null;
+    template: HTMLElement | null = null;
 
     constructor(container: HTMLElement) {
         this.container = container;
