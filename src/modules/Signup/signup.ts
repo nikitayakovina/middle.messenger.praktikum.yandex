@@ -6,13 +6,10 @@ import { IProfile } from '../../types/profile';
 import { IData } from '../../types/auth';
 import { IInputField } from '../../types/input';
 import AbstractClass from '../abstract';
+import Block from '../../utils/block';
 
-export default class SignUp extends AbstractClass {
-    constructor(container: HTMLElement) {
-        super(container);
-    }
-
-    render(): void {
+export default class SignUp extends Block {
+    constructor() {
         const data: IData = {
             title: 'Регистрация',
             inputs: [
@@ -67,44 +64,50 @@ export default class SignUp extends AbstractClass {
             }
         };
 
-        this.container.innerHTML = signup(data);
+        super({...data});
+    }
 
-        document.getElementById('footer').addEventListener('click', (event: MouseEvent) => {
-            // @ts-ignore
-            const element = event.target.closest('.footer__action');
-            const id: string = element?.dataset?.id;
-            let createdProfile: IProfile = {
-                id: (Number(profilesList[profilesList.length-1].id) + 1).toString(),
-                imgSrc: '/img/circle_gray.svg'
-            };
+    render() {
+        return this.compile(signup, this.props);
+
+    //     this.container.innerHTML = signup(data);
+
+    //     document.getElementById('footer').addEventListener('click', (event: MouseEvent) => {
+    //         // @ts-ignore
+    //         const element = event.target.closest('.footer__action');
+    //         const id: string = element?.dataset?.id;
+    //         let createdProfile: IProfile = {
+    //             id: (Number(profilesList[profilesList.length-1].id) + 1).toString(),
+    //             imgSrc: '/img/circle_gray.svg'
+    //         };
             
-            if (id === 'signUp') {
-                const errorMessage: HTMLElement = document.getElementById('error__message');
+    //         if (id === 'signUp') {
+    //             const errorMessage: HTMLElement = document.getElementById('error__message');
 
-                data.inputs.forEach((input: IInputField) => {
-                    // @ts-ignore
-                    createdProfile[input.id] = document.getElementById(input.id).value;
-                });
+    //             data.inputs.forEach((input: IInputField) => {
+    //                 // @ts-ignore
+    //                 createdProfile[input.id] = document.getElementById(input.id).value;
+    //             });
 
-                if (!createdProfile?.login) {
-                    errorMessage.textContent = 'Введите логин';
-                    errorMessage.classList.add('error__message-visible');
-                } else if (!createdProfile?.password) {
-                    errorMessage.textContent = 'Введите пароль';
-                    errorMessage.classList.add('error__message-visible');
-                } else if (!createdProfile?.repeat_password) {
-                    errorMessage.textContent = 'Введите повтор пароля';
-                    errorMessage.classList.add('error__message-visible');
-                } else if (createdProfile?.password !== createdProfile?.repeat_password) {
-                    errorMessage.textContent = 'Пароли не совпадают';
-                    errorMessage.classList.add('error__message-visible');
-                } else {
-                    profilesList.push(createdProfile);
-                    onCustomEvent('profile');
-                }
-            } else {
-                onCustomEvent(id);
-            }
-        });
+    //             if (!createdProfile?.login) {
+    //                 errorMessage.textContent = 'Введите логин';
+    //                 errorMessage.classList.add('error__message-visible');
+    //             } else if (!createdProfile?.password) {
+    //                 errorMessage.textContent = 'Введите пароль';
+    //                 errorMessage.classList.add('error__message-visible');
+    //             } else if (!createdProfile?.repeat_password) {
+    //                 errorMessage.textContent = 'Введите повтор пароля';
+    //                 errorMessage.classList.add('error__message-visible');
+    //             } else if (createdProfile?.password !== createdProfile?.repeat_password) {
+    //                 errorMessage.textContent = 'Пароли не совпадают';
+    //                 errorMessage.classList.add('error__message-visible');
+    //             } else {
+    //                 profilesList.push(createdProfile);
+    //                 onCustomEvent('profile');
+    //             }
+    //         } else {
+    //             onCustomEvent(id);
+    //         }
+    //     });
     }
 }

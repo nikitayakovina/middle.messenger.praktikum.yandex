@@ -36,6 +36,7 @@
     "express": "^4.21.2",
     "handlebars": "^4.7.8",
     "stylelint-selector-bem-pattern": "^4.0.1",
+    "uuid": "^11.0.5",
     "vite-plugin-handlebars": "^2.0.0"
   },
   "engines": {
