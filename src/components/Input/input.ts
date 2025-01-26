@@ -1,8 +1,13 @@
+import Block from '../../utils/block';
 import './input.scss';
+import input from './input.hbs';
 
-export default `
-    <div class="form-field" id="form-field">
-        <input class="form-field__input" id="{{ id }}" name="{{ name }}" type="{{ type }}" placeholder="" value="{{ value }}">
-        <label class="form-field__label" for="{{ labelFor }}">{{ label }}</label>
-    </div>
-`;
+export default class Input extends Block {
+    constructor(props: any) {
+        super(props);
+    }
+
+    render() {
+        return this.compile(input, this.props);
+    }
+}

@@ -25,27 +25,49 @@ export default class Block {
   _meta!: Meta;
   props: IProps;
   _events: Events;
-  _id: string = '';
+  _id: string = makeUUID();
+  children: any;
 
   eventBus: () => EventBus;
   
-  constructor(props = {}, events: Events = {} ) {
+  constructor(propsAndChildren = {}, events: Events = {} ) {
     const eventBus = new EventBus();
+    const { children, props } = this._getChildren(propsAndChildren);
 
+    // console.log('------------')
+    // console.log(this)
+    // console.log('children',children)
+    // console.log('props',props)
+
+    this.children = children;
     this._meta = {
       props
     };
     this._events = events;
-    this._id = makeUUID();
-    this.props = this._makePropsProxy({ ...props   });
+    this.props = this._makePropsProxy({ ...props });
     this.eventBus = () => eventBus;
     this._registerEvents(eventBus);
 
     eventBus.emit(Block.EVENTS.INIT);
   }
+
+  _getChildren(propsAndChildren: any) {
+    const children: any = {};
+    const props: any = {};
+  
+    Object.entries(propsAndChildren).forEach(([key, value]) => {
+      if (value instanceof Block) {
+        children[key] = value;
+      } else {
+        props[key] = value;
+      }
+    });
+  
+    return { children, props };
+  }
   
   _registerEvents(eventBus: EventBus): void {
-    eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
+    eventBus.on(Block.EVENTS.INIT, this._init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
@@ -55,7 +77,7 @@ export default class Block {
     this._element = this._createDocumentElement('div');
   }
   
-  init(): void {
+  _init(): void {
     this._createResources();
     this._render();
   }
@@ -99,10 +121,30 @@ export default class Block {
   _render(): void {
     if (this._element) {
         this._removeEvents();
-        const content = this.render();
+
+        const propsAndStubs = { ...this.props };
+
+        Object.entries(this.children).forEach(([key, child]) => {
+          //@ts-ignore
+            propsAndStubs[key] = `<div data-id="${child._id}"></div>`
+        });
+
+        this._element.innerHTML = "";
+
         //@ts-ignore
-        this._element.innerHTML = content;
+        this._element.innerHTML = this.render(propsAndStubs);
         this._element.setAttribute('data-id', this._id);
+
+        Object.values(this.children).forEach(child => {
+          //@ts-ignore
+          const stub = this._element.querySelector(`[data-id="${child._id}"]`);
+          
+          if (stub) {
+            //@ts-ignore
+            stub.replaceWith(child.getContent());
+          }
+        });
+
         this._addEvents();
     }
   }
@@ -124,7 +166,7 @@ export default class Block {
   }
 
   
-  render() {}
+  render(props?: any) {}
   
   getContent(): HTMLElement {
     return this._element;

@@ -1,8 +1,7 @@
 import signIn from '../../pages/signin.hbs';
 import Handlebars from "handlebars";
 import './signin.scss';
-import Input from '../../components/Input/input.js';
-import Footer from '../../components/Footer/footer.js';
+import Input from '../../components/Input/input';
 import { onCustomEvent } from '../../utils/event';
 import { profilesList } from '../../models/profiles.js';
 import { IInputField } from '../../types/input';
@@ -10,49 +9,49 @@ import { IProfile } from '../../types/profile';
 import { IData, IUser } from '../../types/auth';
 import AbstractClass from '../abstract';
 import Block, { Events } from '../../utils/block';
-
-Handlebars.registerPartial('Input', Input);
-Handlebars.registerPartial('Footer', Footer);
+import Button from '../../components/Button/button';
+import Link from '../../components/Link/link';;
 
 export default class SignIn extends Block {
     constructor() {
-        const data: IData = {
+        const data: any = {
             title: 'Вход',
-            inputs: [
+            login: new Input(
                 {
                     labelFor: "login",
                     label: "Логин",
-                    id: "login",
                     name: "login",
                     placeholder: "Введите логин"
                 },
+            ),
+            password: new Input(
                 {
                     labelFor: "password",
                     label: "Пароль",
-                    id: "password",
                     name: "password",
                     placeholder: "Введите пароль"
                 },
-            ],
-            footer: {
+            ),
+            button: new Button({
                 title: 'Войти',
-                linkText: 'Нет аккаунта?',
-                id: 'signIn',
-                link: 'redirectSignUp'
-            }
+                type: 'submit'
+            }),
+            link: new Link({
+                href: '#',
+                text: 'Нет аккаунта?'
+            })
         };
 
         const events: Events = {
-            click: (event: Event) => {
-                console.log(event)
-            }
+            submit: (event: any) => {
+                console.log('////',event)
+            },
         }
-
         super({ ...data }, events);
     }
 
-    render() {
-        return this.compile(signIn, this.props);
+    render(props: any) {
+        return this.compile(signIn, props);
     }
 
     // this.container.innerHTML = signIn(data);

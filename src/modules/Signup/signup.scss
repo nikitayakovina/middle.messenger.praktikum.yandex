@@ -1,4 +1,4 @@
-.signup {
+.signin {
     display: flex;
     height: 100vh;
 
@@ -8,10 +8,6 @@
         background-color: $sideBar;
         margin: auto;
         border-radius: 5%;
-
-        footer {
-            margin-top: 159px;
-        }
     }
 
     &__title {
@@ -31,6 +27,13 @@
             display: flex;
             flex-direction: column;
             width: 269px;
+        }
+
+        &-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 159px;
         }
     }
 }

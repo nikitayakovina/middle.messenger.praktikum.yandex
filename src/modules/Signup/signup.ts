@@ -7,12 +7,15 @@ import { IData } from '../../types/auth';
 import { IInputField } from '../../types/input';
 import AbstractClass from '../abstract';
 import Block from '../../utils/block';
+import Input from '../../components/Input/input';
+import Button from '../../components/Button/button';
+import Link from '../../components/Link/link';
 
 export default class SignUp extends Block {
     constructor() {
-        const data: IData = {
+        const data: any = {
             title: 'Регистрация',
-            inputs: [
+            firstName: new Input(
                 {
                     labelFor: "first_name",
                     label: "Имя",
@@ -20,6 +23,8 @@ export default class SignUp extends Block {
                     name: "first_name",
                     placeholder: "Введите имя"
                 },
+            ),
+            secondName: new Input(
                 {
                     labelFor: "second_name",
                     label: "Фамилия",
@@ -27,6 +32,8 @@ export default class SignUp extends Block {
                     name: "second_name",
                     placeholder: "Введите фамилию"
                 },
+            ),
+            login: new Input(
                 {
                     labelFor: "login",
                     label: "Логин",
@@ -34,6 +41,8 @@ export default class SignUp extends Block {
                     name: "login",
                     placeholder: "Введите логин"
                 },
+            ),
+            phone: new Input(
                 {
                     labelFor: "phone",
                     label: "Телефон",
@@ -41,6 +50,8 @@ export default class SignUp extends Block {
                     name: "phone",
                     placeholder: "Введите телефон"
                 },
+            ),
+            password: new Input(
                 {
                     labelFor: "password",
                     label: "Пароль",
@@ -48,6 +59,8 @@ export default class SignUp extends Block {
                     name: "password",
                     placeholder: "Введите пароль"
                 },
+            ),
+            repeatPassword: new Input(
                 {
                     labelFor: "repeat_password",
                     label: "Повторите пароль",
@@ -55,20 +68,21 @@ export default class SignUp extends Block {
                     name: "repeat_password",
                     placeholder: "Введите пароль еще раз"
                 },
-            ],
-            footer: {
+            ),
+            button: new Button({
                 title: 'Зарегистрироваться',
-                linkText: 'Войти',
-                id: 'signUp',
-                link: 'redirectSignIn'
-            }
+            }),
+            link: new Link({
+                href: '#',
+                text: 'Войти'
+            })
         };
 
         super({...data});
     }
 
-    render() {
-        return this.compile(signup, this.props);
+    render(props: any) {
+        return this.compile(signup, props);
 
     //     this.container.innerHTML = signup(data);
 

@@ -32,9 +32,9 @@ export default class App {
     public init(): void {
         renderDom(".app", this._pages.redirectSignIn);
 
-        // setTimeout(() => {
-        //     renderDom(".app", this._pages.redirectSignUp);
-        //   }, 2000);
+        setTimeout(() => {
+            renderDom(".app", this._pages.redirectSignUp);
+          }, 2000);
 
         //   setTimeout(() => {
         //     this._pages.redirectSignIn.setProps({
@@ -44,7 +44,6 @@ export default class App {
         // this._pages.redirectSignIn.render();
 
         window.addEventListener('navigate', (event: Event) => {
-            console.log(event)
             // const page = event.detail.page;
 
             // if (!this.pages[page]) {

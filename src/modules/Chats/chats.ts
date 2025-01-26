@@ -1,11 +1,12 @@
 import chats from '../../pages/chats.hbs';
 import Block from '../../utils/block';
-import AbstractClass from '../abstract';
 import './chats.scss';
 
 export default class Chats extends Block {
     constructor() {
-        const data = {};
+        const data = {
+            
+        };
 
         super({ ...data });
     }

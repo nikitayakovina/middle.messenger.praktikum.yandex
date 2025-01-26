@@ -1,0 +1,10 @@
+.link {
+    color: $blue;
+    font-size: 12px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: #285bd6;
+    }
+}
