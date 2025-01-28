@@ -19,9 +19,9 @@ export default class App {
     // };
 
     _pages = {
-        redirectSignIn: new SignIn(),
-        redirectSignUp: new SignUp(),
-        // chats: new Chats(this.appTemplate),
+        // redirectSignIn: new SignIn(),
+        // redirectSignUp: new SignUp(),
+        chats: new Chats(),
         // profile: new Profile(this.appTemplate),
         // notFound500: new NotFound(this.appTemplate),
         // notFound404: new NotFound(this.appTemplate, '404')
@@ -30,11 +30,11 @@ export default class App {
     constructor() {}
 
     public init(): void {
-        renderDom(".app", this._pages.redirectSignIn);
+        renderDom(".app", this._pages.chats);
 
-        setTimeout(() => {
-            renderDom(".app", this._pages.redirectSignUp);
-          }, 2000);
+        // setTimeout(() => {
+        //     renderDom(".app", this._pages.redirectSignUp);
+        //   }, 2000);
 
         //   setTimeout(() => {
         //     this._pages.redirectSignIn.setProps({

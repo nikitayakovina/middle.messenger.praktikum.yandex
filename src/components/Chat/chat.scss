@@ -1,0 +1,16 @@
+.chat {
+    display: flex;
+    height: 71px;
+    justify-content: space-between;
+    border-bottom: 1px solid $devider;
+    transition: background-color 0.3s;
+
+    &:hover {
+        cursor: pointer;
+        background-color: $blueChatMessage;
+    }
+
+    &-active {
+        background-color: $blueChatMessage;
+    }
+}

@@ -7,7 +7,6 @@ import { profilesList } from '../../models/profiles.js';
 import { IInputField } from '../../types/input';
 import { IProfile } from '../../types/profile';
 import { IData, IUser } from '../../types/auth';
-import AbstractClass from '../abstract';
 import Block, { Events } from '../../utils/block';
 import Button from '../../components/Button/button';
 import Link from '../../components/Link/link';;
@@ -39,15 +38,17 @@ export default class SignIn extends Block {
             link: new Link({
                 href: '#',
                 text: 'Нет аккаунта?'
-            })
+            }),
+            events: {
+                submit: (event: any) => {
+                    event.preventDefault();
+                        event.stopPropagation();
+                        console.log(123)
+                }
+            }
         };
 
-        const events: Events = {
-            submit: (event: any) => {
-                console.log('////',event)
-            },
-        }
-        super({ ...data }, events);
+        super({ ...data });
     }
 
     render(props: any) {

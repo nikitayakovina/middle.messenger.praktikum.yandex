@@ -8,7 +8,7 @@ type Meta = { [key: string]: string | object };
 export type Events = Record<string, (event: Event) => void>;
 
 interface IProps {
-    // events?: EventMap;
+    events?: any;
     // attr?: Attributes | false;
     // template?: string;
 };
@@ -24,13 +24,13 @@ export default class Block {
   _element!: HTMLElement
   _meta!: Meta;
   props: IProps;
-  _events: Events;
+  _events!: Events;
   _id: string = makeUUID();
   children: any;
 
   eventBus: () => EventBus;
   
-  constructor(propsAndChildren = {}, events: Events = {} ) {
+  constructor(propsAndChildren = {},  ) {
     const eventBus = new EventBus();
     const { children, props } = this._getChildren(propsAndChildren);
 
@@ -43,7 +43,7 @@ export default class Block {
     this._meta = {
       props
     };
-    this._events = events;
+    // this._events = events;
     this.props = this._makePropsProxy({ ...props });
     this.eventBus = () => eventBus;
     this._registerEvents(eventBus);
@@ -79,14 +79,18 @@ export default class Block {
   
   _init(): void {
     this._createResources();
+    this.init();
     this._render();
   }
+
+  init() {}
   
   _componentDidMount(): void {
-    // this.componentDidMount();
+    this.componentDidMount();
+    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
   
-//   componentDidMount(oldProps) {}
+  componentDidMount() {}
   
   dispatchComponentDidMount(): void {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM)
@@ -125,23 +129,38 @@ export default class Block {
         const propsAndStubs = { ...this.props };
 
         Object.entries(this.children).forEach(([key, child]) => {
-          //@ts-ignore
+          if (Array.isArray(child)) {
+            //@ts-ignore
+            propsAndStubs[key] = child.map((childComp) => `<div data-id="${childComp._id}"></div>`);
+          } else {
+            //@ts-ignore
             propsAndStubs[key] = `<div data-id="${child._id}"></div>`
+          }
         });
-
-        this._element.innerHTML = "";
 
         //@ts-ignore
         this._element.innerHTML = this.render(propsAndStubs);
         this._element.setAttribute('data-id', this._id);
 
         Object.values(this.children).forEach(child => {
-          //@ts-ignore
-          const stub = this._element.querySelector(`[data-id="${child._id}"]`);
-          
-          if (stub) {
+          if (Array.isArray(child)) {
+            const elements = child.map((comp) => this._element.querySelector(`[data-id="${comp._id}"]`));
+
+            if (!elements.length) {
+              return;
+            }
+
+            elements.forEach((el, index) => {
+              el!.replaceWith(child[index].getContent());
+            });
+          } else {
             //@ts-ignore
-            stub.replaceWith(child.getContent());
+            const stub = this._element.querySelector(`[data-id="${child._id}"]`);
+                      
+            if (stub) {
+              //@ts-ignore
+              stub.replaceWith(child.getContent());
+            }
           }
         });
 
@@ -150,14 +169,18 @@ export default class Block {
   }
 
   _addEvents() {
-    Object.keys(this._events).forEach((eventName) => {
-      this._element?.addEventListener(eventName, this._events[eventName]);
+    const { events = {} } = this.props;
+
+    Object.keys(events).forEach((eventName) => {
+      this._element?.addEventListener(eventName, events[eventName]);
     });
   }
 
   _removeEvents() {
-    Object.keys(this._events).forEach((eventName) => {
-      this._element?.removeEventListener(eventName, this._events[eventName]);
+    const { events = {} } = this.props;
+
+    Object.keys(events).forEach((eventName) => {
+      this._element?.removeEventListener(eventName, events[eventName]);
     });
   }
 

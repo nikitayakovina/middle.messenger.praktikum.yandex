@@ -6,7 +6,6 @@ import ProfileSelected from '../../components/ProfileSelected/profileSelected';
 import { profilesList } from '../../models/profiles';
 import { onCustomEvent } from '../../utils/event';
 import { IProfile } from '../../types/profile';
-import AbstractClass from '../abstract';
 import Block from '../../utils/block';
 
 Handlebars.registerPartial('ProfileSelected', ProfileSelected);

@@ -5,7 +5,6 @@ import { profilesList } from '../../models/profiles';
 import { IProfile } from '../../types/profile';
 import { IData } from '../../types/auth';
 import { IInputField } from '../../types/input';
-import AbstractClass from '../abstract';
 import Block from '../../utils/block';
 import Input from '../../components/Input/input';
 import Button from '../../components/Button/button';
@@ -75,7 +74,14 @@ export default class SignUp extends Block {
             link: new Link({
                 href: '#',
                 text: 'Войти'
-            })
+            }),
+            events: {
+                submit: (event: any) => {
+                    event.preventDefault();
+                        event.stopPropagation();
+                        console.log(123)
+                }
+            }
         };
 
         super({...data});

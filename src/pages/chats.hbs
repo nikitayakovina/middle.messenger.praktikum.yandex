@@ -1,25 +1,37 @@
 <div class="chats">
     <aside class="chats__sidebar">
-        <div class="chats__sidebar__header" id="chats__sidebar__header">
-            <div class="chats__sidebar__header-icon">
-                <img src="/img/back.svg" alt="Назад">
+        <div class="chats__sidebar__header">
+            <div class="chats__sidebar__header-profile">
+                {{{profileIcon}}}
             </div>
             <div class="chats__sidebar__header-text">
-                <span>Назад</span>
+                <span>Чаты</span>
+            </div>
+            <div class="chats__sidebar__header-new">
+                {{{newMessage}}}
             </div>
         </div>
-        <div class="chats__sidebar__list" id="chats__sidebar__list">
+        <div class="chats__sidebar__search">
+            {{{search}}}
+        </div>
+        <div class="chats__sidebar__list">
             {{#each chats}}
-                {{> ProfileSelected this}}
+                {{{this}}}
             {{/each}}
         </div>
     </aside>
 
-    <main class="chats__info">
-        {{#if profile}}
-            {{> ProfileInfo profile}}
-            {{else}}
-                <span>Не выбран</span>
-        {{/if}}
-    </main>
+    <div class="chats__container">
+        <header class="chats__container-header">
+            
+        </header>
+        <main class="chats__container-messages">
+            {{#each messages}}
+                {{{this}}}
+            {{/each}}
+        </main>
+        <footer class="chats__container-footer">
+            {{{chatFooter}}}
+        </footer>
+    </div>
 </div>

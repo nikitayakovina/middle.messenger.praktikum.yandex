@@ -1,0 +1,16 @@
+<div class="chats__sidebar">
+    <div class="chats__sidebar__list">
+        {{#each chats}}
+        {{{this}}}
+        {{/each}}
+    </div>
+    </div>
+
+    <div class="chats__content">
+    {{#if selectedChat}}
+        {{{selectedChat}}}
+    {{else}}
+        <span>Не выбран</span>
+    {{/if}}
+    </div>
+</div>

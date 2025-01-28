@@ -1,0 +1,24 @@
+.message {
+    background-color: $grayChatMessage;
+    border-radius: 10px;
+    width: max-content;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    padding: 11px;
+
+    &__text {
+        
+    }
+
+    &__time {
+        font-size: 12px;
+        align-self: end;
+        color: $messageTime;
+    }
+
+    &-my {
+        background-color: $blueChatMessage;
+        justify-self: end;
+    }
+}
