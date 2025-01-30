@@ -23,7 +23,18 @@
 
     <div class="chats__container">
         <header class="chats__container-header">
-            
+            <div class="chats__container-header__info">
+                <div class="chats__container-header__info-avatar">
+                    {{{defaultAvatar}}}
+                </div>
+                <div class="chats__container-header__info-name">
+                    {{first_name}}
+                </div>
+            </div>
+            <div class="chats__container-header__action">
+                {{{searchMessageIcon}}}
+                {{{toggleIcon}}}
+            </div>
         </header>
         <main class="chats__container-messages">
             {{#each messages}}

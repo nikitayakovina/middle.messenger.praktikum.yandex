@@ -1,12 +1,19 @@
 <div class="chat" data-id="{{ id }}">
-    <div class="chat__image">
-        <img src="{{ src }}" alt="Аватар">
+    <div class="chat__profile">
+        <div class="chat__profile-image">
+            {{{defaultAvatarIcon}}}
+        </div>
+        <div class="chat__profile-info">
+            <div class="chat__profile-info__name">{{ first_name }}</div>
+            <div class="chat__profile-info__message">{{ last_message }}</div>
+        </div>  
     </div>
-    <div class="chat__info">
-        <div class="chat__info-name">{{ first_name }}</div>
-        <div class="chat__info-login">{{ login }}</div>
-    </div>
-    <div class="chat__arrow">
-        <img src="/img/arrow.svg" alt="Перейти">
+    <div class="chat__details">
+        <span class="chat__details-time">
+            {{{time}}}
+        </span>
+        <div class="chat__details-badge">
+            {{{count}}}
+        </div>
     </div>
 </div>

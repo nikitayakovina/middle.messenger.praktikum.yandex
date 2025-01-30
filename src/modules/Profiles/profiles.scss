@@ -27,22 +27,6 @@
                 cursor: pointer;
             }
         }
-    
-        &__list {
-            list-style: none;
-            padding: 0;
-    
-            &-item {
-                padding: 1rem;
-                border-bottom: 1px solid $devider;
-                cursor: pointer;
-                transition: background-color 0.3s;
-    
-                &:hover {
-                    background-color: #eaeaea;
-                }
-            }
-        }
 
         &__add {
             padding-left: 10px;
@@ -57,6 +41,44 @@
     }
 
     &__info {
-        width: 100%;
+        display: flex;
+        width: 510px;
+        margin-left: 74px;
+        height: 100%;
+        flex-direction: column;
+
+        &-avatar {
+            display: flex;
+            align-self: center;
+            margin-top: 41px;
+    
+            & img {
+                width: 130px;
+            }
+        }
+
+        &-name {
+            display: flex;
+            align-self: center;
+            margin-top: 21px;
+        }
     }
+}
+
+.accept {
+    color: $blue;
+    border-bottom: 1px solid $devider !important;
+    width: 100%;
+    text-align: left;
+    padding-bottom: 10px !important;
+    padding-top: 10px !important;
+}
+
+.reject {
+    color: $red !important;
+    border-bottom: 1px solid $devider !important;
+    width: 100%;
+    text-align: left;
+    padding-bottom: 10px !important;
+    padding-top: 10px !important;
 }

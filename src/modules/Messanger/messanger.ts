@@ -12,7 +12,6 @@ export default class Messanger extends Block {
     }
 
     render(props: any) {
-        // console.log(props)
         return this.compile(messanger, props);
     }
 }

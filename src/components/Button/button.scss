@@ -18,8 +18,18 @@
     }
 }
 
-.button__icon {
+.icon {
     background: none;
     border: none;
     padding: 0;
+}
+
+.link {
+    background: none;
+    border: none;
+    padding: 0;
+
+    &:hover {
+        cursor: pointer;
+    }
 }

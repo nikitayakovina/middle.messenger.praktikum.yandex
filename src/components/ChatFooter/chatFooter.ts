@@ -1,12 +1,12 @@
 import Block from "../../utils/block";
-import Button from "../Button/button";
+import Button, { ModeButton } from "../Button/button";
 import Icon from "../Icon/icon";
 import Input from "../Input/input";
 import chatFooter from './chatFooter.hbs';
 import './chatFooter.scss';
 
 export default class ChatFooter extends Block {
-    constructor(props: any) {
+    constructor() {
         const data = {
             input: new Input({
                 labelFor: "message",
@@ -30,13 +30,14 @@ export default class ChatFooter extends Block {
             }),
             send: new Button({
                 type: 'submit',
+                mode: ModeButton.ICON,
                 icon: new Icon({
                     src: '/img/send.svg',
                     alt: 'Отправить сообщение'
                 })
             }),
         }
-        super({ props, ...data });
+        super({ ...data });
     }
 
     render(props?: any) {

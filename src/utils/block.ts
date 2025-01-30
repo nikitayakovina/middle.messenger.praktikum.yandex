@@ -103,11 +103,13 @@ export default class Block {
         return;
     }
 
+    this.init();
     this._render();
   }
   
   componentDidUpdate(oldProps: {}, newProps: {}): boolean {
-    return JSON.stringify(oldProps) !== JSON.stringify(newProps);
+    // return JSON.stringify(oldProps) !== JSON.stringify(newProps);
+    return true;
   }
   
   setProps = (nextProps: {}) => {
@@ -146,7 +148,7 @@ export default class Block {
           if (Array.isArray(child)) {
             const elements = child.map((comp) => this._element.querySelector(`[data-id="${comp._id}"]`));
 
-            if (!elements.length) {
+            if (!elements.length || (elements.length && elements.every(element => element === null))) {
               return;
             }
 

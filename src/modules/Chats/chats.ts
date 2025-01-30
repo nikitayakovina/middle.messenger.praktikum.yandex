@@ -9,7 +9,21 @@ import './chats.scss';
 
 export default class Chats extends Block {
     constructor() {
+        const chatFooter: Block = new ChatFooter();
         const data = {
+            first_name: 'Иван',
+            searchMessageIcon: new Icon({
+                src: '/img/search-message.svg',
+                alt: 'Поиск по сообщениям',
+            }),
+            toggleIcon: new Icon({
+                src: '/img/toggle.svg',
+                alt: 'Дополнительное меню',
+            }),
+            defaultAvatar: new Icon({
+                src: '/img/circle_gray.svg',
+                alt: 'Фото профиля',
+            }),
             profileIcon: new Icon({
                 src: '/img/profile.svg',
                 alt: 'Профиль',
@@ -39,8 +53,7 @@ export default class Chats extends Block {
                     }
                 }
             }),
-            chatFooter: new ChatFooter({
-            }),
+            chatFooter,
             events: {
                 submit: (event: Event) => {
                     event.preventDefault();
@@ -70,7 +83,7 @@ export default class Chats extends Block {
             new Chat({
                 first_name: 'Иван',
                 last_message: 'Последнее сообщение',
-                count_message: 2,
+                count: 2,
                 time: '10:00',
                 events: {
                     click: (event: Event) => {
@@ -82,7 +95,7 @@ export default class Chats extends Block {
             new Chat({
                 first_name: 'Петр',
                 last_message: 'Последнее сообщение 2',
-                count_message: 1,
+                count: 1,
                 time: '12:00',
                 events: {
                     click: (event: Event) => {

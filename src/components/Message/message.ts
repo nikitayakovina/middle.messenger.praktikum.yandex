@@ -10,8 +10,4 @@ export default class Message extends Block {
     render(props: any) {
         return this.compile(message, props);
     }
-
-    componentDidMount() {
-        console.log('!!!!!')
-    }
 }
