@@ -45,3 +45,13 @@
 .label-icon {
   padding-left: 20px;
 }
+
+.form-error {
+  display: none;
+  font-size: 12px;
+  color: $red;
+}
+
+.visible {
+  display: block;
+}

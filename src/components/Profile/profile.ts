@@ -1,10 +1,10 @@
-import Block from "../../utils/block"
+import Block, { IProps } from "../../utils/block"
 import Icon from "../Icon/icon";
 import profile from './profile.hbs';
 import './profile.scss';
 
 export default class Profile extends Block {
-    constructor(props: any) {
+    constructor(props: IProps) {
         const data: any = {
             arrowIcon: new Icon({
                 src: '/img/arrow.svg',
@@ -15,7 +15,7 @@ export default class Profile extends Block {
         super({ ...props, ...data });
     }
 
-    render(props: any) {
+    render(props: IProps) {
         return this.compile(profile, props);
     }
 }

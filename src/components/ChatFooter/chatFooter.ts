@@ -1,4 +1,5 @@
 import Block from "../../utils/block";
+import { ValiadateType, validateForm } from "../../utils/validate";
 import Button, { ModeButton } from "../Button/button";
 import Icon from "../Icon/icon";
 import Input from "../Input/input";
@@ -8,26 +9,6 @@ import './chatFooter.scss';
 export default class ChatFooter extends Block {
     constructor() {
         const data = {
-            input: new Input({
-                labelFor: "message",
-                label: "Отправить сообщение",
-                name: "message",
-                placeholder: "Отправить сообщение",
-                icon: new Icon({
-                    src: '/img/attached-file.svg',
-                    alt: 'Прикрепить файл',
-                    events: {
-                        click: (event: any) => {
-                            // render profile
-                        }
-                    }
-                }),
-                events: {
-                    input: (event: any) => {
-                        console.log(333)
-                    }
-                }
-            }),
             send: new Button({
                 type: 'submit',
                 mode: ModeButton.ICON,
@@ -36,8 +17,31 @@ export default class ChatFooter extends Block {
                     alt: 'Отправить сообщение'
                 })
             }),
+            events: {
+                submit: (event: Event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    validateForm(this.children.input, event);
+                }
+            }
         }
         super({ ...data });
+    }
+
+    init() {
+        this.children.input = 
+            new Input({
+                labelFor: "message",
+                label: "Отправить сообщение",
+                name: "message",
+                validateType: ValiadateType.TEXT,
+                placeholder: "Отправить сообщение",
+                icon: new Icon({
+                    src: '/img/attached-file.svg',
+                    alt: 'Прикрепить файл',
+                })
+            })
     }
 
     render(props?: any) {

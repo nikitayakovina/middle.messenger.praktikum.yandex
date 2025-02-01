@@ -5,8 +5,9 @@
         </header>
         <main class="signin__main">
             <form>
-                {{{login}}}
-                {{{password}}}
+                {{#each inputs}}
+                    {{{this}}}
+                {{/each}}
                 <div class="signin__main-actions">
                     {{{button}}}
                     {{{link}}}

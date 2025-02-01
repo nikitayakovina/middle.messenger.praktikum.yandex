@@ -1,20 +1,18 @@
-import Block from "../../utils/block";
+import Block, { IProps } from "../../utils/block";
 import profileLayout from './profileLayout.hbs';
 import './profileLayout.scss';
 
 export default class ProfileLayout extends Block {
-    constructor(props: any) {
+    constructor(props: IProps) {
         super({ ...props });
     }
 
     init() {
-        // @ts-ignore
         this.children.inputs = this.props.inputs;
-        // @ts-ignore
         this.children.actions = this.props.actions;
     }
 
-    render(props: any) {
+    render(props: IProps) {
         return this.compile(profileLayout, props);
     }
 }

@@ -1,4 +1,4 @@
-import Block from "../../utils/block";
+import Block, { IProps } from "../../utils/block";
 import button from './button.hbs';
 import buttonIcon from './buttonIcon.hbs';
 import buttonLink from './buttonLink.hbs';
@@ -12,11 +12,11 @@ export enum ModeButton {
 
 
 export default class Button extends Block {
-    constructor(props: any) {
+    constructor(props: IProps) {
         super(props);
     }
 
-    render(props: any) {
+    render(props: IProps) {
         const { mode = ModeButton.BUTTON } = props;
         if (mode === ModeButton.ICON) {
             return this.compile(buttonIcon, props);    

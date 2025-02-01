@@ -1,16 +1,14 @@
 <div class="chats__sidebar">
     <div class="chats__sidebar__list">
         {{#each chats}}
-        {{{this}}}
+            {{{this}}}
         {{/each}}
     </div>
-    </div>
-
     <div class="chats__content">
-    {{#if selectedChat}}
-        {{{selectedChat}}}
-    {{else}}
-        <span>Не выбран</span>
-    {{/if}}
+        {{#if selectedChat}}
+            {{{selectedChat}}}
+        {{else}}
+            <span>Не выбран</span>
+        {{/if}}
     </div>
 </div>

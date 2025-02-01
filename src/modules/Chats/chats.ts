@@ -4,7 +4,7 @@ import Icon from '../../components/Icon/icon';
 import Input from '../../components/Input/input';
 import Message from '../../components/Message/message';
 import chats from '../../pages/chats.hbs';
-import Block from '../../utils/block';
+import Block, { IProps } from '../../utils/block';
 import './chats.scss';
 
 export default class Chats extends Block {
@@ -78,7 +78,6 @@ export default class Chats extends Block {
     }
 
     init() {
-        // @ts-ignore
         this.children.chats = [
             new Chat({
                 first_name: 'Иван',
@@ -119,7 +118,7 @@ export default class Chats extends Block {
         ];
     }
 
-    render(props: any) {
+    render(props: IProps) {
         return this.compile(chats, props);
     }
 }

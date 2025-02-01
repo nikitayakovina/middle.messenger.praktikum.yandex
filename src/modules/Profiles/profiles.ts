@@ -1,20 +1,14 @@
 import profiles from '../../pages/profiles.hbs';
 import './profiles.scss';
 import { IProfile } from '../../types/profile';
-import Block from '../../utils/block';
+import Block, { IProps } from '../../utils/block';
 import Profile from '../../components/Profile/profile';
 import Icon from '../../components/Icon/icon';
 import Input from '../../components/Input/input';
 import Link from '../../components/Link/link';
 import Button, { ModeButton } from '../../components/Button/button';
 import ProfileLayout from '../../components/ProfileLayout/profileLayout';
-
-// type ProfileType = IProfile & { mode?: string };
-
-// interface IData {
-//     profiles: IProfile[];
-//     profile?: ProfileType
-// }
+import { ValiadateType, validateForm } from '../../utils/validate';
 
 export default class Profiles extends Block {
     profile!: IProfile;
@@ -28,6 +22,7 @@ export default class Profiles extends Block {
                     label: "Логин",
                     id: "login",
                     name: "login",
+                    validateType: ValiadateType.LOGIN,
                     placeholder: "Введите логин"
                 }),
                 new Input({
@@ -35,6 +30,7 @@ export default class Profiles extends Block {
                     label: "Почта",
                     id: "email",
                     name: "email",
+                    validateType: ValiadateType.EMAIL,
                     placeholder: "Введите почту"
                 }),
                 new Input({
@@ -42,6 +38,7 @@ export default class Profiles extends Block {
                     label: "Имя",
                     id: "first_name",
                     name: "first_name",
+                    validateType: ValiadateType.NAME,
                     placeholder: "Введите имя"
                 }),
                 new Input({
@@ -49,6 +46,7 @@ export default class Profiles extends Block {
                     label: "Фамилия",
                     id: "second_name",
                     name: "second_name",
+                    validateType: ValiadateType.NAME,
                     placeholder: "Введите фамилию"
                 }),
                 new Input({
@@ -56,6 +54,7 @@ export default class Profiles extends Block {
                     label: "Отображаемое имя",
                     id: "display_name",
                     name: "display_name",
+                    validateType: ValiadateType.NAME,
                     placeholder: "Введите отображаемое имя"
                 }),
                 new Input({
@@ -63,6 +62,7 @@ export default class Profiles extends Block {
                     label: "Телефон",
                     id: "phone",
                     name: "phone",
+                    validateType: ValiadateType.PHONE,
                     placeholder: "Введите телефон"
                 }),
             ],
@@ -89,6 +89,7 @@ export default class Profiles extends Block {
                                         label: "Пароль",
                                         id: "password",
                                         name: "password",
+                                        validateType: ValiadateType.PASSWORD,
                                         placeholder: "Введите пароль"
                                     }),
                                     new Input({
@@ -96,6 +97,7 @@ export default class Profiles extends Block {
                                         label: "Новый пароль",
                                         id: "newPassword",
                                         name: "newPassword",
+                                        validateType: ValiadateType.PASSWORD,
                                         placeholder: "Введите новый пароль"
                                     }),
                                     new Input({
@@ -103,6 +105,7 @@ export default class Profiles extends Block {
                                         label: "Повторите новый пароль",
                                         id: "repeatPassword",
                                         name: "repeatPassword",
+                                        validateType: ValiadateType.PASSWORD,
                                         placeholder: "Введите пароль"
                                     }),
                                 ],
@@ -173,12 +176,10 @@ export default class Profiles extends Block {
                 submit: (event: any) => {
                     event.preventDefault();
                     event.stopPropagation();
-                    console.log(123, event)
+                    
+                    // @ts-ignore
+                    validateForm(profileLayout.children.inputs, event);
                 }
-                // click: (event: any) => {
-                //     event.preventDefault();
-                //     event.stopPropagation();
-                // }
             }
         };
 
@@ -216,178 +217,9 @@ export default class Profiles extends Block {
                 }),
             }),
         ];
-        // this.children.inputs = [
-        //     new Input({
-        //         labelFor: "login",
-        //         label: "Логин",
-        //         id: "login",
-        //         name: "login",
-        //         placeholder: "Введите логин"
-        //     }),
-        //     new Input({
-        //         labelFor: "email",
-        //         label: "Почта",
-        //         id: "email",
-        //         name: "email",
-        //         placeholder: "Введите почту"
-        //     }),
-        //     new Input({
-        //         labelFor: "first_name",
-        //         label: "Имя",
-        //         id: "first_name",
-        //         name: "first_name",
-        //         placeholder: "Введите имя"
-        //     }),
-        //     new Input({
-        //         labelFor: "second_name",
-        //         label: "Фамилия",
-        //         id: "second_name",
-        //         name: "second_name",
-        //         placeholder: "Введите фамилию"
-        //     }),
-        //     new Input({
-        //         labelFor: "display_name",
-        //         label: "Отображаемое имя",
-        //         id: "display_name",
-        //         name: "display_name",
-        //         placeholder: "Введите отображаемое имя"
-        //     }),
-        //     new Input({
-        //         labelFor: "phone",
-        //         label: "Телефон",
-        //         id: "phone",
-        //         name: "phone",
-        //         placeholder: "Введите телефон"
-        //     }),
-        // ];
-        // this.children.actions = [
-        //     new Button({
-        //         type: 'submit',
-        //         mode: ModeButton.LINK,
-        //         title: 'Изменить данные',
-        //         class: 'accept'
-        //     }),
-        //     new Button({
-        //         mode: ModeButton.LINK,
-        //         title: 'Изменить пароль',
-        //         class: 'accept',
-        //         events: {
-        //             click: (event: any) => {
-        //                 event.preventDefault();
-        //                 event.stopPropagation();
-        //             }
-        //         }
-        //     }),
-        //     new Button({
-        //         mode: ModeButton.LINK,
-        //         title: 'Удалить профиль',
-        //         class: 'reject',
-        //         events: {
-        //             click: (event: any) => {
-        //                 event.preventDefault();
-        //                 event.stopPropagation();
-        //             }
-        //         }
-        //     }),
-        //     new Button({
-        //         mode: ModeButton.LINK,
-        //         title: 'Выйти',
-        //         class: 'reject',
-        //         events: {
-        //             click: (event: any) => {
-        //                 event.preventDefault();
-        //                 event.stopPropagation();
-        //             }
-        //         }
-        //     }),
-        // ];
     }
 
-    render(props: any) {
+    render(props: IProps) {
         return this.compile(profiles, props);
     }
-
-    // displayTemplate(): void {
-    //     this.container.innerHTML = profile(this.data);
-
-    //     if (this.data?.profile) {
-    //         document.getElementById('main').addEventListener('click', (event: MouseEvent) => {
-    //             // @ts-ignore
-    //             const actionElement: Element = event.target.closest('.action');
-    //             // @ts-ignore
-    //             const actionId: string = actionElement?.dataset?.id;
-    
-    //             if (!actionElement) {
-    //                 return;
-    //             }
-
-    //             if (actionId === 'changeData') {
-    //                 const newProfile: ProfileType = { ...this.data.profile };
-    //                 const index: number = profilesList.indexOf(this.data.profile);
-
-    //                 Object.keys(this.data.profile).forEach((key: string) => {
-    //                     // @ts-ignore
-    //                     newProfile[key] = document.getElementById(key)?.value;
-    //                 });
-
-    //                 newProfile.id = this.data.profile.id;
-    //                 newProfile.imgSrc = this.data.profile.imgSrc;
-    //                 newProfile.selected = this.data.profile.selected;
-    //                 newProfile.name = this.data.profile.name;
-
-    //                 profilesList[index] = newProfile;
-    //                 this.data = { ...this.data, profile: newProfile };
-
-    //                 this.displayTemplate();
-    //             } else if (actionId === 'changePassword') {
-    //                 this.mode = 'changePassword';
-    //                 this.data.profile = { ...this.data.profile, mode: this.mode };
-    //                 this.displayTemplate();
-    //             } else if (actionId === 'exit') {
-    //                 onCustomEvent('redirectSignIn');
-    //             } else if (actionId === 'cancel') {
-    //                 this.mode = null;
-    //                 this.data.profile = { ...this.data.profile, mode: this.mode };
-    //                 this.displayTemplate();
-    //             } else if (actionId === 'save') {
-                    
-    //             } else if (actionId === 'changePhoto') {
-    //                 const fileInput: HTMLElement = document.getElementById('avatar');
-
-    //                 fileInput.click();
-    //                 fileInput.addEventListener('change', (event) => {
-                        
-    //                 });
-    //             } else if (actionId === 'remove') {
-    //                 const index: number = profilesList.indexOf(this.data.profile);
-
-    //                 if (index !== -1) {
-    //                     profilesList.splice(index, 1);
-    //                     this.displayTemplate();
-    //                 }
-    //             }
-    //         });
-    //     }
-
-    //     document.getElementById('profiles__sidebar__list').addEventListener('click', (event: MouseEvent) => {
-    //         // @ts-ignore
-    //         const profileElement: Element = event.target.closest('.profile');
-
-    //         if (profileElement) {
-    //             profilesList.forEach((item: IProfile) => item.selected = false);
-
-    //             // @ts-ignore
-    //             const profile: IProfile = profilesList.find((profile: IProfile) => Number(profile.id) === Number(profileElement?.dataset?.id));
-    //             profile.selected = true;
-
-    //             this.data = { ...this.data, profile };
-    //             this.displayTemplate();
-    //         }
-    //     });
-
-    //     document.getElementById('profiles__sidebar__header').addEventListener('click', (event) => {
-    //         onCustomEvent('chats');
-    //     });
-    // }
-
 }

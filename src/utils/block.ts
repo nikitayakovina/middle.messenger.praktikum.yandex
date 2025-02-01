@@ -1,17 +1,10 @@
 import EventBus from "./eventBus";
-import Handlebars from "handlebars"
-import { renderDom } from "./renderDom";
 import {v4 as makeUUID} from 'uuid';
 
 type EventBusType = { [key: string]: string };
 type Meta = { [key: string]: string | object };
 export type Events = Record<string, (event: Event) => void>;
-
-interface IProps {
-    events?: any;
-    // attr?: Attributes | false;
-    // template?: string;
-};
+export type IProps = { [key: string]: string | Block | Block[] | unknown } & { events?: Events };
 
 export default class Block {
   static EVENTS: EventBusType = {
@@ -26,24 +19,18 @@ export default class Block {
   props: IProps;
   _events!: Events;
   _id: string = makeUUID();
-  children: any;
+  children: Record<string, Block | Block[] | unknown>;
 
   eventBus: () => EventBus;
   
-  constructor(propsAndChildren = {},  ) {
+  constructor(propsAndChildren = {}) {
     const eventBus = new EventBus();
     const { children, props } = this._getChildren(propsAndChildren);
-
-    // console.log('------------')
-    // console.log(this)
-    // console.log('children',children)
-    // console.log('props',props)
 
     this.children = children;
     this._meta = {
       props
     };
-    // this._events = events;
     this.props = this._makePropsProxy({ ...props });
     this.eventBus = () => eventBus;
     this._registerEvents(eventBus);
@@ -51,9 +38,10 @@ export default class Block {
     eventBus.emit(Block.EVENTS.INIT);
   }
 
-  _getChildren(propsAndChildren: any) {
-    const children: any = {};
-    const props: any = {};
+  _getChildren(propsAndChildren: Record<string, Block | Block[] | string>)
+    : { children: Record<string, Block | Block[]>, props: Record<string, Block | Block[] | string> } {
+    const children: Record<string, Block | Block[]> = {};
+    const props: Record<string, string | Block | Block[]> = {};
   
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (value instanceof Block) {
@@ -66,18 +54,18 @@ export default class Block {
     return { children, props };
   }
   
-  _registerEvents(eventBus: EventBus): void {
+  _registerEvents(eventBus: EventBus) {
     eventBus.on(Block.EVENTS.INIT, this._init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
   }
   
-  _createResources(): void {
+  _createResources() {
     this._element = this._createDocumentElement('div');
   }
   
-  _init(): void {
+  _init() {
     this._createResources();
     this.init();
     this._render();
@@ -85,18 +73,18 @@ export default class Block {
 
   init() {}
   
-  _componentDidMount(): void {
+  _componentDidMount() {
     this.componentDidMount();
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
   
   componentDidMount() {}
   
-  dispatchComponentDidMount(): void {
+  dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM)
   }
   
-  _componentDidUpdate(oldProps: {}, newProps: {}) {
+  _componentDidUpdate(oldProps: object, newProps: object) {
     const response = this.componentDidUpdate(oldProps, newProps);
 
     if (!response) {
@@ -107,12 +95,11 @@ export default class Block {
     this._render();
   }
   
-  componentDidUpdate(oldProps: {}, newProps: {}): boolean {
-    // return JSON.stringify(oldProps) !== JSON.stringify(newProps);
+  componentDidUpdate(oldProps: object, newProps: object): boolean {
     return true;
   }
   
-  setProps = (nextProps: {}) => {
+  setProps = (nextProps: Record<string, Block | Block[] | string | object>) => {
     if (!nextProps) {
       return;
     }
@@ -124,7 +111,7 @@ export default class Block {
     return this._element;
   }
 
-  _render(): void {
+  _render() {
     if (this._element) {
         this._removeEvents();
 
@@ -186,7 +173,7 @@ export default class Block {
     });
   }
 
-  compile(template: any, props: any): string {
+  compile(template: (data?: IProps) => string, props: IProps): string {
     return template(props);
   }
 

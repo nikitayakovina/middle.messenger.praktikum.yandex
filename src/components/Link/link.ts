@@ -1,13 +1,13 @@
-import Block from "../../utils/block";
+import Block, { IProps } from "../../utils/block";
 import link from './link.hbs';
 import './link.scss';
 
 export default class Link extends Block {
-    constructor(props: any) {
+    constructor(props: IProps) {
         super(props);
     }
 
-    render(props: any) {
+    render(props: IProps) {
         return this.compile(link, props);
     }
 }
