@@ -11,11 +11,6 @@
     "scss/load-partial-extension": "always",
     "scss/dollar-variable-colon-space-after": "always",
     "no-useless-constructor": "off",
-    "no-underscore-dangle": [
-      "error",
-      {
-        "allowAfterThis": true
-      }
-    ]
+    "no-underscore-dangle": "off"
   }
 }
