@@ -13,8 +13,7 @@
         }
       ],
       "indent": [
-        true,
-        "spaces",
+        "error",
         4
       ]
     }
