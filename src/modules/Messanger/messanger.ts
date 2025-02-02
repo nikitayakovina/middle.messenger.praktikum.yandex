@@ -7,7 +7,9 @@ export default class Messanger extends Block {
     }
 
     init() {
-        this.children.chats = this.props.chats;
+        if (Array.isArray(this.props.chats)) {
+            this.children.chats = this.props.chats;
+        }
     }
 
     render(props: IProps) {

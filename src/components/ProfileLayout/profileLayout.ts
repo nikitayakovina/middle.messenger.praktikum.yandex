@@ -8,8 +8,12 @@ export default class ProfileLayout extends Block {
     }
 
     init() {
-        this.children.inputs = this.props.inputs;
-        this.children.actions = this.props.actions;
+        if (Array.isArray(this.props.inputs)) {
+            this.children.inputs = this.props.inputs;
+        }
+        if (Array.isArray(this.props.actions)) {
+            this.children.actions = this.props.actions;
+        }
     }
 
     render(props: IProps) {

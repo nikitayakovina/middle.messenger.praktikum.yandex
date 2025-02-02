@@ -5,20 +5,17 @@ const METHODS = {
     DELETE: 'DELETE',
 };
 
-/**
-* Функцию реализовывать здесь необязательно, но может помочь не плодить логику у GET-метода
-* На входе: объект. Пример: {a: 1, b: 2, c: {d: 123}, k: [1, 2, 3]}
-* На выходе: строка. Пример: ?a=1&b=2&c=[object Object]&k=1,2,3
-*/
-function queryStringify(data) {
-    let result = '?';
+type Options = { method: string, timeout: number, data?: {} };
+
+export const queryStringify = (data: Record<string, string>) => {
+    let result: string = '?';
 
     const isFirstParam = () => {
         return result.split('').reverse()[0] === '?';
     };
 
 
-    for (key in data) {
+    for (let key in data) {
         if (Array.isArray(data[key])) {
             if (isFirstParam()) {
                 result += `${key}=${data[key]}`
@@ -43,25 +40,24 @@ function queryStringify(data) {
     return result;
 }
 
-class HTTPTransport {
-    get = (url, options = {}) => {
-    console.clear();
-            return this.request(url, {...options, method: METHODS.GET}, options.timeout);
+export class HTTPTransport {
+    get = (url: string, options: Options) => {
+        return this.request(url, {...options, method: METHODS.GET});
     };
 
-    put = (url, options = {}) => {
-        return this.request(url, {...options, method: METHODS.PUT}, options.timeout);
+    put = (url: string, options: Options) => {
+        return this.request(url, {...options, method: METHODS.PUT});
     }
-    post = (url, options = {}) => {
-        return this.request(url, {...options, method: METHODS.POST}, options.timeout);
+    post = (url: string,options: Options) => {
+        return this.request(url, {...options, method: METHODS.POST});
     }
-    delete = (url, options = {}) => {
-        return this.request(url, {...options, method: METHODS.DELETE}, options.timeout);
+    delete = (url: string, options: Options) => {
+        return this.request(url, {...options, method: METHODS.DELETE});
     }
-    request = (url, options = { method: 'GET' }, timeout = 5000) => {
+    request = (url: string, options: Options = { method: 'GET', timeout: 5000 }) => {
         const { method, data } = options;
         const xhr = new XMLHttpRequest();
-        const queryParams = queryStringify(data);
+        const queryParams = queryStringify(data || "");
     
         return new Promise((resolve, reject) => {
             xhr.open(method, url + queryParams);
@@ -83,6 +79,3 @@ class HTTPTransport {
         });
     };
 }
-
-// new HTTPTransport().get('https://chats', { data: {a: 1, b: 2, c: {d: 123}, k: [1, 2, 3]} });
-// new HTTPTransport().put('https://chats', { data: {a: 1, b: 2, c: {d: 123}, k: [1, 2, 3]} });

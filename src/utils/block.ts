@@ -96,7 +96,11 @@ export default abstract class Block {
   }
   
   componentDidUpdate(oldProps: object, newProps: object): boolean {
-    return true;
+    if (oldProps && newProps) {
+      return true; 
+    }
+
+    return false;
   }
   
   setProps = (nextProps: Record<string, Block | Block[] | string | object>) => {

@@ -5,8 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "tsc": "tsc --noEmit",
     "dev": "vite",
-    "lint:check": "npx eslint .",
+    "lint:check": "npx eslint . && npm run tsc",
     "lint:fix": "npx eslint . --fix",
     "lint:scss": "stylelint '**/*.scss' --fix",
     "build": "vite build",

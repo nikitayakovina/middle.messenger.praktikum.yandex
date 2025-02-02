@@ -45,8 +45,6 @@ export default class Chats extends Block {
     }
 
     selectedChat(element: HTMLElement) {
-        const selectedChat = element?.dataset?.id;
-
         document.querySelectorAll('.chat').forEach(chat => {
             chat.classList.remove('chat-active');
         })
