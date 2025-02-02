@@ -31,7 +31,7 @@ export default class EventBus {
       throw new Error(`Нет события: ${event}`);
     }
 
-    this.listeners[event].forEach(function (listener) {
+    this.listeners[event].forEach(function handleListener(listener) {
       listener(...args);
     });
   }

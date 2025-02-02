@@ -9,4 +9,4 @@ export const renderDom = (query: string, block: Block) => {
   }
 
   return root;
-}
+};

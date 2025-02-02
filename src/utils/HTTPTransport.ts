@@ -12,7 +12,7 @@ export const queryStringify = (data: Record<string, string>) => {
 
   const isFirstParam = () => result.split("").reverse()[0] === "?";
 
-  Object.keys(data).forEach(key => {
+  Object.keys(data).forEach((key) => {
     if (Array.isArray(data[key])) {
       result += isFirstParam() ? `${key}=${data[key]}` : `&${key}=${data[key]}`;
     } else if (typeof data[key] === "object") {
@@ -20,7 +20,7 @@ export const queryStringify = (data: Record<string, string>) => {
     } else {
       result += isFirstParam() ? `${key}=${data[key]}` : `&${key}=${data[key]}`;
     }
-  })
+  });
 
   return result;
 };
@@ -46,9 +46,7 @@ export class HTTPTransport {
       xhr.open(method, url + queryParams);
       xhr.setRequestHeader("Content-Type", "text/plain");
 
-      xhr.onload = function () {
-        resolve(xhr);
-      };
+      xhr.onload = () => resolve(xhr);
 
       xhr.onabort = reject;
       xhr.onerror = reject;

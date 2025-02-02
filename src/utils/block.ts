@@ -204,7 +204,6 @@ export default abstract class Block {
       },
       set(target: { [key: string]: {} }, property: string, value: {}) {
         const newTarget = { ...target };
-        
         /* eslint-disable no-param-reassign */
         target[property] = value;
         self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, newTarget);
