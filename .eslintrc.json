@@ -28,11 +28,6 @@
     "no-underscore-dangle": "off",
     "class-methods-use-this": "off",
     "no-else-return": "off",
-    "no-use-before-define": [
-      "error",
-      {
-        "typedefs": false
-      }
-    ]
+    "no-use-before-define": "off"
   }
 }
