@@ -21,15 +21,11 @@ export default class App {
   };
 
   constructor() {
-    // не нужно типизировать
-    // тк код будет удален в следующем спринте и нужен только для отладки страниц
-    //@ts-ignore
-    window.addEventListener("navigate", (event: any) => {
+    //данный функционал будет удален
+    window.addEventListener("navigate", (event: Event) => {
+      //@ts-expect-error
       const { page } = event.detail;
-
-      if (this._pages[page]) {
-          renderDom(".app", this._pages[page]);
-      }
+      renderDom(".app", this._pages[page]);
     });
   }
 
