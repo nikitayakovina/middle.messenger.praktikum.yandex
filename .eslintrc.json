@@ -18,6 +18,7 @@
         "allowAfterThis": true
       }
     ],
-    "indent": ["error", 2]
+    "indent": ["error", 2],
+    "quotes": ["error", "double"]
   }
 }
