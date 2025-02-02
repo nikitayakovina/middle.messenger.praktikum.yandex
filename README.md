@@ -14,7 +14,7 @@
 | -------------- | ------------------------- | -------------------------------------------------------------------------------------------- |
 | `/signin`      | Страница авторизации      | `window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'redirectSignIn' } }));` |
 | `/signup`      | Страница регистрации      | `window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'redirectSignUp' } }));` |
-| `/profile`     | Профили                   | `window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'profile' } }));`        |
+| `/profiles`     | Профили                   | `window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'profile' } }));`        |
 | `/chats`       | Чаты                      | `window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'chats' } }));`          |
 | `/notFound500` | Страница не найдена       | `window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'notFound500' } }));`    |
 | `/notFound404` | Ошибка на стороне сервера | `window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'notFound404' } }));`    |

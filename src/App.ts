@@ -7,7 +7,7 @@ import Profiles from "./modules/Profiles/profiles.ts";
 import Error from "./components/Error/error.ts";
 
 export default class App {
-  private pages: Record<string, Block> = {
+  _pages: Record<string, Block> = {
     redirectSignIn: new SignIn(),
     redirectSignUp: new SignUp(),
     chats: new Chats(),
@@ -20,7 +20,19 @@ export default class App {
     }),
   };
 
-  public init(): void {
-    renderDom(".app", this.pages.chats);
+  constructor() {
+    // не нужно типизировать
+    // тк код будет удален в следующем спринте и нужен только для отладки страниц
+    window.addEventListener('navigate', (event: any) => {
+      const page = event.detail.page;
+
+      if (this._pages[page]) {
+          renderDom(".app", this._pages[page]);
+      }
+    });
+  }
+
+  init() {
+    renderDom(".app", this._pages.chats);
   }
 }
