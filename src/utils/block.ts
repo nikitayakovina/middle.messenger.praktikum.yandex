@@ -217,4 +217,4 @@ export default abstract class Block {
   hide() {
     this._element.style.display = 'none';
   }
-  }
+}
