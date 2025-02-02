@@ -9,11 +9,9 @@ export default class Input extends Block {
       ...props,
       events: {
         focusout: (event: FocusEvent) => {
-          const value = (event.target as HTMLInputElement).value;
+          const { value } = event.target as HTMLInputElement;
           const text = validate(value, props.validateType as ValidateType);
-          const errorElement = Object.values(this.element.children).find((el) =>
-            el.className.includes("form-error"),
-          );
+          const errorElement = Object.values(this.element.children).find((el) => el.className.includes("form-error"));
 
           if (errorElement) {
             if (!text?.length) {

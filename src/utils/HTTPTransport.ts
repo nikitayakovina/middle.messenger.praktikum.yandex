@@ -40,19 +40,14 @@ export const queryStringify = (data: Record<string, string>) => {
 };
 
 export class HTTPTransport {
-  get = (url: string, options: Options) => {
-    return this.request(url, { ...options, method: METHODS.GET });
-  };
+  get = (url: string, options: Options) => this.request(url, { ...options, method: METHODS.GET });
 
-  put = (url: string, options: Options) => {
-    return this.request(url, { ...options, method: METHODS.PUT });
-  };
-  post = (url: string, options: Options) => {
-    return this.request(url, { ...options, method: METHODS.POST });
-  };
-  delete = (url: string, options: Options) => {
-    return this.request(url, { ...options, method: METHODS.DELETE });
-  };
+  put = (url: string, options: Options) => this.request(url, { ...options, method: METHODS.PUT });
+
+  post = (url: string, options: Options) => this.request(url, { ...options, method: METHODS.POST });
+
+  delete = (url: string, options: Options) => this.request(url, { ...options, method: METHODS.DELETE });
+  
   request = (
     url: string,
     options: Options = { method: "GET", timeout: 5000 },

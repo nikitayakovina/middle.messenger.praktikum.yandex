@@ -6,6 +6,7 @@
     "selector-max-id": 0,
     "selector-class-pattern": null,
     "scss/load-partial-extension": "always",
-    "scss/dollar-variable-colon-space-after": "always"
+    "scss/dollar-variable-colon-space-after": "always",
+    "no-else-return": "off"
   }
 }

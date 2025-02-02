@@ -1,6 +1,6 @@
-import Block from "../utils/block.ts";
+import Block from "./block.ts";
 
-export function renderDom(query: string, block: Block) {
+export const renderDom = (query: string, block: Block) => {
   const root = document.querySelector(query);
 
   if (root) {
