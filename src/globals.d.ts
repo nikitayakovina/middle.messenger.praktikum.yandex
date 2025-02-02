@@ -1,4 +1,4 @@
 declare module '*.hbs' {
-    const template: (data?: T) => string;
-    export default template;
-  }
+  const template: (data?: T) => string;
+  export default template;
+}
