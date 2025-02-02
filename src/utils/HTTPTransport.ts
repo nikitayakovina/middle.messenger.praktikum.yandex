@@ -10,31 +10,17 @@ type Options = { method: string; timeout: number; data?: {} };
 export const queryStringify = (data: Record<string, string>) => {
   let result: string = "?";
 
-  const isFirstParam = () => {
-    return result.split("").reverse()[0] === "?";
-  };
+  const isFirstParam = () => result.split("").reverse()[0] === "?";
 
-  for (let key in data) {
+  Object.keys(data).forEach(key => {
     if (Array.isArray(data[key])) {
-      if (isFirstParam()) {
-        result += `${key}=${data[key]}`;
-      } else {
-        result += `&${key}=${data[key]}`;
-      }
+      result += isFirstParam() ? `${key}=${data[key]}` : `&${key}=${data[key]}`;
     } else if (typeof data[key] === "object") {
-      if (isFirstParam()) {
-        result += `${key}=[object Object]`;
-      } else {
-        result += `&${key}=${data[key]}`;
-      }
+      result += isFirstParam() ? `${key}=[object Object]` : `&${key}=${data[key]}`;
     } else {
-      if (isFirstParam()) {
-        result += `${key}=${data[key]}`;
-      } else {
-        result += `&${key}=${data[key]}`;
-      }
+      result += isFirstParam() ? `${key}=${data[key]}` : `&${key}=${data[key]}`;
     }
-  }
+  })
 
   return result;
 };
@@ -47,7 +33,7 @@ export class HTTPTransport {
   post = (url: string, options: Options) => this.request(url, { ...options, method: METHODS.POST });
 
   delete = (url: string, options: Options) => this.request(url, { ...options, method: METHODS.DELETE });
-  
+
   request = (
     url: string,
     options: Options = { method: "GET", timeout: 5000 },

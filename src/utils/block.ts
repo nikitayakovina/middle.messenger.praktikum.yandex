@@ -1,5 +1,5 @@
-import EventBus from "./eventBus.ts";
 import { v4 as makeUUID } from "uuid";
+import EventBus from "./eventBus.ts";
 
 type EventBusType = { [key: string]: string };
 type Meta = { [key: string]: string | object };
@@ -145,14 +145,9 @@ export default abstract class Block {
 
       Object.values(this.children).forEach((child) => {
         if (Array.isArray(child)) {
-          const elements = child.map((comp) =>
-            this._element.querySelector(`[data-id="${comp._id}"]`),
-          );
+          const elements = child.map((comp) => this._element.querySelector(`[data-id="${comp._id}"]`));
 
-          if (
-            !elements.length ||
-            (elements.length && elements.every((element) => element === null))
-          ) {
+          if (!elements.length || (elements.length && elements.every((element) => element === null))) {
             return;
           }
 
@@ -209,7 +204,8 @@ export default abstract class Block {
       },
       set(target: { [key: string]: {} }, property: string, value: {}) {
         const newTarget = { ...target };
-
+        
+        /* eslint-disable no-param-reassign */
         target[property] = value;
         self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, newTarget);
 
