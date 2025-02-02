@@ -3,12 +3,12 @@ import './signin.scss';
 import Input from '../../components/Input/input';
 import Block, { IProps } from '../../utils/block';
 import Button from '../../components/Button/button';
-import Link from '../../components/Link/link';import { ValiadateType, validate, validateForm } from '../../utils/validate';
+import Link from '../../components/Link/link';import { ValidateType, validateForm } from '../../utils/validate';
 ;
 
 export default class SignIn extends Block {
     constructor() {
-        const data: any = {
+        const data: IProps = {
             title: 'Вход',
             button: new Button({
                 title: 'Войти',
@@ -23,7 +23,6 @@ export default class SignIn extends Block {
                     event.preventDefault();
                     event.stopPropagation();
 
-                    // @ts-ignore
                     validateForm(this.children.inputs, event);
                 }
             }
@@ -39,7 +38,7 @@ export default class SignIn extends Block {
                     labelFor: "login",
                     label: "Логин",
                     name: "login",
-                    validateType: ValiadateType.LOGIN,
+                    validateType: ValidateType.LOGIN,
                     placeholder: "Введите логин",
                     errorText: "Неправильный логин"
                 },
@@ -49,7 +48,7 @@ export default class SignIn extends Block {
                     labelFor: "password",
                     label: "Пароль",
                     name: "password",
-                    validateType: ValiadateType.PASSWORD,
+                    validateType: ValidateType.PASSWORD,
                     errorText: "Неправильный пароль",
                     placeholder: "Введите пароль"
                 },

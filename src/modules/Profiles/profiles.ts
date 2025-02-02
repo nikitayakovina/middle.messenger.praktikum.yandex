@@ -1,19 +1,14 @@
 import profiles from '../../pages/profiles.hbs';
 import './profiles.scss';
-import { IProfile } from '../../types/profile';
 import Block, { IProps } from '../../utils/block';
 import Profile from '../../components/Profile/profile';
 import Icon from '../../components/Icon/icon';
 import Input from '../../components/Input/input';
-import Link from '../../components/Link/link';
 import Button, { ModeButton } from '../../components/Button/button';
 import ProfileLayout from '../../components/ProfileLayout/profileLayout';
-import { ValiadateType, validateForm } from '../../utils/validate';
+import { ValidateType, validateForm } from '../../utils/validate';
 
 export default class Profiles extends Block {
-    profile!: IProfile;
-    mode!: string;
-
     constructor() {
         const profileLayout = new ProfileLayout({
             inputs: [
@@ -22,7 +17,7 @@ export default class Profiles extends Block {
                     label: "Логин",
                     id: "login",
                     name: "login",
-                    validateType: ValiadateType.LOGIN,
+                    validateType: ValidateType.LOGIN,
                     placeholder: "Введите логин"
                 }),
                 new Input({
@@ -30,7 +25,7 @@ export default class Profiles extends Block {
                     label: "Почта",
                     id: "email",
                     name: "email",
-                    validateType: ValiadateType.EMAIL,
+                    validateType: ValidateType.EMAIL,
                     placeholder: "Введите почту"
                 }),
                 new Input({
@@ -38,7 +33,7 @@ export default class Profiles extends Block {
                     label: "Имя",
                     id: "first_name",
                     name: "first_name",
-                    validateType: ValiadateType.NAME,
+                    validateType: ValidateType.NAME,
                     placeholder: "Введите имя"
                 }),
                 new Input({
@@ -46,7 +41,7 @@ export default class Profiles extends Block {
                     label: "Фамилия",
                     id: "second_name",
                     name: "second_name",
-                    validateType: ValiadateType.NAME,
+                    validateType: ValidateType.NAME,
                     placeholder: "Введите фамилию"
                 }),
                 new Input({
@@ -54,7 +49,7 @@ export default class Profiles extends Block {
                     label: "Отображаемое имя",
                     id: "display_name",
                     name: "display_name",
-                    validateType: ValiadateType.NAME,
+                    validateType: ValidateType.NAME,
                     placeholder: "Введите отображаемое имя"
                 }),
                 new Input({
@@ -62,7 +57,7 @@ export default class Profiles extends Block {
                     label: "Телефон",
                     id: "phone",
                     name: "phone",
-                    validateType: ValiadateType.PHONE,
+                    validateType: ValidateType.PHONE,
                     placeholder: "Введите телефон"
                 }),
             ],
@@ -78,7 +73,7 @@ export default class Profiles extends Block {
                     title: 'Изменить пароль',
                     class: 'accept',
                     events: {
-                        click: (event: any) => {
+                        click: (event: Event) => {
                             event.preventDefault();
                             event.stopPropagation();
 
@@ -89,7 +84,7 @@ export default class Profiles extends Block {
                                         label: "Пароль",
                                         id: "password",
                                         name: "password",
-                                        validateType: ValiadateType.PASSWORD,
+                                        validateType: ValidateType.PASSWORD,
                                         placeholder: "Введите пароль"
                                     }),
                                     new Input({
@@ -97,7 +92,7 @@ export default class Profiles extends Block {
                                         label: "Новый пароль",
                                         id: "newPassword",
                                         name: "newPassword",
-                                        validateType: ValiadateType.PASSWORD,
+                                        validateType: ValidateType.PASSWORD,
                                         placeholder: "Введите новый пароль"
                                     }),
                                     new Input({
@@ -105,7 +100,7 @@ export default class Profiles extends Block {
                                         label: "Повторите новый пароль",
                                         id: "repeatPassword",
                                         name: "repeatPassword",
-                                        validateType: ValiadateType.PASSWORD,
+                                        validateType: ValidateType.PASSWORD,
                                         placeholder: "Введите пароль"
                                     }),
                                 ],
@@ -115,26 +110,11 @@ export default class Profiles extends Block {
                                         title: 'Сохранить',
                                         class: 'accept',
                                         type: 'submit',
-                                        events: {
-                                            submit: (event: any) => {
-                                                event.preventDefault();
-                                                event.stopPropagation();
-                                                console.log(event)
-                                            }
-                                        }
                                     }),
                                     new Button({
                                         mode: ModeButton.LINK,
                                         title: 'Отмена',
                                         class: 'reject',
-                                        events: {
-                                            click: (event: any) => {
-                                                event.preventDefault();
-                                                event.stopPropagation();
-
-                                                
-                                            }
-                                        }
                                     }),
                                 ]
                             });
@@ -145,27 +125,15 @@ export default class Profiles extends Block {
                     mode: ModeButton.LINK,
                     title: 'Удалить профиль',
                     class: 'reject',
-                    events: {
-                        click: (event: any) => {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                    }
                 }),
                 new Button({
                     mode: ModeButton.LINK,
                     title: 'Выйти',
                     class: 'reject',
-                    events: {
-                        click: (event: any) => {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                    }
                 }),
             ]
         });
-        const data: any = {
+        const data: IProps = {
             defaultAvatar: new Icon({
                 src: '/img/circle_gray.svg',
                 alt: 'Фото профиля',
@@ -173,11 +141,10 @@ export default class Profiles extends Block {
             first_name: 'Имя профиль 1',
             profileLayout,
             events: {
-                submit: (event: any) => {
+                submit: (event: Event) => {
                     event.preventDefault();
                     event.stopPropagation();
                     
-                    // @ts-ignore
                     validateForm(profileLayout.children.inputs, event);
                 }
             }

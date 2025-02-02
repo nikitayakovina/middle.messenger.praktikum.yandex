@@ -5,7 +5,7 @@ import './profile.scss';
 
 export default class Profile extends Block {
     constructor(props: IProps) {
-        const data: any = {
+        const data: IProps = {
             arrowIcon: new Icon({
                 src: '/img/arrow.svg',
                 alt: 'Перейти',

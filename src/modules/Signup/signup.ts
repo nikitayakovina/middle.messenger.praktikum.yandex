@@ -4,11 +4,11 @@ import Block, { IProps } from '../../utils/block';
 import Input from '../../components/Input/input';
 import Button from '../../components/Button/button';
 import Link from '../../components/Link/link';
-import { ValiadateType, validateForm } from '../../utils/validate';
+import { ValidateType, validateForm } from '../../utils/validate';
 
 export default class SignUp extends Block {
     constructor() {
-        const data: any = {
+        const data: IProps = {
             title: 'Регистрация',
             button: new Button({
                 title: 'Зарегистрироваться',
@@ -22,7 +22,6 @@ export default class SignUp extends Block {
                     event.preventDefault();
                     event.stopPropagation();
 
-                    // @ts-ignore
                     validateForm(this.children.inputs, event);
                 }
             }
@@ -39,7 +38,7 @@ export default class SignUp extends Block {
                     label: "Имя",
                     id: "first_name",
                     name: "first_name",
-                    validateType: ValiadateType.NAME,
+                    validateType: ValidateType.NAME,
                     placeholder: "Введите имя"
                 },
             ),
@@ -49,7 +48,7 @@ export default class SignUp extends Block {
                     label: "Фамилия",
                     id: "second_name",
                     name: "second_name",
-                    validateType: ValiadateType.NAME,
+                    validateType: ValidateType.NAME,
                     placeholder: "Введите фамилию"
                 },
             ),
@@ -59,7 +58,7 @@ export default class SignUp extends Block {
                     label: "Логин",
                     id: "login",
                     name: "login",
-                    validateType: ValiadateType.LOGIN,
+                    validateType: ValidateType.LOGIN,
                     placeholder: "Введите логин"
                 },
             ),
@@ -69,7 +68,7 @@ export default class SignUp extends Block {
                     label: "Телефон",
                     id: "phone",
                     name: "phone",
-                    validateType: ValiadateType.PHONE,
+                    validateType: ValidateType.PHONE,
                     placeholder: "Введите телефон"
                 },
             ),
@@ -79,7 +78,7 @@ export default class SignUp extends Block {
                     label: "Пароль",
                     id: "password",
                     name: "password",
-                    validateType: ValiadateType.PASSWORD,
+                    validateType: ValidateType.PASSWORD,
                     placeholder: "Введите пароль"
                 },
             ),

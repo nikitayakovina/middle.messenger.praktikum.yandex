@@ -6,7 +6,7 @@ type Meta = { [key: string]: string | object };
 export type Events = Record<string, (event: Event) => void>;
 export type IProps = { [key: string]: string | Block | Block[] | unknown } & { events?: Events };
 
-export default class Block {
+export default abstract class Block {
   static EVENTS: EventBusType = {
     INIT: "init",
     FLOW_CDM: "flow:component-did-mount",
@@ -19,7 +19,7 @@ export default class Block {
   props: IProps;
   _events!: Events;
   _id: string = makeUUID();
-  children: Record<string, Block | Block[] | unknown>;
+  children: Record<string, Block | Block[]>;
 
   eventBus: () => EventBus;
   
@@ -119,15 +119,12 @@ export default class Block {
 
         Object.entries(this.children).forEach(([key, child]) => {
           if (Array.isArray(child)) {
-            //@ts-ignore
             propsAndStubs[key] = child.map((childComp) => `<div data-id="${childComp._id}"></div>`);
           } else {
-            //@ts-ignore
             propsAndStubs[key] = `<div data-id="${child._id}"></div>`
           }
         });
 
-        //@ts-ignore
         this._element.innerHTML = this.render(propsAndStubs);
         this._element.setAttribute('data-id', this._id);
 
@@ -143,11 +140,9 @@ export default class Block {
               el!.replaceWith(child[index].getContent());
             });
           } else {
-            //@ts-ignore
             const stub = this._element.querySelector(`[data-id="${child._id}"]`);
                       
             if (stub) {
-              //@ts-ignore
               stub.replaceWith(child.getContent());
             }
           }
@@ -178,7 +173,7 @@ export default class Block {
   }
 
   
-  render(props?: any) {}
+  protected abstract render(props: IProps): string;
   
   getContent(): HTMLElement {
     return this._element;

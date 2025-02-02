@@ -1,6 +1,6 @@
 import Block from "./block";
 
-export enum ValiadateType {
+export enum ValidateType {
     EMAIL = "email",
     LOGIN = "login",
     PASSWORD = "password",
@@ -106,25 +106,25 @@ const validateName = (text: string) => {
     return error;
 }
 
-export const validate = (value: string, type: ValiadateType) => {
+export const validate = (value: string, type: ValidateType) => {
     if (!value.length) {
         return 'Поле не может быть пустым';
     }
 
     switch (type) {
-        case ValiadateType.EMAIL:
+        case ValidateType.EMAIL:
             return validateEmail(value);
 
-        case ValiadateType.PASSWORD:
+        case ValidateType.PASSWORD:
             return validatePassword(value);
 
-        case ValiadateType.PHONE:
+        case ValidateType.PHONE:
             return validatePhone(value);
 
-        case ValiadateType.NAME:
+        case ValidateType.NAME:
             return validateName(value);
 
-        case ValiadateType.LOGIN:
+        case ValidateType.LOGIN:
             return validateLogin(value);
 
         default:
@@ -141,7 +141,7 @@ export const validateForm = (input: Block | Block[], event: Event) => {
         const errorElement = block.element.querySelector('.form-error');
         const textError = validate(
             input.value, 
-            block.props.validateType as ValiadateType
+            block.props.validateType as ValidateType
         );
 
         if (errorElement && textError.length) {

@@ -27,48 +27,25 @@ export default class Chats extends Block {
             profileIcon: new Icon({
                 src: '/img/profile.svg',
                 alt: 'Профиль',
-                events: {
-                    click: (event: any) => {
-                        // render profile
-                    }
-                }
             }),
             newMessage: new Icon({
                 src: '/img/new-chat.svg',
                 alt: 'Создать сообщение',
-                events: {
-                    click: (event: any) => {
-                        // create message
-                    }
-                }
             }),
             search: new Input({
                 labelFor: "search",
                 label: "Поиск",
                 name: "search",
                 placeholder: "Введите текст",
-                events: {
-                    input: (event: any) => {
-                        // search
-                    }
-                }
             }),
-            chatFooter,
-            events: {
-                submit: (event: Event) => {
-                    event.preventDefault();
-                    const target = event.target as HTMLElement;
-                    console.log(target)
-                }
-            }
+            chatFooter
         };
 
         super({ ...data });
     }
 
-    selectedChat(element: Element) {
-        // @ts-ignore
-        const selectedChat: string = element?.dataset?.id;
+    selectedChat(element: HTMLElement) {
+        const selectedChat = element?.dataset?.id;
 
         document.querySelectorAll('.chat').forEach(chat => {
             chat.classList.remove('chat-active');
@@ -86,8 +63,12 @@ export default class Chats extends Block {
                 time: '10:00',
                 events: {
                     click: (event: Event) => {
-                        // @ts-ignore
-                        this.selectedChat(event.target.closest('.chat'));
+                        const target = event.target as HTMLElement;
+                        const chat = target.closest('.chat') as HTMLElement;
+
+                        if (target && chat) {
+                            this.selectedChat(chat);
+                        }
                     }
                 }
             }),
@@ -98,8 +79,12 @@ export default class Chats extends Block {
                 time: '12:00',
                 events: {
                     click: (event: Event) => {
-                        // @ts-ignore
-                        this.selectedChat(event.target.closest('.chat'));
+                        const target = event.target as HTMLElement;
+                        const chat = target.closest('.chat') as HTMLElement;
+
+                        if (target && chat) {
+                            this.selectedChat(chat);
+                        }
                     }
                 }
             })

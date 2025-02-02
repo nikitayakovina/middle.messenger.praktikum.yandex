@@ -1,5 +1,5 @@
-import Block from "../../utils/block";
-import { ValiadateType, validateForm } from "../../utils/validate";
+import Block, { IProps } from "../../utils/block";
+import { ValidateType, validateForm } from "../../utils/validate";
 import Button, { ModeButton } from "../Button/button";
 import Icon from "../Icon/icon";
 import Input from "../Input/input";
@@ -35,7 +35,7 @@ export default class ChatFooter extends Block {
                 labelFor: "message",
                 label: "Отправить сообщение",
                 name: "message",
-                validateType: ValiadateType.TEXT,
+                validateType: ValidateType.TEXT,
                 placeholder: "Отправить сообщение",
                 icon: new Icon({
                     src: '/img/attached-file.svg',
@@ -44,7 +44,7 @@ export default class ChatFooter extends Block {
             })
     }
 
-    render(props?: any) {
+    render(props: IProps) {
         return this.compile(chatFooter, props);
     }
 }
