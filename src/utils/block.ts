@@ -17,10 +17,15 @@ export default abstract class Block {
   };
 
   _element!: HTMLElement;
+
   _meta!: Meta;
+
   props: IProps;
+
   _events!: Events;
+
   _id: string = makeUUID();
+  
   children: Record<string, Block | Block[]>;
 
   eventBus: () => EventBus;

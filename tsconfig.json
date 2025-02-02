@@ -19,5 +19,5 @@
     "strictNullChecks": true,
     "allowImportingTsExtensions": true
   },
-  "include": ["src"]
+  "include": ["src", "./globals.d.ts"]
 }

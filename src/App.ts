@@ -20,8 +20,6 @@ export default class App {
     }),
   };
 
-  constructor() {}
-
   public init(): void {
     renderDom(".app", this.pages.chats);
   }
