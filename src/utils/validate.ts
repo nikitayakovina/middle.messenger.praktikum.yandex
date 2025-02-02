@@ -112,23 +112,23 @@ export const validate = (value: string, type: ValidateType) => {
   }
 
   switch (type) {
-    case ValidateType.EMAIL:
-    return validateEmail(value);
+  case ValidateType.EMAIL:
+  return validateEmail(value);
 
-    case ValidateType.PASSWORD:
-    return validatePassword(value);
+  case ValidateType.PASSWORD:
+  return validatePassword(value);
 
-    case ValidateType.PHONE:
-    return validatePhone(value);
+  case ValidateType.PHONE:
+  return validatePhone(value);
 
-    case ValidateType.NAME:
-    return validateName(value);
+  case ValidateType.NAME:
+  return validateName(value);
 
-    case ValidateType.LOGIN:
-    return validateLogin(value);
+  case ValidateType.LOGIN:
+  return validateLogin(value);
 
-    default:
-    return "";
+  default:
+  return "";
   }
 };
 
@@ -138,10 +138,10 @@ export const validateForm = (input: Block | Block[], event: Event) => {
 
   const isValidForm = (Array.isArray(input) ? input : [input]).every(
     (block: Block) => {
-      const input = block.element.querySelector("input") as HTMLInputElement;
+      const inputElement = block.element.querySelector("input") as HTMLInputElement;
       const errorElement = block.element.querySelector(".form-error");
       const textError = validate(
-        input.value,
+        inputElement.value,
         block.props.validateType as ValidateType,
       );
 
