@@ -3,10 +3,10 @@ import './signin.scss';
 import Input from '../../components/Input/input';
 import Block, { IProps } from '../../utils/block';
 import Button from '../../components/Button/button';
-import Link from '../../components/Link/link';import { ValidateType, validateForm } from '../../utils/validate';
-;
+import Link from '../../components/Link/link';
+import { ValidateType, validateForm } from '../../utils/validate';
 
-export default class SignIn extends Block {
+export default class SignIn extends Block {    
     constructor() {
         const data: IProps = {
             title: 'Вход',

@@ -11,6 +11,11 @@
         {
           "devDependencies": true
         }
+      ],
+      "indent": [
+        true,
+        "spaces",
+        4
       ]
     }
   }
