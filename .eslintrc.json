@@ -19,6 +19,7 @@
       }
     ],
     "indent": ["error", 2],
-    "quotes": ["error", "double"]
+    "quotes": ["error", "double"],
+    "import/extensions": ["error", "ignorePackages", { "js": "never", "ts": "never" }]
   }
 }
