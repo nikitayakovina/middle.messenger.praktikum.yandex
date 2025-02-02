@@ -21,10 +21,9 @@ export default class App {
   };
 
   constructor() {
-    //данный функционал будет удален
     window.addEventListener("navigate", (event: Event) => {
-      //@ts-expect-error
-      const { page } = event.detail;
+      const customEvent = event as CustomEvent;
+      const { page } = customEvent.detail; 
       renderDom(".app", this._pages[page]);
     });
   }
