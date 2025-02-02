@@ -23,8 +23,9 @@ export default class App {
   constructor() {
     // не нужно типизировать
     // тк код будет удален в следующем спринте и нужен только для отладки страниц
-    window.addEventListener('navigate', (event: any) => {
-      const page = event.detail.page;
+    //@ts-ignore
+    window.addEventListener("navigate", (event: any) => {
+      const { page } = event.detail;
 
       if (this._pages[page]) {
           renderDom(".app", this._pages[page]);
