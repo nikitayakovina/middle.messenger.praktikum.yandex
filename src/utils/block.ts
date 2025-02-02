@@ -25,7 +25,7 @@ export default abstract class Block {
   _events!: Events;
 
   _id: string = makeUUID();
-  
+
   children: Record<string, Block | Block[]>;
 
   eventBus: () => EventBus;

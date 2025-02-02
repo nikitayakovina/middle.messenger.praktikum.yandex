@@ -2,7 +2,9 @@
   "extends": ["airbnb", "plugin:import/recommended"],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "import"],
-
+  "env": {
+    "browser": true
+  },
   "rules": {
     "max-len": [2, 200],
     "@typescript-eslint/no-unused-vars": 2,

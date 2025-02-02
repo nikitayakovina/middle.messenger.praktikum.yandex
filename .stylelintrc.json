@@ -1,9 +1,6 @@
 {
   "extends": "stylelint-config-recommended-scss",
   "plugins": ["stylelint-scss", "stylelint-selector-bem-pattern"],
-  "env": {
-    "browser": true
-  },
   "rules": {
     "max-nesting-depth": 5,
     "selector-max-id": 0,
