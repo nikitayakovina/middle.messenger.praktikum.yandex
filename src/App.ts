@@ -23,7 +23,7 @@ export default class App {
   constructor() {
     window.addEventListener("navigate", (event: Event) => {
       const customEvent = event as CustomEvent;
-      const { page } = customEvent.detail; 
+      const { page } = customEvent.detail;
       renderDom(".app", this._pages[page]);
     });
   }
