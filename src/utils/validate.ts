@@ -113,22 +113,22 @@ export const validate = (value: string, type: ValidateType) => {
 
   switch (type) {
   case ValidateType.EMAIL:
-  return validateEmail(value);
+    return validateEmail(value);
 
   case ValidateType.PASSWORD:
-  return validatePassword(value);
+    return validatePassword(value);
 
   case ValidateType.PHONE:
-  return validatePhone(value);
+    return validatePhone(value);
 
   case ValidateType.NAME:
-  return validateName(value);
+    return validateName(value);
 
   case ValidateType.LOGIN:
-  return validateLogin(value);
+    return validateLogin(value);
 
   default:
-  return "";
+    return "";
   }
 };
 

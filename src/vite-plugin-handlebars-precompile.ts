@@ -7,7 +7,7 @@ export default function handlebars() {
     name: "vite-plugin-handlebars-precompile",
     transform(src: string, id: string) {
       if (!fileRegexp.test(id)) {
-        return;
+        return null;
       }
 
       // language=javascript
