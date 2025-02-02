@@ -12,12 +12,6 @@
         "devDependencies": true
       }
     ],
-    "no-underscore-dangle": [
-      "error",
-      {
-        "allowAfterThis": true
-      }
-    ],
     "indent": ["error", 2],
     "quotes": ["error", "double"],
     "import/extensions": [
@@ -27,6 +21,8 @@
         "ts": "never",
         "ignorePackages": true
       }
-    ]
+    ],
+    "no-useless-constructor": "off",
+    "no-underscore-dangle": "off"
   }
 }
