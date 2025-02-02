@@ -1,12 +1,12 @@
 import profiles from "../../pages/profiles.hbs";
 import "./profiles.scss";
-import Block, { IProps } from "../../utils/block";
-import Profile from "../../components/Profile/profile";
-import Icon from "../../components/Icon/icon";
-import Input from "../../components/Input/input";
-import Button, { ModeButton } from "../../components/Button/button";
-import ProfileLayout from "../../components/ProfileLayout/profileLayout";
-import { ValidateType, validateForm } from "../../utils/validate";
+import Block, { IProps } from "../../utils/block.ts";
+import Profile from "../../components/Profile/profile.ts";
+import Icon from "../../components/Icon/icon.ts";
+import Input from "../../components/Input/input.ts";
+import Button, { ModeButton } from "../../components/Button/button.ts";
+import ProfileLayout from "../../components/ProfileLayout/profileLayout.ts";
+import { ValidateType, validateForm } from "../../utils/validate.ts";
 
 export default class Profiles extends Block {
   constructor() {

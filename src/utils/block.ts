@@ -1,4 +1,4 @@
-import EventBus from "./eventBus";
+import EventBus from "./eventBus.ts";
 import { v4 as makeUUID } from "uuid";
 
 type EventBusType = { [key: string]: string };

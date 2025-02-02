@@ -1,10 +1,10 @@
 import signup from "../../pages/signup.hbs";
 import "./signup.scss";
-import Block, { IProps } from "../../utils/block";
-import Input from "../../components/Input/input";
-import Button from "../../components/Button/button";
-import Link from "../../components/Link/link";
-import { ValidateType, validateForm } from "../../utils/validate";
+import Block, { IProps } from "../../utils/block.ts";
+import Input from "../../components/Input/input.ts";
+import Button from "../../components/Button/button.ts";
+import Link from "../../components/Link/link.ts";
+import { ValidateType, validateForm } from "../../utils/validate.ts";
 
 export default class SignUp extends Block {
   constructor() {

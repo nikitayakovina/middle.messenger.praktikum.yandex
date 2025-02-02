@@ -1,4 +1,4 @@
-import Block from "./block";
+import Block from "./block.ts";
 
 export enum ValidateType {
   EMAIL = "email",

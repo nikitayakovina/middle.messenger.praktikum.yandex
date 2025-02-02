@@ -1,10 +1,10 @@
-import Chat from "../../components/Chat/chat";
-import ChatFooter from "../../components/ChatFooter/chatFooter";
-import Icon from "../../components/Icon/icon";
-import Input from "../../components/Input/input";
-import Message from "../../components/Message/message";
+import Chat from "../../components/Chat/chat.ts";
+import ChatFooter from "../../components/ChatFooter/chatFooter.ts";
+import Icon from "../../components/Icon/icon.ts";
+import Input from "../../components/Input/input.ts";
+import Message from "../../components/Message/message.ts";
 import chats from "../../pages/chats.hbs";
-import Block, { IProps } from "../../utils/block";
+import Block, { IProps } from "../../utils/block.ts";
 import "./chats.scss";
 
 export default class Chats extends Block {

@@ -1,8 +1,8 @@
-import Block, { IProps } from "../../utils/block";
-import { ValidateType, validateForm } from "../../utils/validate";
-import Button, { ModeButton } from "../Button/button";
-import Icon from "../Icon/icon";
-import Input from "../Input/input";
+import Block, { IProps } from "../../utils/block.ts";
+import { ValidateType, validateForm } from "../../utils/validate.ts";
+import Button, { ModeButton } from "../Button/button.ts";
+import Icon from "../Icon/icon.ts";
+import Input from "../Input/input.ts";
 import chatFooter from "./chatFooter.hbs";
 import "./chatFooter.scss";
 

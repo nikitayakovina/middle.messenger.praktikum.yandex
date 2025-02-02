@@ -1,4 +1,4 @@
-import Block, { IProps } from "../../utils/block";
+import Block, { IProps } from "../../utils/block.ts";
 import button from "./button.hbs";
 import buttonIcon from "./buttonIcon.hbs";
 import buttonLink from "./buttonLink.hbs";

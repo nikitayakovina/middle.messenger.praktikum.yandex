@@ -1,7 +1,7 @@
-import Block, { IProps } from "../../utils/block";
+import Block, { IProps } from "../../utils/block.ts";
 import "./input.scss";
 import input from "./input.hbs";
-import { ValidateType, validate } from "../../utils/validate";
+import { ValidateType, validate } from "../../utils/validate.ts";
 
 export default class Input extends Block {
   constructor(props: IProps) {

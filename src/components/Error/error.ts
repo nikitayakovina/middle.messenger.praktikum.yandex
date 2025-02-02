@@ -1,4 +1,4 @@
-import Block, { IProps } from "../../utils/block";
+import Block, { IProps } from "../../utils/block.ts";
 import error from "./error.hbs";
 import "./error.scss";
 

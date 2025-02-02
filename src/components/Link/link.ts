@@ -1,4 +1,4 @@
-import Block, { IProps } from "../../utils/block";
+import Block, { IProps } from "../../utils/block.ts";
 import link from "./link.hbs";
 import "./link.scss";
 

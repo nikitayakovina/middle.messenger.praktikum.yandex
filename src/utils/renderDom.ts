@@ -1,4 +1,4 @@
-import Block from "../utils/block";
+import Block from "../utils/block.ts";
 
 export function renderDom(query: string, block: Block) {
   const root = document.querySelector(query);

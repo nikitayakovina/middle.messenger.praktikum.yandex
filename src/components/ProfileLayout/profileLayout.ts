@@ -1,4 +1,4 @@
-import Block, { IProps } from "../../utils/block";
+import Block, { IProps } from "../../utils/block.ts";
 import profileLayout from "./profileLayout.hbs";
 import "./profileLayout.scss";
 

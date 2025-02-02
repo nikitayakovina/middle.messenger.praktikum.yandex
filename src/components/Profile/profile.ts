@@ -1,5 +1,5 @@
-import Block, { IProps } from "../../utils/block";
-import Icon from "../Icon/icon";
+import Block, { IProps } from "../../utils/block.ts";
+import Icon from "../Icon/icon.ts";
 import profile from "./profile.hbs";
 import "./profile.scss";
 
