@@ -20,6 +20,13 @@
     ],
     "indent": ["error", 2],
     "quotes": ["error", "double"],
-    "import/extensions": ["error", "ignorePackages", { "js": "never", "ts": "never" }]
+    "import/extensions": [
+      "error",
+      {
+        "js": "never",
+        "ts": "never",
+        "ignorePackages": true
+      }
+    ]
   }
 }
