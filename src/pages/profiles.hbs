@@ -1,30 +1,30 @@
 <div class="profiles">
-    <aside class="profiles__sidebar">
-        <div class="profiles__sidebar__header">
-            <div class="profiles__sidebar__header-icon">
-                <img src="/img/back.svg" alt="Назад">
-            </div>
-            <div class="profiles__sidebar__header-text">
-                <span>Назад</span>
-            </div>
-        </div>
-        <div class="profiles__sidebar__list">
-            {{#each profiles}}
-                {{{this}}}
-            {{/each}}
-        </div>
-        <div class="profiles__sidebar__add">
-            <span>Добавить профиль</span>
-        </div>
-    </aside>
+  <aside class="profiles__sidebar">
+    <div class="profiles__sidebar__header">
+      <div class="profiles__sidebar__header-icon">
+        <img src="/img/back.svg" alt="Назад" />
+      </div>
+      <div class="profiles__sidebar__header-text">
+        <span>Назад</span>
+      </div>
+    </div>
+    <div class="profiles__sidebar__list">
+      {{#each profiles}}
+        {{{this}}}
+      {{/each}}
+    </div>
+    <div class="profiles__sidebar__add">
+      <span>Добавить профиль</span>
+    </div>
+  </aside>
 
-    <main class="profiles__info">
-        <div class="profiles__info-avatar">
-            {{{defaultAvatar}}}
-        </div>
-        <div class="profiles__info-name">
-            {{first_name}}
-        </div>
-        {{{profileLayout}}}
-    </main>
+  <main class="profiles__info">
+    <div class="profiles__info-avatar">
+      {{{defaultAvatar}}}
+    </div>
+    <div class="profiles__info-name">
+      {{first_name}}
+    </div>
+    {{{profileLayout}}}
+  </main>
 </div>

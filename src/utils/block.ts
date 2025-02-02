@@ -1,10 +1,12 @@
 import EventBus from "./eventBus";
-import {v4 as makeUUID} from 'uuid';
+import { v4 as makeUUID } from "uuid";
 
 type EventBusType = { [key: string]: string };
 type Meta = { [key: string]: string | object };
 export type Events = Record<string, (event: Event) => void>;
-export type IProps = { [key: string]: string | Block | Block[] | unknown } & { events?: Events };
+export type IProps = { [key: string]: string | Block | Block[] | unknown } & {
+  events?: Events;
+};
 
 export default abstract class Block {
   static EVENTS: EventBusType = {
@@ -14,7 +16,7 @@ export default abstract class Block {
     FLOW_CDU: "flow:component-did-update",
   };
 
-  _element!: HTMLElement
+  _element!: HTMLElement;
   _meta!: Meta;
   props: IProps;
   _events!: Events;
@@ -22,14 +24,14 @@ export default abstract class Block {
   children: Record<string, Block | Block[]>;
 
   eventBus: () => EventBus;
-  
+
   constructor(propsAndChildren = {}) {
     const eventBus = new EventBus();
     const { children, props } = this._getChildren(propsAndChildren);
 
     this.children = children;
     this._meta = {
-      props
+      props,
     };
     this.props = this._makePropsProxy({ ...props });
     this.eventBus = () => eventBus;
@@ -38,11 +40,13 @@ export default abstract class Block {
     eventBus.emit(Block.EVENTS.INIT);
   }
 
-  _getChildren(propsAndChildren: Record<string, Block | Block[] | string>)
-    : { children: Record<string, Block | Block[]>, props: Record<string, Block | Block[] | string> } {
+  _getChildren(propsAndChildren: Record<string, Block | Block[] | string>): {
+    children: Record<string, Block | Block[]>;
+    props: Record<string, Block | Block[] | string>;
+  } {
     const children: Record<string, Block | Block[]> = {};
     const props: Record<string, string | Block | Block[]> = {};
-  
+
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (value instanceof Block) {
         children[key] = value;
@@ -50,21 +54,21 @@ export default abstract class Block {
         props[key] = value;
       }
     });
-  
+
     return { children, props };
   }
-  
+
   _registerEvents(eventBus: EventBus) {
     eventBus.on(Block.EVENTS.INIT, this._init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
   }
-  
+
   _createResources() {
-    this._element = this._createDocumentElement('div');
+    this._element = this._createDocumentElement("div");
   }
-  
+
   _init() {
     this._createResources();
     this.init();
@@ -72,37 +76,37 @@ export default abstract class Block {
   }
 
   init() {}
-  
+
   _componentDidMount() {
     this.componentDidMount();
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
-  
+
   componentDidMount() {}
-  
+
   dispatchComponentDidMount() {
-    this.eventBus().emit(Block.EVENTS.FLOW_CDM)
+    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
-  
+
   _componentDidUpdate(oldProps: object, newProps: object) {
     const response = this.componentDidUpdate(oldProps, newProps);
 
     if (!response) {
-        return;
+      return;
     }
 
     this.init();
     this._render();
   }
-  
+
   componentDidUpdate(oldProps: object, newProps: object): boolean {
     if (oldProps && newProps) {
-      return true; 
+      return true;
     }
 
     return false;
   }
-  
+
   setProps = (nextProps: Record<string, Block | Block[] | string | object>) => {
     if (!nextProps) {
       return;
@@ -110,49 +114,56 @@ export default abstract class Block {
 
     Object.assign(this.props, nextProps);
   };
-  
+
   get element(): HTMLElement {
     return this._element;
   }
 
   _render() {
     if (this._element) {
-        this._removeEvents();
+      this._removeEvents();
 
-        const propsAndStubs = { ...this.props };
+      const propsAndStubs = { ...this.props };
 
-        Object.entries(this.children).forEach(([key, child]) => {
-          if (Array.isArray(child)) {
-            propsAndStubs[key] = child.map((childComp) => `<div data-id="${childComp._id}"></div>`);
-          } else {
-            propsAndStubs[key] = `<div data-id="${child._id}"></div>`
+      Object.entries(this.children).forEach(([key, child]) => {
+        if (Array.isArray(child)) {
+          propsAndStubs[key] = child.map(
+            (childComp) => `<div data-id="${childComp._id}"></div>`,
+          );
+        } else {
+          propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
+        }
+      });
+
+      this._element.innerHTML = this.render(propsAndStubs);
+      this._element.setAttribute("data-id", this._id);
+
+      Object.values(this.children).forEach((child) => {
+        if (Array.isArray(child)) {
+          const elements = child.map((comp) =>
+            this._element.querySelector(`[data-id="${comp._id}"]`),
+          );
+
+          if (
+            !elements.length ||
+            (elements.length && elements.every((element) => element === null))
+          ) {
+            return;
           }
-        });
 
-        this._element.innerHTML = this.render(propsAndStubs);
-        this._element.setAttribute('data-id', this._id);
+          elements.forEach((el, index) => {
+            el!.replaceWith(child[index].getContent());
+          });
+        } else {
+          const stub = this._element.querySelector(`[data-id="${child._id}"]`);
 
-        Object.values(this.children).forEach(child => {
-          if (Array.isArray(child)) {
-            const elements = child.map((comp) => this._element.querySelector(`[data-id="${comp._id}"]`));
-
-            if (!elements.length || (elements.length && elements.every(element => element === null))) {
-              return;
-            }
-
-            elements.forEach((el, index) => {
-              el!.replaceWith(child[index].getContent());
-            });
-          } else {
-            const stub = this._element.querySelector(`[data-id="${child._id}"]`);
-                      
-            if (stub) {
-              stub.replaceWith(child.getContent());
-            }
+          if (stub) {
+            stub.replaceWith(child.getContent());
           }
-        });
+        }
+      });
 
-        this._addEvents();
+      this._addEvents();
     }
   }
 
@@ -176,45 +187,44 @@ export default abstract class Block {
     return template(props);
   }
 
-  
   protected abstract render(props: IProps): string;
-  
+
   getContent(): HTMLElement {
     return this._element;
   }
-  
+
   _makePropsProxy(props: {}): IProps {
     const self = this;
-  
+
     return new Proxy(props, {
-        get(target: { [key: string]: {} }, property: string) {
-            const value = target[property];
+      get(target: { [key: string]: {} }, property: string) {
+        const value = target[property];
 
-            return typeof value === 'function' ? value.bind(target) : value;
-        },
-        set(target: { [key: string]: {} }, property: string, value: {}) {
-            const newTarget = { ...target };
+        return typeof value === "function" ? value.bind(target) : value;
+      },
+      set(target: { [key: string]: {} }, property: string, value: {}) {
+        const newTarget = { ...target };
 
-            target[property] = value;
-            self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, newTarget);
+        target[property] = value;
+        self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, newTarget);
 
-            return true;
-        },
-        deleteProperty() {
-            throw new Error('Error deleting')
-        }
-    })
+        return true;
+      },
+      deleteProperty() {
+        throw new Error("Error deleting");
+      },
+    });
   }
-  
+
   _createDocumentElement(tagName: string): HTMLTemplateElement {
     return document.createElement(tagName) as HTMLTemplateElement;
   }
-  
+
   show() {
-    this._element.style.display = 'block';
+    this._element.style.display = "block";
   }
-  
+
   hide() {
-    this._element.style.display = 'none';
+    this._element.style.display = "none";
   }
 }

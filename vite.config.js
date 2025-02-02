@@ -1,11 +1,9 @@
-import { defineConfig } from 'vite';
-import handlebars from './src/vite-plugin-handlebars-precompile.ts';
+import { defineConfig } from "vite";
+import handlebars from "./src/vite-plugin-handlebars-precompile.ts";
 
 export default defineConfig({
-  plugins: [
-    handlebars(),
-  ],
-  publicDir: './src/static',
+  plugins: [handlebars()],
+  publicDir: "./src/static",
   css: {
     preprocessorOptions: {
       scss: {

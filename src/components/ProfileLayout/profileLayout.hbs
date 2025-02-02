@@ -1,10 +1,10 @@
 <form clas="form">
-    {{#each inputs}}
-        {{{this}}}
+  {{#each inputs}}
+    {{{this}}}
+  {{/each}}
+  <div class="form__actions">
+    {{#each actions}}
+      {{{this}}}
     {{/each}}
-    <div class="form__actions">
-        {{#each actions}}
-            {{{this}}}
-        {{/each}}
-    </div>
+  </div>
 </form>

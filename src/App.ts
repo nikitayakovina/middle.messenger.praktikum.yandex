@@ -7,22 +7,22 @@ import Profiles from "./modules/Profiles/profiles";
 import Error from "./components/Error/error";
 
 export default class App {
-    private pages: Record<string, Block> = {
-        redirectSignIn: new SignIn(),
-        redirectSignUp: new SignUp(),
-        chats: new Chats(),
-        profiles: new Profiles(),
-        notFound500: new Error({
-            code: '500'
-        }),
-        notFound404: new Error({
-            code: '404'
-        }),
-    };
+  private pages: Record<string, Block> = {
+    redirectSignIn: new SignIn(),
+    redirectSignUp: new SignUp(),
+    chats: new Chats(),
+    profiles: new Profiles(),
+    notFound500: new Error({
+      code: "500",
+    }),
+    notFound404: new Error({
+      code: "404",
+    }),
+  };
 
-    constructor() {}
+  constructor() {}
 
-    public init(): void {
-        renderDom(".app", this.pages.chats);
-    }
+  public init(): void {
+    renderDom(".app", this.pages.chats);
+  }
 }

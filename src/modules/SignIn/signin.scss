@@ -1,39 +1,39 @@
 .signin {
-    display: flex;
-    height: 100vh;
+  display: flex;
+  height: 100vh;
 
-    &__container {
-        width: 303px;
-        height: 575px;
-        background-color: $sideBar;
-        margin: auto;
-        border-radius: 5%;
+  &__container {
+    width: 303px;
+    height: 575px;
+    background-color: $sideBar;
+    margin: auto;
+    border-radius: 5%;
+  }
+
+  &__title {
+    justify-self: center;
+    margin-top: 30px;
+
+    &__text {
+      font-size: 16px;
+    }
+  }
+
+  &__main {
+    justify-self: center;
+    margin-top: 55px;
+
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 269px;
     }
 
-    &__title {
-        justify-self: center;
-        margin-top: 30px;
-
-        &__text {
-            font-size: 16px;
-        }
+    &-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 312px;
     }
-
-    &__main {
-        justify-self: center;
-        margin-top: 55px;
-        
-        form {
-            display: flex;
-            flex-direction: column;
-            width: 269px;
-        }
-
-        &-actions {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 312px;
-        }
-    }
+  }
 }

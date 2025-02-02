@@ -1,20 +1,20 @@
 body {
-    background-color: $white;
-    height: 100vh;
-    font-family: Inter, 'Medium', sans-serif;
-    padding: 0;
-    margin: 0;
+  background-color: $white;
+  height: 100vh;
+  font-family: Inter, "Medium", sans-serif;
+  padding: 0;
+  margin: 0;
 }
 
 .error__message {
-    display: none;
+  display: none;
 
-    &-visible {
-        color: $red;
-        display: block;
-        font-size: 12px;
-        padding: 0;
-        margin: 0;
-        justify-self: center;
-    }
+  &-visible {
+    color: $red;
+    display: block;
+    font-size: 12px;
+    padding: 0;
+    margin: 0;
+    justify-self: center;
+  }
 }

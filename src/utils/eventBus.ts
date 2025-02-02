@@ -3,7 +3,7 @@ type Callback = (...args: object[]) => void;
 
 export default class EventBus {
   listeners: Listener;
-  
+
   constructor() {
     this.listeners = {};
   }
@@ -17,22 +17,22 @@ export default class EventBus {
   }
 
   off(event: string, callback: Callback) {
-        if (!this.listeners[event]) {
-          throw new Error(`Нет события: ${event}`);
-      }
+    if (!this.listeners[event]) {
+      throw new Error(`Нет события: ${event}`);
+    }
 
-      this.listeners[event] = this.listeners[event].filter(
-          listener => listener !== callback
-      );
+    this.listeners[event] = this.listeners[event].filter(
+      (listener) => listener !== callback,
+    );
   }
 
   emit(event: string, ...args: object[]) {
     if (!this.listeners[event]) {
-        throw new Error(`Нет события: ${event}`);
+      throw new Error(`Нет события: ${event}`);
     }
-    
-    this.listeners[event].forEach(function(listener) {
-        listener(...args);
+
+    this.listeners[event].forEach(function (listener) {
+      listener(...args);
     });
   }
 }
