@@ -34,8 +34,8 @@ export default class Chats extends Block {
             event.stopPropagation();
             event.preventDefault();
             renderDom(".app", new Profiles());
-          }
-        }
+          },
+        },
       }),
       newMessage: new Icon({
         src: "/img/new-chat.svg",

@@ -89,8 +89,8 @@ export default class Profiles extends Block {
               event.stopPropagation();
               event.preventDefault();
               renderDom(".app", new SignIn());
-            }
-          }
+            },
+          },
         }),
       ],
     });

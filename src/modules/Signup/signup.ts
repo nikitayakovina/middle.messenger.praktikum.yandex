@@ -23,8 +23,8 @@ export default class SignUp extends Block {
             event.stopPropagation();
             event.preventDefault();
             renderDom(".app", new SignIn());
-          }
-        }
+          },
+        },
       }),
       events: {
         submit: (event: Event) => {
