@@ -5,6 +5,8 @@ import Input from "../../components/Input/input.ts";
 import Button from "../../components/Button/button.ts";
 import Link from "../../components/Link/link.ts";
 import { ValidateType, validateForm } from "../../utils/validate.ts";
+import { renderDom } from "../../utils/renderDom.ts";
+import SignIn from "../SignIn/signin.ts";
 
 export default class SignUp extends Block {
   constructor() {
@@ -14,8 +16,15 @@ export default class SignUp extends Block {
         title: "Зарегистрироваться",
       }),
       link: new Link({
-        href: "#",
+        href: "/signin",
         text: "Войти",
+        events: {
+          click: (event: Event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            renderDom(".app", new SignIn());
+          }
+        }
       }),
       events: {
         submit: (event: Event) => {

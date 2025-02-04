@@ -5,6 +5,9 @@ import Block, { IProps } from "../../utils/block.ts";
 import Button from "../../components/Button/button.ts";
 import Link from "../../components/Link/link.ts";
 import { ValidateType, validateForm } from "../../utils/validate.ts";
+import { renderDom } from "../../utils/renderDom.ts";
+import SignUp from "../Signup/signup.ts";
+import Chats from "../Chats/chats.ts";
 
 export default class SignIn extends Block {
   constructor() {
@@ -15,15 +18,24 @@ export default class SignIn extends Block {
         type: "submit",
       }),
       link: new Link({
-        href: "#",
+        href: "/signup",
         text: "Нет аккаунта?",
+        events: {
+          click: (event: Event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            renderDom(".app", new SignUp());
+          }
+        }
       }),
       events: {
         submit: (event: Event) => {
           event.preventDefault();
           event.stopPropagation();
 
-          validateForm(this.children.inputs, event);
+          if (validateForm(this.children.inputs, event)) {
+            renderDom(".app", new Chats());
+          }
         },
       },
     };

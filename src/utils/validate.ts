@@ -157,7 +157,7 @@ export const validateForm = (input: Block | Block[], event: Event) => {
   );
 
   if (!isValidForm) {
-    return;
+    return false;
   }
 
   formData.forEach((value, key) => {
@@ -167,4 +167,6 @@ export const validateForm = (input: Block | Block[], event: Event) => {
   });
 
   console.log(formFields);
+
+  return true;
 };

@@ -5,7 +5,8 @@ const METHODS = {
   DELETE: "DELETE",
 };
 
-type Options = { method: string; timeout: number; data?: {} };
+type Options = { method: string; timeout?: number; data?: {} };
+type HTTPMethod = <R=unknown>(url: string, options?: Options) => Promise<R>;
 
 export const queryStringify = (data: Record<string, string>) => {
   let result: string = "?";
@@ -26,27 +27,27 @@ export const queryStringify = (data: Record<string, string>) => {
 };
 
 export class HTTPTransport {
-  get = (url: string, options: Options) => this.request(url, { ...options, method: METHODS.GET });
+  get: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.GET });
 
-  put = (url: string, options: Options) => this.request(url, { ...options, method: METHODS.PUT });
+  put: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.PUT });
 
-  post = (url: string, options: Options) => this.request(url, { ...options, method: METHODS.POST });
+  post: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.POST });
 
-  delete = (url: string, options: Options) => this.request(url, { ...options, method: METHODS.DELETE });
+  delete : HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.DELETE });
 
-  request = (
+  request = <R>(
     url: string,
     options: Options = { method: "GET", timeout: 5000 },
-  ) => {
+  ): Promise<R> => {
     const { method, data } = options;
     const xhr = new XMLHttpRequest();
     const queryParams = queryStringify(data || "");
 
-    return new Promise((resolve, reject) => {
+    return new Promise<R>((resolve, reject) => {
       xhr.open(method, url + queryParams);
       xhr.setRequestHeader("Content-Type", "text/plain");
 
-      xhr.onload = () => resolve(xhr);
+      xhr.onload = () => resolve(xhr as R);
 
       xhr.onabort = reject;
       xhr.onerror = reject;

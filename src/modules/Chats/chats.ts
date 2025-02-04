@@ -5,6 +5,8 @@ import Input from "../../components/Input/input.ts";
 import Message from "../../components/Message/message.ts";
 import chats from "../../pages/chats.hbs";
 import Block, { IProps } from "../../utils/block.ts";
+import { renderDom } from "../../utils/renderDom.ts";
+import Profiles from "../Profiles/profiles.ts";
 import "./chats.scss";
 
 export default class Chats extends Block {
@@ -27,6 +29,13 @@ export default class Chats extends Block {
       profileIcon: new Icon({
         src: "/img/profile.svg",
         alt: "Профиль",
+        events: {
+          click: (event: Event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            renderDom(".app", new Profiles());
+          }
+        }
       }),
       newMessage: new Icon({
         src: "/img/new-chat.svg",

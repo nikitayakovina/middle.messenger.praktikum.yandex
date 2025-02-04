@@ -7,9 +7,11 @@ import Input from "../../components/Input/input.ts";
 import Button, { ModeButton } from "../../components/Button/button.ts";
 import ProfileLayout from "../../components/ProfileLayout/profileLayout.ts";
 import { ValidateType, validateForm } from "../../utils/validate.ts";
+import { renderDom } from "../../utils/renderDom.ts";
+import SignIn from "../SignIn/signin.ts";
 
 export default class Profiles extends Block {
-  constructor() {
+  constructor(isEditPassword: boolean = false) {
     const profileLayout = new ProfileLayout({
       inputs: [
         new Input({
@@ -72,54 +74,6 @@ export default class Profiles extends Block {
           mode: ModeButton.LINK,
           title: "Изменить пароль",
           class: "accept",
-          events: {
-            click: (event: Event) => {
-              event.preventDefault();
-              event.stopPropagation();
-
-              profileLayout.setProps({
-                inputs: [
-                  new Input({
-                    labelFor: "password",
-                    label: "Пароль",
-                    id: "password",
-                    name: "password",
-                    validateType: ValidateType.PASSWORD,
-                    placeholder: "Введите пароль",
-                  }),
-                  new Input({
-                    labelFor: "newPassword",
-                    label: "Новый пароль",
-                    id: "newPassword",
-                    name: "newPassword",
-                    validateType: ValidateType.PASSWORD,
-                    placeholder: "Введите новый пароль",
-                  }),
-                  new Input({
-                    labelFor: "repeatPassword",
-                    label: "Повторите новый пароль",
-                    id: "repeatPassword",
-                    name: "repeatPassword",
-                    validateType: ValidateType.PASSWORD,
-                    placeholder: "Введите пароль",
-                  }),
-                ],
-                actions: [
-                  new Button({
-                    mode: ModeButton.LINK,
-                    title: "Сохранить",
-                    class: "accept",
-                    type: "submit",
-                  }),
-                  new Button({
-                    mode: ModeButton.LINK,
-                    title: "Отмена",
-                    class: "reject",
-                  }),
-                ],
-              });
-            },
-          },
         }),
         new Button({
           mode: ModeButton.LINK,
@@ -130,9 +84,61 @@ export default class Profiles extends Block {
           mode: ModeButton.LINK,
           title: "Выйти",
           class: "reject",
+          events: {
+            click: (event: Event) => {
+              event.stopPropagation();
+              event.preventDefault();
+              renderDom(".app", new SignIn());
+            }
+          }
         }),
       ],
     });
+
+    if (isEditPassword) {
+      profileLayout.setProps({
+        inputs: [
+          new Input({
+            labelFor: "password",
+            label: "Пароль",
+            id: "password",
+            name: "password",
+            validateType: ValidateType.PASSWORD,
+            placeholder: "Введите пароль",
+          }),
+          new Input({
+            labelFor: "newPassword",
+            label: "Новый пароль",
+            id: "newPassword",
+            name: "newPassword",
+            validateType: ValidateType.PASSWORD,
+            placeholder: "Введите новый пароль",
+          }),
+          new Input({
+            labelFor: "repeatPassword",
+            label: "Повторите новый пароль",
+            id: "repeatPassword",
+            name: "repeatPassword",
+            validateType: ValidateType.PASSWORD,
+            placeholder: "Введите пароль",
+          }),
+        ],
+        actions: [
+          new Button({
+            mode: ModeButton.LINK,
+            title: "Сохранить",
+            class: "accept",
+            type: "submit",
+          }),
+          new Button({
+            mode: ModeButton.LINK,
+            title: "Отмена",
+            class: "reject",
+          }),
+        ],
+      });
+    }
+
     const data: IProps = {
       defaultAvatar: new Icon({
         src: "/img/circle_gray.svg",
