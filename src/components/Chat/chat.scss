@@ -1,0 +1,62 @@
+.chat {
+  display: flex;
+  height: 71px;
+  align-items: center;
+  padding: 12px 16px;
+  justify-content: space-between;
+  border-bottom: 1px solid $devider;
+  transition: background-color 0.3s;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $blueChatMessage;
+  }
+
+  &-active {
+    background-color: $blueChatMessage;
+  }
+
+  &__profile {
+    display: flex;
+    gap: 10px;
+
+    &-info {
+      display: flex;
+      flex-direction: column;
+
+      &__name {
+        font-size: 16px;
+      }
+
+      &__message {
+        font-size: 14px;
+        color: $messageGray;
+        margin-top: 4px;
+      }
+    }
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    &-time {
+      font-size: 12px;
+      color: $messageGray;
+    }
+
+    &-badge {
+      background: $blue;
+      color: $white;
+      font-size: 12px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}

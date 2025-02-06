@@ -1,18 +1,18 @@
 <div class="signin">
-    <div class="signin__container">
-        <header class="signin__title">
-            <span class="signin__title__text">{{ title }}</span>
-        </header>
-        <main class="signin__main">
-            <form>
-                {{#each inputs}}
-                    {{> Input this}}
-                {{/each}}
-            </form>
-        </main>
-        <p class="error__message" id="error__message">Неверный логин или пароль</p>
-        <footer>
-            {{> Footer footer }}
-        </footer>
-    </div>
+  <div class="signin__container">
+    <header class="signin__title">
+      <span class="signin__title__text">{{title}}</span>
+    </header>
+    <main class="signin__main">
+      <form>
+        {{#each inputs}}
+          {{{this}}}
+        {{/each}}
+        <div class="signin__main-actions">
+          {{{button}}}
+          {{{link}}}
+        </div>
+      </form>
+    </main>
+  </div>
 </div>

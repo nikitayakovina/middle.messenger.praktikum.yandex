@@ -1,0 +1,14 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+
+  &__input {
+    width: 100%;
+  }
+
+  &__send {
+    align-content: center;
+    padding-left: 19px;
+    padding-top: 4px;
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "extends": ["airbnb", "plugin:import/recommended"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "import"],
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "max-len": [2, 200],
+    "@typescript-eslint/no-unused-vars": 2,
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ],
+    "indent": ["error", 2],
+    "quotes": ["error", "double"],
+    "import/extensions": [
+      "error",
+      {
+        "js": "never",
+        "ts": "never",
+        "ignorePackages": true
+      }
+    ],
+    "no-useless-constructor": "off",
+    "no-underscore-dangle": "off",
+    "class-methods-use-this": "off",
+    "no-else-return": "off",
+    "no-use-before-define": "off",
+    "import/prefer-default-export": "off",
+    "no-console": "off"
+  }
+}

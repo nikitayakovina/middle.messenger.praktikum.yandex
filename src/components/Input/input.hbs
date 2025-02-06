@@ -1,0 +1,19 @@
+<div class="form-field">
+    <input 
+        class="form-field__input {{#if icon}}input-icon{{/if}}"
+        name="{{ name }}" 
+        type="{{ type }}" 
+        placeholder="" 
+        value="{{ value }}">
+    <label
+        class="form-field__label {{#if icon}}label-icon{{/if}}" 
+        for="{{ labelFor }}">
+        {{ label }}
+    </label>
+    {{#if icon}}
+        <div class="form-field__icon">
+            {{{icon}}}
+        </div>
+    {{/if}}
+</div>
+<span class="form-error">{{ errorText }}</span>
