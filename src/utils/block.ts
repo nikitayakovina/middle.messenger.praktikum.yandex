@@ -8,7 +8,7 @@ export type IProps = { [key: string]: string | Block | Block[] | unknown } & {
   events?: Events;
 };
 
-export default abstract class Block {
+export default class Block {
   static EVENTS: EventBusType = {
     INIT: "init",
     FLOW_CDM: "flow:component-did-mount",
@@ -187,7 +187,9 @@ export default abstract class Block {
     return template(props);
   }
 
-  protected abstract render(props: IProps): string;
+  protected render(props: IProps): string {
+    return "";
+  };
 
   getContent(): HTMLElement {
     return this._element;
