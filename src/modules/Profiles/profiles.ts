@@ -7,8 +7,8 @@ import Input from "../../components/Input/input.ts";
 import Button, { ModeButton } from "../../components/Button/button.ts";
 import ProfileLayout from "../../components/ProfileLayout/profileLayout.ts";
 import { ValidateType, validateForm } from "../../utils/validate.ts";
-import { renderDom } from "../../utils/renderDom.ts";
-import SignIn from "../SignIn/signin.ts";
+import AuthController from "../../controllers/authController.ts";
+import { Connect } from "../../utils/connect.ts";
 
 export default class Profiles extends Block {
   constructor(isEditPassword: boolean = false) {
@@ -88,7 +88,8 @@ export default class Profiles extends Block {
             click: (event: Event) => {
               event.stopPropagation();
               event.preventDefault();
-              renderDom(".app", new SignIn());
+              
+              AuthController.logOut();
             },
           },
         }),
@@ -160,6 +161,13 @@ export default class Profiles extends Block {
   }
 
   init() {
+    const ProfilesConnect = Connect(Profile, (state: any) => {
+      console.log(state)
+    })
+
+    // this.children.profiles = new ProfilesConnect()
+    // console.log(this.children)
+
     this.children.profiles = [
       new Profile({
         name: "Профиль 1",

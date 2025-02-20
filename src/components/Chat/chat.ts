@@ -7,7 +7,7 @@ export default class Chat extends Block {
   constructor(props: IProps) {
     const data = {
       defaultAvatarIcon: new Icon({
-        src: "/img/circle_gray.svg",
+        src: props?.avatar ? props.avatar : "/img/circle_gray.svg",
         alt: "Фото профиля",
       }),
     };

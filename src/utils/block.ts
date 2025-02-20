@@ -77,7 +77,7 @@ export default class Block {
   _init() {
     this._createResources();
     this.init();
-    this._render();
+    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
   init() {}
@@ -91,6 +91,13 @@ export default class Block {
 
   dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+    Object.values(this.children).forEach((child) => {
+      if (Array.isArray(child)) {
+        child.forEach((c) => c.dispatchComponentDidMount());
+      } else {
+        child.dispatchComponentDidMount();
+      }
+    });
   }
 
   _componentDidUpdate(oldProps: object, newProps: object) {
@@ -100,8 +107,10 @@ export default class Block {
       return;
     }
 
-    this.init();
-    this._render();
+    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+
+    // this.init();
+    // this._render();
   }
 
   componentDidUpdate(oldProps: object, newProps: object): boolean {
@@ -112,7 +121,7 @@ export default class Block {
     return false;
   }
 
-  setProps = (nextProps: Record<string, Block | Block[] | string | object>) => {
+  setProps = (nextProps: Record<string, Block | Block[] | string | object | boolean>) => {
     if (!nextProps) {
       return;
     }

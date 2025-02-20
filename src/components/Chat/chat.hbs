@@ -12,8 +12,10 @@
     <span class="chat__details-time">
       {{{time}}}
     </span>
-    <div class="chat__details-badge">
-      {{{count}}}
-    </div>
+    {{#if count}}
+      <div class="chat__details-badge">
+        {{{count}}}
+      </div>
+    {{/if}}
   </div>
 </div>

@@ -1,14 +1,14 @@
 import Block from "./block";
 import Route from "./route";
 
-export default class Router {
+class Router {
   routes: Route[] = [];
   _rootQuery: string = "";
   _currentRoute: Route|null = null;
   static _instance: Router;
   history = window.history;
 
-  constructor(rootQuery: string) {
+  constructor(rootQuery: string = ".app") {
       if (Router._instance) {
           return Router._instance;
       }
@@ -67,3 +67,5 @@ export default class Router {
       return this.routes.find(route => route.match(pathname));
   }
 }
+
+export default new Router(".app");
