@@ -7,6 +7,11 @@ export default class PopupCreateChat extends Block {
     super(props);
   }
 
+  init() {
+    //@ts-ignore
+    this.children.inputs = this.props.inputs;
+  }
+
   render(props: IProps) {
     return this.compile(popupCreateChat, props);
   }

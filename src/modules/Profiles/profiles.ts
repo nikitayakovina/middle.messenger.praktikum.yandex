@@ -9,8 +9,9 @@ import ProfileLayout from "../../components/ProfileLayout/profileLayout.ts";
 import { ValidateType, validateForm } from "../../utils/validate.ts";
 import AuthController from "../../controllers/authController.ts";
 import { Connect } from "../../utils/connect.ts";
+import UserController from "../../controllers/userController.ts";
 
-export default class Profiles extends Block {
+class Profiles extends Block {
   constructor(isEditPassword: boolean = false) {
     const profileLayout = new ProfileLayout({
       inputs: [
@@ -69,6 +70,7 @@ export default class Profiles extends Block {
           mode: ModeButton.LINK,
           title: "Изменить данные",
           class: "accept",
+          
         }),
         new Button({
           mode: ModeButton.LINK,
@@ -94,6 +96,20 @@ export default class Profiles extends Block {
           },
         }),
       ],
+      events: {
+        submit: (event: Event) => {
+          event.stopPropagation();
+          event.preventDefault();
+
+          if ('children' in this.children.profileLayout && Array.isArray(this.children.profileLayout.children.inputs)) {
+            const formDataValid = validateForm(this.children.profileLayout.children.inputs, event);
+
+            if (formDataValid !== null) {
+              UserController.changeUser(formDataValid);
+            }
+          }
+        }
+      }
     });
 
     if (isEditPassword) {
@@ -145,7 +161,6 @@ export default class Profiles extends Block {
         src: "/img/circle_gray.svg",
         alt: "Фото профиля",
       }),
-      first_name: "Имя профиль 1",
       profileLayout,
       events: {
         submit: (event: Event) => {
@@ -160,47 +175,31 @@ export default class Profiles extends Block {
     super({ ...data });
   }
 
-  init() {
-    const ProfilesConnect = Connect(Profile, (state: any) => {
-      console.log(state)
-    })
+  componentDidUpdate(oldProps: object, newProps: object): boolean {
+    const user = this.props?.user;
 
-    // this.children.profiles = new ProfilesConnect()
-    // console.log(this.children)
+    if (user && 'children' in this.children.profileLayout && Array.isArray(this.children.profileLayout.children.inputs)) {
+      this.children.profileLayout.children.inputs.forEach((input: Block) => {
+        Object.keys(user).find((key: string) => {
+          if (key === input.props.id) {
+            //@ts-ignore
+            input.setProps({ value: user[key] });
+          }
+        });
+      })
+      this.children.profiles = [this.props.user].map((user: any) => new Profile({ ...user }));
+    }
 
-    this.children.profiles = [
-      new Profile({
-        name: "Профиль 1",
-        login: "profile_1",
-        password: "password_1",
-        email: "email@email.ru",
-        first_name: "Имя профиль 1",
-        second_name: "Фамилия профиль 1",
-        display_name: "Отображаемое имя профиль 1",
-        phone: "8(913)999-99-99",
-        defaultAvatarIcon: new Icon({
-          src: "/img/circle_gray.svg",
-          alt: "Фото профиля",
-        }),
-      }),
-      new Profile({
-        name: "Профиль 22",
-        login: "profile_2",
-        password: "password_2",
-        email: "email@email.ru",
-        first_name: "Имя профиль 2",
-        second_name: "Фамилия профиль 2",
-        display_name: "Отображаемое имя профиль 2",
-        phone: "8(913)777-77-77",
-        defaultAvatarIcon: new Icon({
-          src: "/img/circle_gray.svg",
-          alt: "Фото профиля",
-        }),
-      }),
-    ];
+    return true;
   }
 
   render(props: IProps) {
     return this.compile(profiles, props);
   }
 }
+export default Connect(Profiles, (state: any) => {
+  return { 
+    user: state.user, 
+    first_name: state?.user?.first_name 
+  };
+})

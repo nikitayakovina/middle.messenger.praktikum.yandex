@@ -8,7 +8,9 @@
         </div>
     </div>
     <form class="popup__form">
-        {{{input}}}
+        {{#each inputs}}
+            {{{this}}}
+        {{/each}}
         <div class="popup__actions">
             {{{button}}}
         </div>

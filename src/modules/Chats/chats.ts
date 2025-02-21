@@ -9,10 +9,9 @@ import ChatsController from "../../controllers/chatsController.ts";
 import chats from "../../pages/chats.hbs";
 import Block, { IProps } from "../../utils/block.ts";
 import { Connect } from "../../utils/connect.ts";
-import { renderDom } from "../../utils/renderDom.ts";
 import Router from "../../utils/router.ts";
-import { validateForm } from "../../utils/validate.ts";
-import Profiles from "../Profiles/profiles.ts";
+import Store from "../../utils/store.ts";
+import { ValidateType, validateForm } from "../../utils/validate.ts";
 import "./chats.scss";
 
 class Chats extends Block {
@@ -20,13 +19,23 @@ class Chats extends Block {
     const chatFooter: Block = new ChatFooter();
     const popupCreateChat = new PopupCreateChat({
       header: 'Создание чата',
-      input: new Input({
-        labelFor: "title",
-        label: "Наименование чата",
-        id: "title",
-        name: "title",
-        placeholder: "Введите наименование чата",
-      }),
+      inputs: [
+        new Input({
+          labelFor: "title",
+          label: "Наименование чата",
+          id: "title",
+          name: "title",
+          placeholder: "Введите наименование чата",
+        }),
+        new Input({
+          labelFor: "user",
+          label: "ID пользователя",
+          id: "user",
+          validateType: ValidateType.NUMBER,
+          name: "user",
+          placeholder: "Введите ID пользователя",
+        })
+      ],
       button: new Button({
         title: "Создать",
         type: "submit" 
@@ -54,13 +63,13 @@ class Chats extends Block {
           event.stopPropagation();
           event.preventDefault(); 
 
-          const formDataValid = validateForm(popupCreateChat.children.input, event);
+          const formDataValid = validateForm(popupCreateChat.children.inputs, event);
 
           if (formDataValid !== null) {
             this.setProps({
               isViewPopupCreateChat: false,
             });
-            ChatsController.createChat({ title: formDataValid.title });
+            ChatsController.createChat({ title: formDataValid.title, userId: formDataValid.user});
           } 
         }
       }
@@ -108,7 +117,7 @@ class Chats extends Block {
         placeholder: "Введите текст",
       }),
       chatFooter,
-      popupCreateChat
+      popupCreateChat,
     };
 
     super({ ...data });
@@ -128,27 +137,25 @@ class Chats extends Block {
         .map((chat: any) => ({
           ...chat,
           first_name: chat?.title,
-          count: chat?.unread_count
+          count: chat?.unread_count,
+          events: {
+            click: (event: Event) => {
+              //@ts-ignore
+              const { id } = event.target.dataset;
+              Store.set("selectedChatId", id);
+              ChatsController.getMessages(id);
+            }
+          }
         }))
         .map((chat: any) => new Chat({ ...chat }));
     }
 
-    return true;
-  }
+    if (this.props?.messages) {
+      this.children.messages = (this.props.messages as [])
+        .map((message: any) => new Message({ ...message }))
+    }
 
-  init() {
-    this.children.messages = [
-      new Message({
-        text: "Привет, как дела?",
-        time: "10:00",
-        isMy: false,
-      }),
-      new Message({
-        text: "Привет! у меня все хорошо",
-        time: "10:20",
-        isMy: true,
-      }),
-    ];
+    return true;
   }
 
   render(props: IProps) {
@@ -156,5 +163,5 @@ class Chats extends Block {
   }
 }
 export default Connect(Chats, (state: any) => {
-  return { chats: state.chats };
+  return { chats: state.chats, messages: state.messages };
 })

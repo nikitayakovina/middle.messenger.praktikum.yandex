@@ -109,8 +109,4 @@ export class HTTPTransport {
       }
     });
   };
-
-  webSocket() {
-
-  }
 }

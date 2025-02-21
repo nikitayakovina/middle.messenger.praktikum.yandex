@@ -12,11 +12,12 @@ export enum ModeButton {
 
 export default class Button extends Block {
   constructor(props: IProps) {
-    super(props);
+    super({ ...props, type: props?.type ? props.type : "button" });
   }
 
   render(props: IProps) {
     const { mode = ModeButton.BUTTON } = props;
+
     if (mode === ModeButton.ICON) {
       return this.compile(buttonIcon, props);
     } else if (mode === ModeButton.LINK) {

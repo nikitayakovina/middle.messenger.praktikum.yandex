@@ -16,5 +16,9 @@ class ChatsAPI extends BaseAPI {
   getToken(id: number) {
     return this.create(`/token/${id}`, {})
   }
+
+  addUserChat(chatId: number, userId: number) {
+    return this.update('/users', { data: { chatId, users: [userId] } });
+  }
 }
 export default new ChatsAPI();

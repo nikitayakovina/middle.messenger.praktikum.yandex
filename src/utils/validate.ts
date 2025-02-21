@@ -7,6 +7,7 @@ export enum ValidateType {
   PHONE = "phone",
   NAME = "name",
   TEXT = "text",
+  NUMBER = "number"
 }
 
 const validateEmail = (email: string) => {
@@ -106,6 +107,10 @@ const validateName = (text: string) => {
   return error;
 };
 
+const validateNumber = (text: string) => {
+  return /^[0-9]/.test(text) ? "" : "Поле должно содержать только числа"
+}
+
 export const validate = (value: string, type: ValidateType) => {
   if (!value.length) {
     return "Поле не может быть пустым";
@@ -126,6 +131,9 @@ export const validate = (value: string, type: ValidateType) => {
 
   case ValidateType.LOGIN:
     return validateLogin(value);
+
+  case ValidateType.NUMBER:
+  return validateNumber(value);
 
   default:
     return "";

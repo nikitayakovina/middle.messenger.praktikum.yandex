@@ -9,7 +9,9 @@ class AuthController {
       await AuthAPI.signIn(data)
         .then(() => {
           ChatsController.getChats();
-        }).then(() => {
+        })
+        .then(() => this.getUserInfo())
+        .then(() => {
           Router.go('/messenger');
         });
     } catch (e) {
@@ -38,10 +40,10 @@ class AuthController {
     }
   }
 
-  async userInfo() {
+  async getUserInfo() {
     try {
       await AuthAPI.userInfo().then((data: any) => {
-        Store.set("user", JSON.parse(data));
+        Store.set("user", data);
       });
     } catch (e) {
       console.error(e);
