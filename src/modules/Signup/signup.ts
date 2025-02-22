@@ -23,8 +23,6 @@ export default class SignUp extends Block {
             event.stopPropagation();
             event.preventDefault();
 
-            console.log(Router)
-
             Router.go('/');
           },
         },

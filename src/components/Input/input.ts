@@ -7,6 +7,7 @@ export default class Input extends Block {
   constructor(props: IProps) {
     super({
       ...props,
+      isTypeFile: props.type === "file",
       events: {
         focusout: (event: FocusEvent) => {
           const { value } = event.target as HTMLInputElement;

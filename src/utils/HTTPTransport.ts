@@ -4,7 +4,8 @@ const METHODS = {
   PUT: "PUT",
   DELETE: "DELETE",
 };
-export const BASE_URL = 'https://ya-praktikum.tech/api/v2';
+export const BASE_URL = "https://ya-praktikum.tech/api/v2";
+export const BASE_URL_RESOURCE = "https://ya-praktikum.tech/api/v2/resources";
 
 type Options = { method: string; timeout?: number; data?: {} };
 type HTTPMethod = <R=unknown>(url: string, options?: Pick<Options, "timeout" | "data">) => Promise<R>;
@@ -77,12 +78,9 @@ export class HTTPTransport {
     return new Promise<R>((resolve, reject) => {
       xhr.open(method, BASE_URL + url + (method === METHODS.GET ? queryParams : ""));
 
-      xhr.setRequestHeader("Content-Type", "application/json");
-      // xhr.setRequestHeader("Content-Type", (!(data instanceof FormData) ? "text/plain" : "application/json"));
-
-      // if (!(data instanceof FormData)) {
-      //   xhr.setRequestHeader('Content-Type', 'application/json');
-      // }
+      if (!(data instanceof FormData)) {
+        xhr.setRequestHeader("Content-Type", "application/json");
+      }
 
       xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -94,7 +92,6 @@ export class HTTPTransport {
         }
       };
 
-      // xhr.onload = () => resolve(xhr as R);
       xhr.onabort = reject;
       xhr.onerror = reject;
       xhr.ontimeout = reject;
@@ -105,7 +102,7 @@ export class HTTPTransport {
       if (method === METHODS.GET || !data) {
         xhr.send();
       } else {
-        xhr.send(JSON.stringify(data));
+        xhr.send((data instanceof FormData) ? data : JSON.stringify(data));
       }
     });
   };

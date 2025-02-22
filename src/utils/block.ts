@@ -107,10 +107,8 @@ export default class Block {
       return;
     }
 
-    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
-
-    // this.init();
-    // this._render();
+    this.init();
+    this._render();
   }
 
   componentDidUpdate(oldProps: object, newProps: object): boolean {
@@ -121,7 +119,7 @@ export default class Block {
     return false;
   }
 
-  setProps = (nextProps: Record<string, Block | Block[] | string | object | boolean>) => {
+  setProps = (nextProps: IProps) => {
     if (!nextProps) {
       return;
     }

@@ -10,9 +10,12 @@ import { ValidateType, validateForm } from "../../utils/validate.ts";
 import AuthController from "../../controllers/authController.ts";
 import { Connect } from "../../utils/connect.ts";
 import UserController from "../../controllers/userController.ts";
+import { IUser } from "../../models/user.ts";
+import Router from "../../utils/router.ts";
 
 class Profiles extends Block {
-  constructor(isEditPassword: boolean = false) {
+  constructor() {
+    let isPasswordMode: boolean = false;
     const profileLayout = new ProfileLayout({
       inputs: [
         new Input({
@@ -70,12 +73,63 @@ class Profiles extends Block {
           mode: ModeButton.LINK,
           title: "Изменить данные",
           class: "accept",
-          
         }),
         new Button({
           mode: ModeButton.LINK,
           title: "Изменить пароль",
           class: "accept",
+          events: {
+            click: () => {
+              isPasswordMode = true;
+              profileLayout.setProps({
+                inputs: [
+                  new Input({
+                    labelFor: "oldPassword",
+                    label: "Пароль",
+                    id: "oldPassword",
+                    name: "oldPassword",
+                    validateType: ValidateType.PASSWORD,
+                    placeholder: "Введите пароль",
+                  }),
+                  new Input({
+                    labelFor: "newPassword",
+                    label: "Новый пароль",
+                    id: "newPassword",
+                    name: "newPassword",
+                    validateType: ValidateType.PASSWORD,
+                    placeholder: "Введите новый пароль",
+                  }),
+                  new Input({
+                    labelFor: "repeatPassword",
+                    label: "Повторите новый пароль",
+                    id: "repeatPassword",
+                    name: "repeatPassword",
+                    validateType: ValidateType.PASSWORD,
+                    placeholder: "Введите пароль",
+                  }),
+                ],
+                actions: [
+                  new Button({
+                    mode: ModeButton.LINK,
+                    title: "Сохранить",
+                    class: "accept",
+                    type: "submit",
+                  }),
+                  new Button({
+                    mode: ModeButton.LINK,
+                    title: "Отмена",
+                    class: "reject",
+                    events: {
+                      click: () => {
+                        isPasswordMode = false;
+                        profileLayout.setProps(initialProps);
+                      }
+                    }
+                  }),
+                ],
+              });
+            }
+          }
         }),
         new Button({
           mode: ModeButton.LINK,
@@ -105,61 +159,35 @@ class Profiles extends Block {
             const formDataValid = validateForm(this.children.profileLayout.children.inputs, event);
 
             if (formDataValid !== null) {
-              UserController.changeUser(formDataValid);
+              if (isPasswordMode) {
+                UserController.changePassword(formDataValid);
+                profileLayout.setProps(initialProps);
+              } else {
+                UserController.changeUser(formDataValid);
+              }
             }
           }
         }
       }
     });
-
-    if (isEditPassword) {
-      profileLayout.setProps({
-        inputs: [
-          new Input({
-            labelFor: "password",
-            label: "Пароль",
-            id: "password",
-            name: "password",
-            validateType: ValidateType.PASSWORD,
-            placeholder: "Введите пароль",
-          }),
-          new Input({
-            labelFor: "newPassword",
-            label: "Новый пароль",
-            id: "newPassword",
-            name: "newPassword",
-            validateType: ValidateType.PASSWORD,
-            placeholder: "Введите новый пароль",
-          }),
-          new Input({
-            labelFor: "repeatPassword",
-            label: "Повторите новый пароль",
-            id: "repeatPassword",
-            name: "repeatPassword",
-            validateType: ValidateType.PASSWORD,
-            placeholder: "Введите пароль",
-          }),
-        ],
-        actions: [
-          new Button({
-            mode: ModeButton.LINK,
-            title: "Сохранить",
-            class: "accept",
-            type: "submit",
-          }),
-          new Button({
-            mode: ModeButton.LINK,
-            title: "Отмена",
-            class: "reject",
-          }),
-        ],
-      });
-    }
+    const initialProps: IProps = { ...profileLayout.props };
 
     const data: IProps = {
-      defaultAvatar: new Icon({
-        src: "/img/circle_gray.svg",
-        alt: "Фото профиля",
+      back: new Button({
+        mode: ModeButton.LINK,
+        title: "Назад",
+        events: {
+          click: () => {
+            Router.back();
+          }
+        }
+      }),
+      defaultAvatar: new Input({
+        type: "file",
+        icon: new Icon({
+            src: "/img/circle_gray.svg",
+            alt: "Фото профиля",
+        })
       }),
       profileLayout,
       events: {
@@ -169,6 +197,17 @@ class Profiles extends Block {
 
           validateForm(profileLayout.children.inputs, event);
         },
+        change: (event: Event) => {
+          const target = event.target as HTMLInputElement;
+          const formData = new FormData();
+
+          if (!target.files?.length) {
+            return;
+          }
+
+          formData.append("avatar", target.files[0]);
+          UserController.changeAvatar(formData);
+        }
       },
     };
 
@@ -176,18 +215,32 @@ class Profiles extends Block {
   }
 
   componentDidUpdate(oldProps: object, newProps: object): boolean {
-    const user = this.props?.user;
+    const user: IUser = this.props?.user as IUser;
 
-    if (user && 'children' in this.children.profileLayout && Array.isArray(this.children.profileLayout.children.inputs)) {
-      this.children.profileLayout.children.inputs.forEach((input: Block) => {
-        Object.keys(user).find((key: string) => {
-          if (key === input.props.id) {
-            //@ts-ignore
-            input.setProps({ value: user[key] });
-          }
-        });
-      })
-      this.children.profiles = [this.props.user].map((user: any) => new Profile({ ...user }));
+    if (user) {
+      if ('children' in this.children.profileLayout && Array.isArray(this.children.profileLayout.children.inputs)) {
+        this.children.profileLayout.children.inputs.forEach((input: Block) => {
+          Object.keys(user).find((key: string) => {
+            if (key === input.props.id) {
+              //@ts-ignore
+              input.setProps({ value: user[key] });
+            }
+          });
+        })
+        this.children.profiles = [this.props.user].map((user: any) => 
+          new Profile({ 
+            ...user, 
+            avatar: new Icon({ 
+              src: user.avatar, 
+              alt: "Фото профиля", 
+              style: "width: 50px" 
+            }),
+          }));
+      }
+      if ('children' in this.children.defaultAvatar) {
+        const icon = this.children.defaultAvatar.children.icon as Block;
+        icon.setProps({ src: user.avatar});
+      }
     }
 
     return true;
@@ -200,6 +253,6 @@ class Profiles extends Block {
 export default Connect(Profiles, (state: any) => {
   return { 
     user: state.user, 
-    first_name: state?.user?.first_name 
+    first_name: state?.user?.first_name
   };
 })

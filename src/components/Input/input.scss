@@ -55,3 +55,9 @@
 .visible {
   display: block;
 }
+
+.upload {
+  &__input {
+    display: none;
+  }
+}

@@ -10,5 +10,23 @@ class UserController {
       console.error(e);
     }
   }
+
+  async changeAvatar(data: {}) {
+    try {
+      await UserAPI.changeAvatar({data})
+        .then(() => AuthController.getUserInfo())
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async changePassword(data: {}) {
+    try {
+      await UserAPI.changePassword({data})
+        .then(() => AuthController.getUserInfo())
+    } catch (e) {
+      console.error(e);
+    }
+  }
 }
 export default new UserController();

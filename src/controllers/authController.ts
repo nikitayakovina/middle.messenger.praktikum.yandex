@@ -1,4 +1,5 @@
 import AuthAPI from "../api/authAPI";
+import { BASE_URL_RESOURCE } from "../utils/HTTPTransport";
 import Router from "../utils/router";
 import Store from "../utils/store";
 import ChatsController from "./chatsController";
@@ -43,7 +44,7 @@ class AuthController {
   async getUserInfo() {
     try {
       await AuthAPI.userInfo().then((data: any) => {
-        Store.set("user", data);
+        Store.set("user", { ...data, avatar: BASE_URL_RESOURCE + data?.avatar });
       });
     } catch (e) {
       console.error(e);
