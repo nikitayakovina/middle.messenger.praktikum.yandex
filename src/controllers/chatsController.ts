@@ -1,22 +1,33 @@
 import Store from "../utils/store";
 import ChatsAPI from "../api/chatsAPI";
 import WebSocketTransport from "../utils/webSocketTransport";
+import { IChat, IToken } from "../models/chat";
+import { StoreEnum } from "../models/store";
+import { IMessage } from "../models/message";
+import { IUser } from "../models/user";
 
 class ChatsController {
+  _sortedMessages = (message: IMessage[]) =>
+    message
+      .filter((message) => message?.type === "message")
+      .sort((prev, next) =>
+        new Date(prev.time).getTime() - new Date(next.time).getTime()
+      );
+
   async getChats() {
     try {
       await ChatsAPI.getChats().then((chats) => {
-        Store.set("chats", chats);
+        Store.set(StoreEnum.CHATS, chats);
       });
     } catch (e) {
       console.error(e);
     }
   }
 
-  async createChat(data: any) {
+  async createChat(data: Pick<IChat, "title"> & { userId: number }) {
     try {
       await ChatsAPI.createChat(data)
-        .then((chat: any) => this.addUserChat(chat.id, data.userId))
+        .then((chat: IChat) => this.addUserChat(chat.id, data.userId))
         .then(() => this.getChats())
     } catch (e) {
       console.error(e);
@@ -26,7 +37,7 @@ class ChatsController {
   async getToken(id: number) {
     try {
       return ChatsAPI.getToken(id)
-        .then((data: any) => data.token)
+        .then((data: IToken) => data.token)
     } catch (e) {
       console.error(e);
     }
@@ -35,33 +46,31 @@ class ChatsController {
   async sendMessage(chatId: number, message: string) {
     try {
       this.getToken(chatId).then(token => {
-        //@ts-ignore 
-        const socket = WebSocketTransport.getWebSocket(Store.getState()?.user?.id, chatId, token);
+        if (token) {
+          const { user } = (Store.getState() as { user: IUser });
 
-        socket.addEventListener("open", () => {
-          socket.send(
-            JSON.stringify({
-              content: message,
-              type: "message",
-            })
-          );
-        });
+          const socket = WebSocketTransport.getWebSocket(user.id, chatId, token);
 
-        socket.addEventListener("message", (event: any) => {
-          const { messages } = Store.getState();
-  
-          if (Array.isArray(JSON.parse(event.data))) {
-            const data = JSON.parse(event.data).sort(
-              (prev: any, next: any) =>
-                new Date(prev.time).getTime() - new Date(next.time).getTime()
+          socket.addEventListener("open", () => {
+            socket.send(
+              JSON.stringify({
+                content: message,
+                type: "message",
+              })
             );
+          });
   
-            Store.set("messages", data);
-          } else {
-            //@ts-ignore
-            Store.set("messages", [...messages, JSON.parse(event.data)]);
-          }
-        });
+          socket.addEventListener("message", (event: MessageEvent) => {
+            const data = JSON.parse(event.data) as IMessage[] | IMessage;
+            const { messages } = Store.getState();
+    
+            if (Array.isArray(data)) {
+              Store.set(StoreEnum.MESSAGE, this._sortedMessages(data));
+            } else if (data.type === "message") {
+              Store.set(StoreEnum.MESSAGE, [...(messages as IMessage[]), data]);
+            }
+          });
+        }
       });
     } catch (e) {
       console.error(e);
@@ -71,40 +80,39 @@ class ChatsController {
   async getMessages(id: number) {
     try {
       this.getToken(id).then(token => {
-        //@ts-ignore 
-        const socket = WebSocketTransport.getWebSocket(Store.getState()?.user?.id, id, token);
+        if (token) {
+          const { user } = (Store.getState() as { user: IUser })
+          const socket = WebSocketTransport.getWebSocket(user.id, id, token);
+          let interval = setInterval(() => {
+            socket.send(JSON.stringify({ type: 'ping' }))
+          }, 5000);
 
-        socket.addEventListener('open', () => {
-          socket.send(
-            JSON.stringify({
-              content: "0",
-              type: "get old",
-            })
-          );
-        });
-        
-        socket.addEventListener('close', event => {
-          if (event.wasClean) {
-            console.log('Соединение закрыто чисто');
-          } else {
-            console.log('Обрыв соединения');
-          }
-        
-          console.log(`Код: ${event.code} | Причина: ${event.reason}`);
-        });
-        
-        socket.addEventListener('message', event => {
-          const data = JSON.parse(event.data).sort(
-            (prev: any, next: any) =>
-              new Date(prev.time).getTime() - new Date(next.time).getTime()
-          );
+          socket.addEventListener('open', () => {
+            socket.send(
+              JSON.stringify({
+                content: "0",
+                type: "get old",
+              })
+            );
+          });
+          
+          socket.addEventListener('message', event => {
+            const data = JSON.parse(event.data) as IMessage[] | IMessage;
+            console.log('message', data)
   
-          Store.set("messages", data);
-        });
-        
-        // socket.addEventListener('error', event => {
-        //   console.log('Ошибка', event.message);
-        // }); 
+            if (Array.isArray(data)) {
+                Store.set(StoreEnum.MESSAGE, this._sortedMessages(data));
+            } else if (data.type === "message") {
+              Store.set(StoreEnum.MESSAGE, data);
+            }
+          });
+
+          socket.addEventListener('close', event => {
+            console.log('close')
+            clearInterval(interval);
+            interval = 0;
+          });
+        }
       })
     } catch (e) {
       console.error(e);
@@ -114,6 +122,28 @@ class ChatsController {
   async addUserChat(chatId: number, userId: number) {
     try {
       return ChatsAPI.addUserChat(chatId, userId);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async removeUserChat(chatId: number, userId: number) {
+    try {
+      ChatsAPI.removeUserChat(chatId, userId)
+        .then(() => {
+          this.getChats();
+        });
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async getChatUsers(chatId: number) {
+    try {
+      ChatsAPI.getChatUsers(chatId)
+        .then((user) => {
+          Store.set(StoreEnum.USERS_CHAT, user);
+        });
     } catch (e) {
       console.error(e);
     }

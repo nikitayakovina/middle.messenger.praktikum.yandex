@@ -1,28 +1,30 @@
 import UserAPI from "../api/userAPI";
+import { IPassword, IProfile } from "../models/profile";
 import AuthController from "./authController";
 
 class UserController {
-  async changeUser(data: {}) {
+  async changeUser(data: IProfile) {
+    console.log(data)
     try {
-      await UserAPI.changeUser(data)
+      await UserAPI.changeUser({...data})
         .then(() => AuthController.getUserInfo())
     } catch (e) {
       console.error(e);
     }
   }
 
-  async changeAvatar(data: {}) {
+  async changeAvatar(data: FormData) {
     try {
-      await UserAPI.changeAvatar({data})
+      await UserAPI.changeAvatar(data)
         .then(() => AuthController.getUserInfo())
     } catch (e) {
       console.error(e);
     }
   }
 
-  async changePassword(data: {}) {
+  async changePassword(data: IPassword) {
     try {
-      await UserAPI.changePassword({data})
+      await UserAPI.changePassword({...data})
         .then(() => AuthController.getUserInfo())
     } catch (e) {
       console.error(e);

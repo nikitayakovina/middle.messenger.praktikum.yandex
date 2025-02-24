@@ -10,19 +10,19 @@ export class BaseAPI {
     }
   }
 
-  create(url: string, data: {}) {
-    return this._httpTransport.post(this._endpoint + url, { data });
+  create<T, R = never>(url: string, data?: T) {
+    return this._httpTransport.post<R>(this._endpoint + url, { data });
   }
 
-  request(url: string, data?: {}) {
-    return this._httpTransport.get(this._endpoint + url, { ...data });
+  request<T>(url: string, data?: T) {
+    return this._httpTransport.get<T>(this._endpoint + url, { ...data });
   }
 
-  update(url: string, data: {}) {
-    return this._httpTransport.put(this._endpoint + url, data);
+  update<T>(url: string, data: T) {
+    return this._httpTransport.put<T>(this._endpoint + url, { data });
   }
 
-  delete(url: string, id: string | number) {
-    return this._httpTransport.delete(this._endpoint + url, { data: { id } });
+  delete<T>(url: string, data: T) {
+    return this._httpTransport.delete<T>(this._endpoint + url, { data });
   }
 }

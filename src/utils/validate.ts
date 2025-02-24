@@ -140,9 +140,9 @@ export const validate = (value: string, type: ValidateType) => {
   }
 };
 
-export const validateForm = (input: Block | Block[], event: Event) => {
+export const validateForm = <T>(input: Block | Block[], event: Event): T | null => {
   const formData = new FormData(event.target as HTMLFormElement);
-  const formFields: Record<string, string> = {};
+  const formFields: Partial<T> = {};
 
   const isValidForm = (Array.isArray(input) ? input : [input]).every(
     (block: Block) => {
@@ -170,9 +170,9 @@ export const validateForm = (input: Block | Block[], event: Event) => {
 
   formData.forEach((value, key) => {
     if (typeof value === "string") {
-      formFields[key] = value;
+      (formFields as Record<string, string>)[key] = value;
     }
   });
 
-  return formFields;
+  return formFields as T;
 };

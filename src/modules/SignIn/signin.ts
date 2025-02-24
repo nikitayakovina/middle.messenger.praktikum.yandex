@@ -7,6 +7,7 @@ import Link from "../../components/Link/link.ts";
 import { ValidateType, validateForm } from "../../utils/validate.ts";
 import AuthController from "../../controllers/authController.ts";
 import Router from "../../utils/router.ts";
+import { ISignIn } from "../../models/auth.ts";
 
 export default class SignIn extends Block {
   constructor() {
@@ -32,7 +33,7 @@ export default class SignIn extends Block {
           event.preventDefault();
           event.stopPropagation();
 
-          const formDataValid = validateForm(this.children.inputs, event);
+          const formDataValid = validateForm<ISignIn>(this.children.inputs, event);
 
           if (formDataValid !== null) {
             AuthController.signIn(formDataValid);

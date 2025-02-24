@@ -1,3 +1,4 @@
+import { IProfile } from '../models/profile';
 import { BaseAPI } from './baseAPI';
 
 class UserAPI extends BaseAPI {
@@ -5,11 +6,11 @@ class UserAPI extends BaseAPI {
     super('/user');
   }
 
-  changeUser(data: {}) {
-    return this.update('/profile', { data });
+  changeUser(data: IProfile) {
+    return this.update('/profile', { ...data });
   }
 
-  changeAvatar(data: {}) {
+  changeAvatar(data: FormData) {
     return this.update('/profile/avatar', data);
   }
 

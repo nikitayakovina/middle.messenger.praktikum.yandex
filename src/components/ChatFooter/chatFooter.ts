@@ -1,4 +1,5 @@
 import ChatsController from "../../controllers/chatsController.ts";
+import { ISendMessage } from "../../models/message.ts";
 import Block, { IProps } from "../../utils/block.ts";
 import Store from "../../utils/store.ts";
 import { ValidateType, validateForm } from "../../utils/validate.ts";
@@ -24,12 +25,12 @@ export default class ChatFooter extends Block {
           event.preventDefault();
           event.stopPropagation();
 
-          const formDataValid = validateForm(this.children.input, event);
+          const formDataValid = validateForm<ISendMessage>(this.children.input, event);
 
           if (formDataValid !== null) {
             const { selectedChatId } = Store.getState();
-            //@ts-ignore
-            ChatsController.sendMessage(selectedChatId, formDataValid.message);
+            ChatsController.sendMessage(selectedChatId as number, formDataValid.message);
+            (this.children.input as Block).setProps({  });
           }
         },
       },

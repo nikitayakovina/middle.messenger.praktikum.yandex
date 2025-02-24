@@ -7,4 +7,5 @@ export interface IUser {
   login: string
   avatar: string
   email: string
+  [key: string]: string | number | boolean;
 }

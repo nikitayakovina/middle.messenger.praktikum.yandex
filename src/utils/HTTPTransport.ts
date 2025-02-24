@@ -7,53 +7,47 @@ const METHODS = {
 export const BASE_URL = "https://ya-praktikum.tech/api/v2";
 export const BASE_URL_RESOURCE = "https://ya-praktikum.tech/api/v2/resources";
 
-type Options = { method: string; timeout?: number; data?: {} };
-type HTTPMethod = <R=unknown>(url: string, options?: Pick<Options, "timeout" | "data">) => Promise<R>;
+type Options = { method: string; timeout?: number; data?: Record<string, string | number | boolean | (string | number | boolean)[] | Record<string, string | number | boolean>> | null };
+type HTTPMethod = <R>(url: string, options?: Pick<Options, "timeout" | "data">) => Promise<R>;
+type PrimitiveValue = string | number | boolean;
+type DataValue = PrimitiveValue | PrimitiveValue[] | Record<string, PrimitiveValue | PrimitiveValue[]>;
+type RecordData = Record<string, DataValue>;
 
-// export const queryStringify = (data: Record<string, string>) => {
-//   let result: string = "?";
-
-//   const isFirstParam = () => result.split("").reverse()[0] === "?";
-
-//   Object.keys(data).forEach((key) => {
-//     if (Array.isArray(data[key])) {
-//       result += isFirstParam() ? `${key}=${data[key]}` : `&${key}=${data[key]}`;
-//     } else if (typeof data[key] === "object") {
-//       result += isFirstParam() ? `${key}=[object Object]` : `&${key}=${data[key]}`;
-//     } else {
-//       result += isFirstParam() ? `${key}=${data[key]}` : `&${key}=${data[key]}`;
-//     }
-//   });
-
-//   return result;
-// };
-
-export const queryStringify = (data: Record<string, any>): string | never => {
+export const queryStringify = (data: RecordData | null): string | never => {
   let result: string = "";
+
+  if (data) {
+    Object.keys(data).forEach((key: string, index: number) => {
+      const value = data[key];
   
-  Object.keys(data).forEach((key, index) => {
-    if (index > 0) result += "&";
-    
-    if (Array.isArray(data[key])) {
-      data[key].forEach((k: string, i: number) => {
-        result += `${key}[${i}]=${k}`;
-        if (data[key].length - i !== 1) result += "&";
-      })
-    } else if (typeof data[key] === "object" && data[key] !== null) {
-        const recGetValue = (value: any, key: string): string => {
-          if (typeof value === "object" && value !== null) {
-            return Object.keys(value)
-              .map((k: string) => recGetValue(value[k], `${key}` + '[' + `${k}` + ']'))
-              .join("&");
-          }
-          return `${key}=${value}`;
-        };
+      if (index > 0) {
+        result += "&";
+      }
       
-        result += recGetValue(data[key], key);
-    } else {
-      result += `${key}=${data[key]}`;
-    }
-  });
+      if (Array.isArray(value)) {
+        (value as PrimitiveValue[]).forEach((k, i) => {
+          result += `${key}[${i}]=${k}`;
+          
+          if (value.length - i !== 1) {
+            result += "&"
+          };
+        })
+      } else if (typeof value === "object" && value !== null) {
+          const recGetValue = (value: DataValue, key: string): string => {
+            if (typeof value === "object" && value !== null) {
+              return Object.keys(value)
+                .map((k: string) => recGetValue((value as Record<string, PrimitiveValue | PrimitiveValue[]>)[k], `${key}[${k}]`))
+                .join("&");
+            }
+            return `${key}=${value}`;
+          };
+        
+          result += recGetValue(value, key);
+      } else {
+        result += `${key}=${value}`;
+      }
+    });
+  }
   
   return result;
 }
@@ -73,7 +67,7 @@ export class HTTPTransport {
   ): Promise<R> => {
     const { method, data } = options;
     const xhr = new XMLHttpRequest();
-    const queryParams = queryStringify(data || "");
+    const queryParams = data ? queryStringify(data) : '';
 
     return new Promise<R>((resolve, reject) => {
       xhr.open(method, BASE_URL + url + (method === METHODS.GET ? queryParams : ""));

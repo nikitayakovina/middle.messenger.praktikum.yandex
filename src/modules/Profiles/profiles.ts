@@ -12,6 +12,9 @@ import { Connect } from "../../utils/connect.ts";
 import UserController from "../../controllers/userController.ts";
 import { IUser } from "../../models/user.ts";
 import Router from "../../utils/router.ts";
+import { IPassword, IProfile } from "../../models/profile.ts";
+import { StoreType } from "../../utils/store.ts";
+import { StoreEnum } from "../../models/store.ts";
 
 class Profiles extends Block {
   constructor() {
@@ -156,14 +159,18 @@ class Profiles extends Block {
           event.preventDefault();
 
           if ('children' in this.children.profileLayout && Array.isArray(this.children.profileLayout.children.inputs)) {
-            const formDataValid = validateForm(this.children.profileLayout.children.inputs, event);
-
-            if (formDataValid !== null) {
-              if (isPasswordMode) {
-                UserController.changePassword(formDataValid);
+            if (isPasswordMode) {
+              const formDataValidPassword = validateForm<IPassword>(this.children.profileLayout.children.inputs, event);
+              
+              if (formDataValidPassword !== null) {
+                UserController.changePassword(formDataValidPassword);
                 profileLayout.setProps(initialProps);
-              } else {
-                UserController.changeUser(formDataValid);
+              }
+            } else {
+              const formDataValidProfile = validateForm<IProfile>(this.children.profileLayout.children.inputs, event);
+
+              if (formDataValidProfile !== null) {
+                UserController.changeUser(formDataValidProfile);
               }
             }
           }
@@ -222,16 +229,15 @@ class Profiles extends Block {
         this.children.profileLayout.children.inputs.forEach((input: Block) => {
           Object.keys(user).find((key: string) => {
             if (key === input.props.id) {
-              //@ts-ignore
               input.setProps({ value: user[key] });
             }
           });
         })
-        this.children.profiles = [this.props.user].map((user: any) => 
+        this.children.profiles = [this.props.user].map((userProps: any) =>
           new Profile({ 
-            ...user, 
+            ...userProps, 
             avatar: new Icon({ 
-              src: user.avatar, 
+              src: userProps.avatar, 
               alt: "Фото профиля", 
               style: "width: 50px" 
             }),
@@ -239,6 +245,7 @@ class Profiles extends Block {
       }
       if ('children' in this.children.defaultAvatar) {
         const icon = this.children.defaultAvatar.children.icon as Block;
+
         icon.setProps({ src: user.avatar});
       }
     }
@@ -250,9 +257,9 @@ class Profiles extends Block {
     return this.compile(profiles, props);
   }
 }
-export default Connect(Profiles, (state: any) => {
+export default Connect(Profiles, (state: StoreType) => {
   return { 
-    user: state.user, 
-    first_name: state?.user?.first_name
+    user: state?.user, 
+    first_name: (state[StoreEnum.USER] as { first_name: string })?.first_name
   };
 })

@@ -1,5 +1,6 @@
 import { v4 as makeUUID } from "uuid";
 import EventBus from "./eventBus.ts";
+import { renderDom } from "./renderDom.ts";
 
 type EventBusType = { [key: string]: string };
 type Meta = { [key: string]: string | object };
@@ -229,8 +230,9 @@ export default class Block {
     return document.createElement(tagName) as HTMLTemplateElement;
   }
 
-  show() {
-    this._element.style.display = "block";
+  show(query: string) {
+    this.eventBus().emit(Block.EVENTS.INIT);
+    renderDom(query, this);
   }
 
   hide() {

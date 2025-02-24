@@ -1,3 +1,5 @@
+import { ISignIn, ISignUp } from '../models/auth';
+import { IUser } from '../models/user';
 import { BaseAPI } from './baseAPI';
 
 class AuthAPI extends BaseAPI {
@@ -5,11 +7,11 @@ class AuthAPI extends BaseAPI {
     super('/auth');
   }
 
-  signIn(data: {}) {
+  signIn(data: ISignIn) {
     return this.create('/signin', data);
   }
 
-  signUp(data: {}) {
+  signUp(data: ISignUp) {
     return this.create('/signup', data);
   }
 
@@ -18,7 +20,7 @@ class AuthAPI extends BaseAPI {
   }
 
   userInfo() {
-    return this.request('/user');
+    return this.request<IUser>('/user');
   }
 }
 export default new AuthAPI();

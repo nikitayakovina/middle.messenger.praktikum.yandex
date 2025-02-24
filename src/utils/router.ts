@@ -1,5 +1,6 @@
 import Block from "./block";
 import Route from "./route";
+import Store from "./store";
 
 class Router {
   routes: Route[] = [];
@@ -9,45 +10,45 @@ class Router {
   history = window.history;
 
   constructor(rootQuery: string = ".app") {
-      if (Router._instance) {
-          return Router._instance;
-      }
+    if (Router._instance) {
+        return Router._instance;
+    }
 
-      this.routes = [];
-      this.history = window.history;
-      this._currentRoute = null;
-      this._rootQuery = rootQuery;
+    this.routes = [];
+    this.history = window.history;
+    this._currentRoute = null;
+    this._rootQuery = rootQuery;
 
-      Router._instance = this;
+    Router._instance = this;
   }
 
   use(pathname: string, block: typeof Block) {
-      const route = new Route(pathname, block, {rootQuery: this._rootQuery});
-      this.routes.push(route);
-      return this;
+    const route = new Route(pathname, block, {rootQuery: this._rootQuery});
+    this.routes.push(route);
+    return this;
   }
 
   start() {
-    window.onpopstate = ((event: any) => {
-      this._onRoute(event.currentTarget.location.pathname);
+    window.onpopstate = ((event: PopStateEvent) => {
+      this._onRoute((event.currentTarget as Window).location.pathname);
     }).bind(this);
 
     this._onRoute(window.location.pathname);
   }
 
   _onRoute(pathname: string) {
-      const route = this.getRoute(pathname);
+    const route = this.getRoute(pathname);
 
-      if (!route) {
-          return;
-      }
+    if (!route) {
+        return;
+    }
 
-      if (this._currentRoute && this._currentRoute !== route) {
-          this._currentRoute.leave();
-      }
+    if (this._currentRoute && this._currentRoute !== route) {
+      this._currentRoute.leave();
+    }
 
-      this._currentRoute = route;
-      route.render();
+    this._currentRoute = route;
+    route.render();
   }
 
   go(pathname: string) {
@@ -63,9 +64,8 @@ class Router {
     this.history.forward();
   }
 
-  getRoute(pathname: string) {
-      return this.routes.find(route => route.match(pathname));
-  }
+  getRoute = (pathname: string) =>
+    this.routes.find(route => route.match(pathname))
 }
 
 export default new Router(".app");
