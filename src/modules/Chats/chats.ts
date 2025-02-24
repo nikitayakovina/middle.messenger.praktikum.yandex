@@ -8,9 +8,11 @@ import PopupCreateChat from "../../components/PopupCreateChat/popupCreateChat.ts
 import ChatsController from "../../controllers/chatsController.ts";
 import { IChat } from "../../models/chat.ts";
 import { IMessage } from "../../models/message.ts";
+import { IChatUser } from "../../models/profile.ts";
 import { StoreEnum } from "../../models/store.ts";
 import { IUser } from "../../models/user.ts";
 import chats from "../../pages/chats.hbs";
+import { BASE_URL_RESOURCE } from "../../utils/HTTPTransport.ts";
 import Block, { IProps } from "../../utils/block.ts";
 import { Connect } from "../../utils/connect.ts";
 import Router from "../../utils/router.ts";
@@ -74,12 +76,12 @@ class Chats extends Block {
               isViewPopupCreateChat: false,
             });
             ChatsController.createChat({ title: formDataValid.title, userId: formDataValid.user});
+            (popupCreateChat.children.inputs as Block[]).forEach(input => input.setProps({ value: "" }));
           } 
         }
       }
     })
     const data = {
-      first_name: "Иван",
       searchMessageIcon: new Icon({
         src: "/img/search-message.svg",
         alt: "Поиск по сообщениям",
@@ -93,10 +95,6 @@ class Chats extends Block {
             ChatsController.removeUserChat(Number(selectedChatId), (user as IUser).id);
           }
         }
-      }),
-      defaultAvatar: new Icon({
-        src: "/img/circle_gray.svg",
-        alt: "Фото профиля",
       }),
       profileIcon: new Icon({
         src: "/img/profile.svg",
@@ -167,8 +165,12 @@ class Chats extends Block {
 }
 export default Connect(Chats, (state: StoreType) => {
   return {
-    chats: state.chats,
-    messages: state.messages,
-    selectedChat: state.selectedChatId
+    chats: state?.chats,
+    messages: state?.messages,
+    selectedChat: state?.selectedChatId,
+    usersChat: (state?.usersChat as IChatUser[])?.map((userChat) => ({
+      ...userChat,
+      avatar: BASE_URL_RESOURCE + userChat?.avatar
+    }))
   };
 })

@@ -9,6 +9,7 @@ export interface IProfile {
 
 export interface IChatUser extends IProfile {
   role: string;
+  avatar: string;
 }
 
 export interface IPassword {

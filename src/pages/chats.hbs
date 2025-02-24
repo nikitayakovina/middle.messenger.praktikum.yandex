@@ -25,12 +25,14 @@
     <div class="chats__container">
       <header class="chats__container-header">
         <div class="chats__container-header__info">
-          <div class="chats__container-header__info-avatar">
-            {{{defaultAvatar}}}
-          </div>
-          <div class="chats__container-header__info-name">
-            {{first_name}}
-          </div>
+          {{#each usersChat}}
+            <div class="chats__container-header__info-avatar">
+              <img src="{{avatar}}" alt="Фото профиля">
+            </div>
+            <div class="chats__container-header__info-name">
+              {{first_name}}
+            </div>
+          {{/each}}
         </div>
         <div class="chats__container-header__action">
           {{{searchMessageIcon}}}

@@ -30,7 +30,7 @@ export default class ChatFooter extends Block {
           if (formDataValid !== null) {
             const { selectedChatId } = Store.getState();
             ChatsController.sendMessage(selectedChatId as number, formDataValid.message);
-            (this.children.input as Block).setProps({  });
+            (this.children.input as Block).setProps({ value: "" });
           }
         },
       },

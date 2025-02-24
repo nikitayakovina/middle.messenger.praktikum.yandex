@@ -81,6 +81,12 @@
         align-items: center;
         gap: 10px;
 
+        &-avatar {
+          img {
+            width: 50px;
+          }
+        }
+
         &-name {
           font-size: 16px;
           font-weight: 500;

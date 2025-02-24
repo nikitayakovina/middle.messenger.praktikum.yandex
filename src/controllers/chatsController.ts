@@ -103,7 +103,7 @@ class ChatsController {
             if (Array.isArray(data)) {
                 Store.set(StoreEnum.MESSAGE, this._sortedMessages(data));
             } else if (data.type === "message") {
-              Store.set(StoreEnum.MESSAGE, data);
+              Store.set(StoreEnum.MESSAGE, [data]);
             }
           });
 
@@ -132,6 +132,7 @@ class ChatsController {
       ChatsAPI.removeUserChat(chatId, userId)
         .then(() => {
           this.getChats();
+          Store.set(StoreEnum.SELECTED_CHAT_ID, undefined);
         });
     } catch (e) {
       console.error(e);
