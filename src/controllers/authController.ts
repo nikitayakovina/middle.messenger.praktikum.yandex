@@ -1,5 +1,6 @@
 import AuthAPI from "../api/authAPI";
 import { ISignIn, ISignUp } from "../models/auth";
+import { RouterPath } from "../models/router";
 import { StoreEnum } from "../models/store";
 import { BASE_URL_RESOURCE } from "../utils/HTTPTransport";
 import Router from "../utils/router";
@@ -15,7 +16,7 @@ class AuthController {
         })
         .then(() => this.getUserInfo())
         .then(() => {
-          Router.go('/messenger');
+          Router.go(RouterPath.MESSENGER);
         });
     } catch (e) {
       console.error(e);
@@ -25,7 +26,7 @@ class AuthController {
   async signUp(data: ISignUp) {
     try {
       await AuthAPI.signUp(data).then(() => {
-        Router.go('/messenger')
+        Router.go(RouterPath.MESSENGER)
       });
     } catch (e) {
       console.error(e);
@@ -36,7 +37,7 @@ class AuthController {
     try {
       await AuthAPI.logOut().then(() => {
         Store.clearState();
-        Router.go('/')
+        Router.go(RouterPath.HOME)
       });
     } catch (e) {
       console.error(e);

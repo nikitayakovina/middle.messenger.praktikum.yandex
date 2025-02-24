@@ -1,3 +1,4 @@
+import { RouterPath } from "../models/router";
 import Block from "./block";
 import Route from "./route";
 import Store from "./store";
@@ -38,9 +39,16 @@ class Router {
 
   _onRoute(pathname: string) {
     const route = this.getRoute(pathname);
+    const { user } = Store.getState();
 
     if (!route) {
-        return;
+      this.go(RouterPath.ERROR_404);
+      return;
+    }
+
+    if (pathname !== RouterPath.HOME && pathname !== RouterPath.SIGN_UP && !user) {
+      this.go(RouterPath.HOME);
+      return;
     }
 
     if (this._currentRoute && this._currentRoute !== route) {

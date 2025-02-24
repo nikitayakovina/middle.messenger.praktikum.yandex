@@ -9,6 +9,7 @@ import ChatsController from "../../controllers/chatsController.ts";
 import { IChat } from "../../models/chat.ts";
 import { IMessage } from "../../models/message.ts";
 import { IChatUser } from "../../models/profile.ts";
+import { RouterPath } from "../../models/router.ts";
 import { StoreEnum } from "../../models/store.ts";
 import { IUser } from "../../models/user.ts";
 import chats from "../../pages/chats.hbs";
@@ -103,7 +104,7 @@ class Chats extends Block {
           click: (event: Event) => {
             event.stopPropagation();
             event.preventDefault();
-            Router.go('/settings');
+            Router.go(RouterPath.SETTINGS);
           },
         },
       }),

@@ -8,6 +8,7 @@ import { ValidateType, validateForm } from "../../utils/validate.ts";
 import AuthController from "../../controllers/authController.ts";
 import Router from "../../utils/router.ts";
 import { ISignIn } from "../../models/auth.ts";
+import { RouterPath } from "../../models/router.ts";
 
 export default class SignIn extends Block {
   constructor() {
@@ -24,7 +25,7 @@ export default class SignIn extends Block {
           click: (event: Event) => {
             event.stopPropagation();
             event.preventDefault();
-            Router.go('/sign-up')
+            Router.go(RouterPath.SIGN_UP)
           },
         },
       }),
