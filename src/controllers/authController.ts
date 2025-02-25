@@ -37,7 +37,7 @@ class AuthController {
     try {
       await AuthAPI.logOut().then(() => {
         Store.clearState();
-        Router.go(RouterPath.HOME)
+        Router.go(RouterPath.HOME);
       });
     } catch (e) {
       console.error(e);
@@ -47,7 +47,10 @@ class AuthController {
   async getUserInfo() {
     try {
       await AuthAPI.userInfo().then((data) => {
-        Store.set(StoreEnum.USER, { ...data, avatar: BASE_URL_RESOURCE + data?.avatar });
+        Store.set(StoreEnum.USER, {
+          ...data,
+          avatar: BASE_URL_RESOURCE + data?.avatar,
+        });
       });
     } catch (e) {
       console.error(e);

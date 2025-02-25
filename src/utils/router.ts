@@ -8,15 +8,15 @@ class Router {
 
   _rootQuery: string = "";
 
-  _currentRoute: Route|null = null;
+  _currentRoute: Route | null = null;
 
   static _instance: Router;
-  
+
   history = window.history;
 
   constructor(rootQuery: string = ".app") {
     if (Router._instance) {
-        return Router._instance;
+      return Router._instance;
     }
 
     this.routes = [];
@@ -28,7 +28,7 @@ class Router {
   }
 
   use(pathname: string, block: typeof Block) {
-    const route = new Route(pathname, block, {rootQuery: this._rootQuery});
+    const route = new Route(pathname, block, { rootQuery: this._rootQuery });
     this.routes.push(route);
     return this;
   }
@@ -50,7 +50,11 @@ class Router {
       return;
     }
 
-    if (pathname !== RouterPath.HOME && pathname !== RouterPath.SIGN_UP && !user) {
+    if (
+      pathname !== RouterPath.HOME &&
+      pathname !== RouterPath.SIGN_UP &&
+      !user
+    ) {
       this.go(RouterPath.HOME);
       return;
     }
@@ -77,6 +81,6 @@ class Router {
   }
 
   getRoute = (pathname: string) =>
-    this.routes.find(route => route.match(pathname))
+    this.routes.find((route) => route.match(pathname));
 }
 export default new Router(".app");

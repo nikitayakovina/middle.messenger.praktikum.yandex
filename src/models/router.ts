@@ -4,5 +4,5 @@ export enum RouterPath {
   ERROR_404 = "/404",
   ERROR_500 = "/500",
   SETTINGS = "/settings",
-  MESSENGER = "/messenger"
+  MESSENGER = "/messenger",
 }

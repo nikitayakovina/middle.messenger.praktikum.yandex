@@ -9,8 +9,7 @@ import Error500 from "./modules/Error500/error500.ts";
 import { RouterPath } from "./models/router.ts";
 
 document.addEventListener("DOMContentLoaded", () => {
-  Router
-    .use(RouterPath.HOME, SignIn)
+  Router.use(RouterPath.HOME, SignIn)
     .use(RouterPath.SIGN_UP, SignUp)
     .use(RouterPath.ERROR_404, Error404)
     .use(RouterPath.ERROR_500, Error500)

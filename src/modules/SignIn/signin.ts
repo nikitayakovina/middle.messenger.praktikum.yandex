@@ -34,7 +34,10 @@ export default class SignIn extends Block {
           event.preventDefault();
           event.stopPropagation();
 
-          const formDataValid = validateForm<ISignIn>(this.children.inputs, event);
+          const formDataValid = validateForm<ISignIn>(
+            this.children.inputs,
+            event,
+          );
 
           if (formDataValid !== null) {
             AuthController.signIn(formDataValid);

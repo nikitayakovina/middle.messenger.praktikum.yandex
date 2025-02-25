@@ -25,11 +25,17 @@ export default class ChatFooter extends Block {
           event.preventDefault();
           event.stopPropagation();
 
-          const formDataValid = validateForm<ISendMessage>(this.children.input, event);
+          const formDataValid = validateForm<ISendMessage>(
+            this.children.input,
+            event,
+          );
 
           if (formDataValid !== null) {
             const { selectedChatId } = Store.getState();
-            ChatsController.sendMessage(selectedChatId as number, formDataValid.message);
+            ChatsController.sendMessage(
+              selectedChatId as number,
+              formDataValid.message,
+            );
             (this.children.input as Block).setProps({ value: "" });
           }
         },

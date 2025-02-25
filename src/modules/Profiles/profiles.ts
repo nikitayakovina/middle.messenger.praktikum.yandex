@@ -12,7 +12,11 @@ import { Connect } from "../../utils/connect.ts";
 import UserController from "../../controllers/userController.ts";
 import { IUser } from "../../models/user.ts";
 import Router from "../../utils/router.ts";
-import { IChatUserWithAvatar, IPassword, IProfile } from "../../models/profile.ts";
+import {
+  IChatUserWithAvatar,
+  IPassword,
+  IProfile,
+} from "../../models/profile.ts";
 import { StoreType } from "../../utils/store.ts";
 import { StoreEnum } from "../../models/store.ts";
 
@@ -157,21 +161,30 @@ class Profiles extends Block {
           event.stopPropagation();
           event.preventDefault();
 
-          if ("children" in this.children.profileLayout && Array.isArray(this.children.profileLayout.children.inputs)) {
+          if (
+            "children" in this.children.profileLayout &&
+            Array.isArray(this.children.profileLayout.children.inputs)
+          ) {
             if (isPasswordMode) {
-              const formDataValidPassword = validateForm<IPassword>(this.children.profileLayout.children.inputs, event);
+              const formDataValidPassword = validateForm<IPassword>(
+                this.children.profileLayout.children.inputs,
+                event,
+              );
               if (formDataValidPassword !== null) {
                 UserController.changePassword(formDataValidPassword);
                 profileLayout.setProps(initialProps);
               }
             } else {
-              const formDataValidProfile = validateForm<IProfile>(this.children.profileLayout.children.inputs, event);
+              const formDataValidProfile = validateForm<IProfile>(
+                this.children.profileLayout.children.inputs,
+                event,
+              );
               if (formDataValidProfile !== null) {
                 UserController.changeUser(formDataValidProfile);
               }
             }
           }
-        }
+        },
       },
     });
     const initialProps: IProps = { ...profileLayout.props };
@@ -182,15 +195,15 @@ class Profiles extends Block {
         events: {
           click: () => {
             Router.back();
-          }
-        }
+          },
+        },
       }),
       defaultAvatar: new Input({
         type: "file",
         icon: new Icon({
-            src: "/img/circle_gray.svg",
-            alt: "Фото профиля",
-        })
+          src: "/img/circle_gray.svg",
+          alt: "Фото профиля",
+        }),
       }),
       profileLayout,
       events: {
@@ -221,29 +234,34 @@ class Profiles extends Block {
     const user: IUser = this.props?.user as IUser;
 
     if (user) {
-      if ("children" in this.children.profileLayout && Array.isArray(this.children.profileLayout.children.inputs)) {
+      if (
+        "children" in this.children.profileLayout &&
+        Array.isArray(this.children.profileLayout.children.inputs)
+      ) {
         this.children.profileLayout.children.inputs.forEach((input: Block) => {
           Object.keys(user).find((key: string) => {
             if (key === input.props.id) {
               input.setProps({ value: user[key] });
             }
           });
-        })
+        });
         const profiles = this.props?.user as IChatUserWithAvatar;
-        this.children.profiles = [profiles].map((userProps: IChatUserWithAvatar) =>
-          new Profile({
-            ...userProps, 
-            avatar: new Icon({ 
-              src: userProps.avatar, 
-              alt: "Фото профиля", 
-              style: "width: 50px" 
+        this.children.profiles = [profiles].map(
+          (userProps: IChatUserWithAvatar) =>
+            new Profile({
+              ...userProps,
+              avatar: new Icon({
+                src: userProps.avatar,
+                alt: "Фото профиля",
+                style: "width: 50px",
+              }),
             }),
-          }));
+        );
       }
       if ("children" in this.children.defaultAvatar) {
         const icon = this.children.defaultAvatar.children.icon as Block;
 
-        icon.setProps({ src: user.avatar});
+        icon.setProps({ src: user.avatar });
       }
     }
 
@@ -255,8 +273,8 @@ class Profiles extends Block {
   }
 }
 export default Connect(Profiles, (state: StoreType) => {
-  return { 
-    user: state?.user, 
-    first_name: (state[StoreEnum.USER] as { first_name: string })?.first_name
+  return {
+    user: state?.user,
+    first_name: (state[StoreEnum.USER] as { first_name: string })?.first_name,
   };
-})
+});

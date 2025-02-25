@@ -11,8 +11,11 @@ class ChatsController {
   _sortedMessages = (message: IMessage[]) => {
     return message
       .filter((m) => m?.type === "message")
-      .sort((prev, next) => new Date(prev.time).getTime() - new Date(next.time).getTime());
-  }
+      .sort(
+        (prev, next) =>
+          new Date(prev.time).getTime() - new Date(next.time).getTime(),
+      );
+  };
 
   async getChats() {
     try {
@@ -28,7 +31,7 @@ class ChatsController {
     try {
       await ChatsAPI.createChat(data)
         .then((chat: IChat) => this.addUserChat(chat.id, data.userId))
-        .then(() => this.getChats())
+        .then(() => this.getChats());
     } catch (e) {
       console.error(e);
     }
@@ -36,8 +39,7 @@ class ChatsController {
 
   async getToken(id: number) {
     try {
-      return ChatsAPI.getToken(id)
-        .then((data: IToken) => data.token)
+      return ChatsAPI.getToken(id).then((data: IToken) => data.token);
     } catch (e) {
       console.error(e);
       return null;
@@ -46,25 +48,29 @@ class ChatsController {
 
   async sendMessage(chatId: number, message: string) {
     try {
-      this.getToken(chatId).then(token => {
+      this.getToken(chatId).then((token) => {
         if (token) {
-          const { user } = (Store.getState() as { user: IUser });
+          const { user } = Store.getState() as { user: IUser };
 
-          const socket = WebSocketTransport.getWebSocket(user.id, chatId, token);
+          const socket = WebSocketTransport.getWebSocket(
+            user.id,
+            chatId,
+            token,
+          );
 
           socket.addEventListener("open", () => {
             socket.send(
               JSON.stringify({
                 content: message,
                 type: "message",
-              })
+              }),
             );
           });
-  
+
           socket.addEventListener("message", (event: MessageEvent) => {
             const data = JSON.parse(event.data) as IMessage[] | IMessage;
             const { messages } = Store.getState();
-    
+
             if (Array.isArray(data)) {
               Store.set(StoreEnum.MESSAGE, this._sortedMessages(data));
             } else if (data.type === "message") {
@@ -80,12 +86,12 @@ class ChatsController {
 
   async getMessages(id: number) {
     try {
-      this.getToken(id).then(token => {
+      this.getToken(id).then((token) => {
         if (token) {
-          const { user } = (Store.getState() as { user: IUser })
+          const { user } = Store.getState() as { user: IUser };
           const socket = WebSocketTransport.getWebSocket(user.id, id, token);
           let interval = setInterval(() => {
-            socket.send(JSON.stringify({ type: "ping" }))
+            socket.send(JSON.stringify({ type: "ping" }));
           }, 5000);
 
           socket.addEventListener("open", () => {
@@ -93,15 +99,15 @@ class ChatsController {
               JSON.stringify({
                 content: "0",
                 type: "get old",
-              })
+              }),
             );
           });
-          
-          socket.addEventListener("message", event => {
+
+          socket.addEventListener("message", (event) => {
             const data = JSON.parse(event.data) as IMessage[] | IMessage;
-  
+
             if (Array.isArray(data)) {
-                Store.set(StoreEnum.MESSAGE, this._sortedMessages(data));
+              Store.set(StoreEnum.MESSAGE, this._sortedMessages(data));
             } else if (data.type === "message") {
               Store.set(StoreEnum.MESSAGE, [data]);
             }
@@ -112,7 +118,7 @@ class ChatsController {
             interval = 0;
           });
         }
-      })
+      });
     } catch (e) {
       console.error(e);
     }
@@ -120,10 +126,9 @@ class ChatsController {
 
   async addUserChat(chatId: number, userId: number) {
     try {
-      return ChatsAPI.addUserChat(chatId, userId)
-        .then(() => {
-          this.getChatUsers(chatId);
-        });
+      return ChatsAPI.addUserChat(chatId, userId).then(() => {
+        this.getChatUsers(chatId);
+      });
     } catch (e) {
       console.error(e);
       return null;
@@ -132,16 +137,15 @@ class ChatsController {
 
   async removeUserChat(chatId: number, userId: number) {
     try {
-      ChatsAPI.removeUserChat(chatId, userId)
-        .then(() => {
-          this.getChats();
-          this.getChatUsers(chatId);
-          const { usersChat } = Store.getState();
+      ChatsAPI.removeUserChat(chatId, userId).then(() => {
+        this.getChats();
+        this.getChatUsers(chatId);
+        const { usersChat } = Store.getState();
 
-          if (!(usersChat as IChatUser[]).length) {
-            Store.set(StoreEnum.SELECTED_CHAT_ID, undefined);
-          }
-        });
+        if (!(usersChat as IChatUser[]).length) {
+          Store.set(StoreEnum.SELECTED_CHAT_ID, undefined);
+        }
+      });
     } catch (e) {
       console.error(e);
     }
@@ -149,10 +153,9 @@ class ChatsController {
 
   async getChatUsers(chatId: number) {
     try {
-      ChatsAPI.getChatUsers(chatId)
-        .then((user) => {
-          Store.set(StoreEnum.USERS_CHAT, user);
-        });
+      ChatsAPI.getChatUsers(chatId).then((user) => {
+        Store.set(StoreEnum.USERS_CHAT, user);
+      });
     } catch (e) {
       console.error(e);
     }

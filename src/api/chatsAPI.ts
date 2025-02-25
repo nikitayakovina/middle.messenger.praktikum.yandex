@@ -16,7 +16,7 @@ class ChatsAPI extends BaseAPI {
   }
 
   getToken(id: number) {
-    return this.create<IToken>(`/token/${id}`)
+    return this.create<IToken>(`/token/${id}`);
   }
 
   addUserChat(chatId: number, userId: number) {

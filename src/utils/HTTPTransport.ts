@@ -7,10 +7,27 @@ const METHODS = {
 export const BASE_URL = "https://ya-praktikum.tech/api/v2";
 export const BASE_URL_RESOURCE = "https://ya-praktikum.tech/api/v2/resources";
 
-type Options = { method: string; timeout?: number; data?: Record<string, string | number | boolean | (string | number | boolean)[] | Record<string, string | number | boolean>> | null };
-type HTTPMethod = <R>(url: string, options?: Pick<Options, "timeout" | "data">) => Promise<R>;
+type Options = {
+  method: string;
+  timeout?: number;
+  data?: Record<
+    string,
+    | string
+    | number
+    | boolean
+    | (string | number | boolean)[]
+    | Record<string, string | number | boolean>
+  > | null;
+};
+type HTTPMethod = <R>(
+  url: string,
+  options?: Pick<Options, "timeout" | "data">,
+) => Promise<R>;
 type PrimitiveValue = string | number | boolean;
-type DataValue = PrimitiveValue | PrimitiveValue[] | Record<string, PrimitiveValue | PrimitiveValue[]>;
+type DataValue =
+  | PrimitiveValue
+  | PrimitiveValue[]
+  | Record<string, PrimitiveValue | PrimitiveValue[]>;
 type RecordData = Record<string, DataValue>;
 
 export const queryStringify = (data: RecordData | null): string | never => {
@@ -30,31 +47,42 @@ export const queryStringify = (data: RecordData | null): string | never => {
           }
         });
       } else if (typeof value === "object" && value !== null) {
-          const recGetValue = (value: DataValue, key: string): string => {
-            if (typeof value === "object" && value !== null) {
-              return Object.keys(value)
-                .map((k: string) => recGetValue((value as Record<string, PrimitiveValue | PrimitiveValue[]>)[k], `${key}[${k}]`))
-                .join("&");
-            }
-            return `${key}=${value}`;
-          };
-          result += recGetValue(value, key);
+        const recGetValue = (value: DataValue, key: string): string => {
+          if (typeof value === "object" && value !== null) {
+            return Object.keys(value)
+              .map((k: string) =>
+                recGetValue(
+                  (value as Record<string, PrimitiveValue | PrimitiveValue[]>)[
+                    k
+                  ],
+                  `${key}[${k}]`,
+                ),
+              )
+              .join("&");
+          }
+          return `${key}=${value}`;
+        };
+        result += recGetValue(value, key);
       } else {
         result += `${key}=${value}`;
       }
     });
   }
   return result;
-}
+};
 
 export class HTTPTransport {
-  get: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.GET });
+  get: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: METHODS.GET });
 
-  put: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.PUT });
+  put: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: METHODS.PUT });
 
-  post: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.POST });
+  post: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: METHODS.POST });
 
-  delete : HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.DELETE });
+  delete: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: METHODS.DELETE });
 
   request = <R>(
     url: string,
@@ -65,7 +93,10 @@ export class HTTPTransport {
     const queryParams = data ? queryStringify(data) : "";
 
     return new Promise<R>((resolve, reject) => {
-      xhr.open(method, BASE_URL + url + (method === METHODS.GET ? queryParams : "" ));
+      xhr.open(
+        method,
+        BASE_URL + url + (method === METHODS.GET ? queryParams : ""),
+      );
       if (!(data instanceof FormData)) {
         xhr.setRequestHeader("Content-Type", "application/json");
       }
@@ -90,7 +121,7 @@ export class HTTPTransport {
       if (method === METHODS.GET || !data) {
         xhr.send();
       } else {
-        xhr.send((data instanceof FormData) ? data : JSON.stringify(data));
+        xhr.send(data instanceof FormData ? data : JSON.stringify(data));
       }
     });
   };

@@ -35,7 +35,10 @@ export default class SignUp extends Block {
           event.preventDefault();
           event.stopPropagation();
 
-          const formDataValid = validateForm<ISignUp>(this.children.inputs, event);
+          const formDataValid = validateForm<ISignUp>(
+            this.children.inputs,
+            event,
+          );
 
           if (formDataValid !== null) {
             AuthController.signUp(formDataValid);

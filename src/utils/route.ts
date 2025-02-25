@@ -7,7 +7,7 @@ export default class Route {
   _blockClass: typeof Block;
 
   _block: Block | null;
-  
+
   _props: IProps;
 
   constructor(pathname: string, block: typeof Block, props: IProps) {

@@ -153,9 +153,14 @@ export default class Block {
 
       Object.values(this.children).forEach((child) => {
         if (Array.isArray(child)) {
-          const elements = child.map((comp) => this._element.querySelector(`[data-id="${comp._id}"]`));
+          const elements = child.map((comp) =>
+            this._element.querySelector(`[data-id="${comp._id}"]`),
+          );
 
-          if (!elements.length || (elements.length && elements.every((element) => element === null))) {
+          if (
+            !elements.length ||
+            (elements.length && elements.every((element) => element === null))
+          ) {
             return;
           }
 
@@ -197,7 +202,7 @@ export default class Block {
 
   protected render(_props: IProps): string {
     return "";
-  };
+  }
 
   getContent(): HTMLElement {
     return this._element;

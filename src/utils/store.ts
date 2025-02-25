@@ -2,12 +2,12 @@ import { StoreEnum } from "../models/store.ts";
 import EventBus from "./eventBus.ts";
 
 export enum StoreEvents {
-  Updated = "Updated"
+  Updated = "Updated",
 }
 enum StoreName {
-  STORE = "store"
+  STORE = "store",
 }
-export type StoreType = Partial<{[K in StoreEnum]: unknown}>;
+export type StoreType = Partial<{ [K in StoreEnum]: unknown }>;
 
 class Store extends EventBus {
   _state: StoreType;

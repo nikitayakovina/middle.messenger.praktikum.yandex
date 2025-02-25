@@ -12,7 +12,7 @@ export default class Chat extends Block {
         src: props?.avatar ? props.avatar : "/img/circle_gray.svg",
         alt: "Фото профиля",
       }),
-      isActiveChat: props.id === selectedChatId
+      isActiveChat: props.id === selectedChatId,
     };
 
     super({ ...props, ...data });

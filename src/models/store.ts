@@ -3,5 +3,5 @@ export enum StoreEnum {
   USER = "user",
   CHATS = "chats",
   SELECTED_CHAT_ID = "selectedChatId",
-  USERS_CHAT = "usersChat"
+  USERS_CHAT = "usersChat",
 }

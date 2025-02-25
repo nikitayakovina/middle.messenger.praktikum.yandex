@@ -40,11 +40,11 @@ class Chats extends Block {
           validateType: ValidateType.NUMBER,
           name: "user",
           placeholder: "Введите ID пользователя",
-        })
+        }),
       ],
       button: new Button({
         title: "Создать",
-        type: "submit" 
+        type: "submit",
       }),
       buttonClose: new Button({
         type: "submit",
@@ -56,28 +56,36 @@ class Chats extends Block {
         events: {
           click: (event: Event) => {
             event.stopPropagation();
-            event.preventDefault(); 
+            event.preventDefault();
 
             this.setProps({
               isViewPopupCreateChat: false,
             });
-          }
-        }
+          },
+        },
       }),
       events: {
         submit: (event: Event) => {
           event.stopPropagation();
           event.preventDefault();
 
-          const formDataValid = validateForm<IChat & { user: number }>(popupCreateChat.children.inputs, event);
+          const formDataValid = validateForm<IChat & { user: number }>(
+            popupCreateChat.children.inputs,
+            event,
+          );
 
           if (formDataValid !== null) {
             this.setProps({ isViewPopupCreateChat: false });
-            ChatsController.createChat({ title: formDataValid.title, userId: formDataValid.user});
-            (popupCreateChat.children.inputs as Block[]).forEach(input => input.setProps({ value: "" }));
-          } 
-        }
-      }
+            ChatsController.createChat({
+              title: formDataValid.title,
+              userId: formDataValid.user,
+            });
+            (popupCreateChat.children.inputs as Block[]).forEach((input) =>
+              input.setProps({ value: "" }),
+            );
+          }
+        },
+      },
     });
     const popupAddUser = new PopupChat({
       header: "Добавление пользователя в чат",
@@ -88,11 +96,11 @@ class Chats extends Block {
           id: "user",
           name: "user",
           placeholder: "Введите ID пользователя",
-        })
+        }),
       ],
       button: new Button({
         title: "Добавить",
-        type: "submit" 
+        type: "submit",
       }),
       buttonClose: new Button({
         type: "submit",
@@ -104,20 +112,23 @@ class Chats extends Block {
         events: {
           click: (event: Event) => {
             event.stopPropagation();
-            event.preventDefault(); 
+            event.preventDefault();
 
             this.setProps({
               isViewPopupAddUser: false,
             });
-          }
-        }
+          },
+        },
       }),
       events: {
         submit: (event: Event) => {
           event.stopPropagation();
           event.preventDefault();
 
-          const formDataValid = validateForm<{ user: number }>(popupAddUser.children.inputs, event);
+          const formDataValid = validateForm<{ user: number }>(
+            popupAddUser.children.inputs,
+            event,
+          );
           const { selectedChatId } = Store.getState();
 
           if (formDataValid !== null) {
@@ -125,11 +136,16 @@ class Chats extends Block {
               isViewPopupAddUser: false,
             });
 
-            ChatsController.addUserChat(Number(selectedChatId), formDataValid.user);
-            (popupAddUser.children.inputs as Block[]).forEach(input => input.setProps({ value: "" }));
-          } 
-        }
-      }
+            ChatsController.addUserChat(
+              Number(selectedChatId),
+              formDataValid.user,
+            );
+            (popupAddUser.children.inputs as Block[]).forEach((input) =>
+              input.setProps({ value: "" }),
+            );
+          }
+        },
+      },
     });
     const popupRemoveUser = new PopupChat({
       header: "Удаление пользователя из чата",
@@ -140,11 +156,11 @@ class Chats extends Block {
           id: "user",
           name: "user",
           placeholder: "Введите ID пользователя",
-        })
+        }),
       ],
       button: new Button({
         title: "Удалить",
-        type: "submit" 
+        type: "submit",
       }),
       buttonClose: new Button({
         type: "submit",
@@ -156,20 +172,23 @@ class Chats extends Block {
         events: {
           click: (event: Event) => {
             event.stopPropagation();
-            event.preventDefault(); 
+            event.preventDefault();
 
             this.setProps({
               isViewPopupRemoveUser: false,
             });
-          }
-        }
+          },
+        },
       }),
       events: {
         submit: (event: Event) => {
           event.stopPropagation();
           event.preventDefault();
 
-          const formDataValid = validateForm<{ user: number }>(popupRemoveUser.children.inputs, event);
+          const formDataValid = validateForm<{ user: number }>(
+            popupRemoveUser.children.inputs,
+            event,
+          );
           const { selectedChatId } = Store.getState();
 
           if (formDataValid !== null) {
@@ -177,12 +196,17 @@ class Chats extends Block {
               isViewPopupRemoveUser: false,
             });
 
-            ChatsController.removeUserChat(Number(selectedChatId), formDataValid.user);
-            (popupRemoveUser.children.inputs as Block[]).forEach(input => input.setProps({ value: "" }));
-          } 
-        }
-      }
-    })
+            ChatsController.removeUserChat(
+              Number(selectedChatId),
+              formDataValid.user,
+            );
+            (popupRemoveUser.children.inputs as Block[]).forEach((input) =>
+              input.setProps({ value: "" }),
+            );
+          }
+        },
+      },
+    });
     const data = {
       searchMessageIcon: new Icon({
         src: "/img/search-message.svg",
@@ -196,8 +220,8 @@ class Chats extends Block {
             this.setProps({
               isViewPopupRemoveUser: true,
             });
-          }
-        }
+          },
+        },
       }),
       addUserIcon: new Icon({
         src: "/img/add.svg",
@@ -206,10 +230,10 @@ class Chats extends Block {
         events: {
           click: () => {
             this.setProps({
-              isViewPopupAddUser: true
+              isViewPopupAddUser: true,
             });
-          }
-        }
+          },
+        },
       }),
       profileIcon: new Icon({
         src: "/img/profile.svg",
@@ -230,8 +254,8 @@ class Chats extends Block {
             this.setProps({
               isViewPopupCreateChat: true,
             });
-          }
-        }
+          },
+        },
       }),
       search: new Input({
         labelFor: "search",
@@ -242,7 +266,7 @@ class Chats extends Block {
       chatFooter,
       popupCreateChat,
       popupAddUser,
-      popupRemoveUser
+      popupRemoveUser,
     };
 
     super({ ...data });
@@ -260,8 +284,8 @@ class Chats extends Block {
               Store.set(StoreEnum.SELECTED_CHAT_ID, chat.id);
               ChatsController.getChatUsers(chat.id);
               ChatsController.getMessages(Number(chat.id));
-            }
-          }
+            },
+          },
         }))
         .map((chat: IChat) => new Chat({ ...chat }));
     }
@@ -269,8 +293,9 @@ class Chats extends Block {
     const messages = this.props?.messages as IMessage | IMessage[];
 
     if (!!messages) {
-      this.children.messages = (Array.isArray(messages) ? messages : [messages])
-        .map((message: IMessage) => new Message({ ...message }));
+      this.children.messages = (
+        Array.isArray(messages) ? messages : [messages]
+      ).map((message: IMessage) => new Message({ ...message }));
     }
 
     return true;
@@ -287,7 +312,7 @@ export default Connect(Chats, (state: StoreType) => {
     selectedChat: state?.selectedChatId,
     usersChat: (state?.usersChat as IChatUser[])?.map((userChat) => ({
       ...userChat,
-      avatar: BASE_URL_RESOURCE + userChat?.avatar
-    }))
+      avatar: BASE_URL_RESOURCE + userChat?.avatar,
+    })),
   };
-})
+});
