@@ -199,7 +199,7 @@ export default class Block {
   }
 
   protected render(_props: IProps): string {
-    console.log(_props);
+    console.log(_props); // for no-unused-vars
     return "";
   }
 
