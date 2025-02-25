@@ -1,6 +1,6 @@
 import { IChat, IToken } from "../models/chat.ts";
 import { IChatUser } from "../models/profile.ts";
-import { BaseAPI } from "./baseAPI";
+import { BaseAPI } from "./baseAPI.ts";
 
 class ChatsAPI extends BaseAPI {
   constructor() {

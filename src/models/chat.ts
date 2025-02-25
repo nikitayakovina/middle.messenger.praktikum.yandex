@@ -1,4 +1,4 @@
-import { IProfile } from "./profile";
+import { IProfile } from "./profile.ts";
 
 export interface IChat {
   avatar: string;

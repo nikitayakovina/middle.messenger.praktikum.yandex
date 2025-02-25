@@ -1,5 +1,5 @@
-import Block, { IProps } from "./block";
-import Store, { StoreEvents, StoreType } from "./store";
+import Block, { IProps } from "./block.ts";
+import Store, { StoreEvents, StoreType } from "./store.ts";
 
 export const Connect = (component: typeof Block, mapStateToProps: (state: StoreType) => StoreType) => {
   return class extends component {

@@ -1,5 +1,5 @@
 import { IProfile } from "../models/profile.ts";
-import { BaseAPI } from "./baseAPI";
+import { BaseAPI } from "./baseAPI.ts";
 
 class UserAPI extends BaseAPI {
   constructor() {

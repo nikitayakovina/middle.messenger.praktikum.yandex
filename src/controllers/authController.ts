@@ -1,11 +1,11 @@
-import AuthAPI from "../api/authAPI";
+import AuthAPI from "../api/authAPI.ts";
 import { ISignIn, ISignUp } from "../models/auth.ts";
 import { RouterPath } from "../models/router.ts";
 import { StoreEnum } from "../models/store.ts";
 import { BASE_URL_RESOURCE } from "../utils/HTTPTransport";
-import Router from "../utils/router";
-import Store from "../utils/store";
-import ChatsController from "./chatsController";
+import Router from "../utils/router.ts";
+import Store from "../utils/store.ts";
+import ChatsController from "./chatsController.ts";
 
 class AuthController {
   async signIn(data: ISignIn) {

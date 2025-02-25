@@ -1,6 +1,6 @@
-import Store from "../utils/store";
-import ChatsAPI from "../api/chatsAPI";
-import WebSocketTransport from "../utils/webSocketTransport";
+import Store from "../utils/store.ts";
+import ChatsAPI from "../api/chatsAPI.ts";
+import WebSocketTransport from "../utils/webSocketTransport.ts";
 import { IChat, IToken } from "../models/chat.ts";
 import { StoreEnum } from "../models/store.ts";
 import { IMessage } from "../models/message.ts";

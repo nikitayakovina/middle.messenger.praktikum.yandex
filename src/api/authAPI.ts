@@ -1,6 +1,6 @@
 import { ISignIn, ISignUp } from "../models/auth.ts";
 import { IUser } from "../models/user.ts";
-import { BaseAPI } from "./baseAPI";
+import { BaseAPI } from "./baseAPI.ts";
 
 class AuthAPI extends BaseAPI {
   constructor() {

@@ -1,5 +1,5 @@
-import Block, { IProps } from "./block";
-import { renderDom } from "./renderDom";
+import Block, { IProps } from "./block.ts";
+import { renderDom } from "./renderDom.ts";
 
 export default class Route {
   _pathname: string;

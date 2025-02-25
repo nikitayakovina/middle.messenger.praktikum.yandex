@@ -1,7 +1,7 @@
 import { RouterPath } from "../models/router.ts";
-import Block from "./block";
-import Route from "./route";
-import Store from "./store";
+import Block from "./block.ts";
+import Route from "./route.ts";
+import Store from "./store.ts";
 
 class Router {
   routes: Route[] = [];

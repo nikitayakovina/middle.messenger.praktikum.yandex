@@ -11,7 +11,6 @@ import { IMessage } from "../../models/message.ts";
 import { IChatUser } from "../../models/profile.ts";
 import { RouterPath } from "../../models/router.ts";
 import { StoreEnum } from "../../models/store.ts";
-import { IUser } from "../../models/user.ts";
 import chats from "../../pages/chats.hbs";
 import { BASE_URL_RESOURCE } from "../../utils/HTTPTransport.ts";
 import Block, { IProps } from "../../utils/block.ts";

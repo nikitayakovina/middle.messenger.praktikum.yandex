@@ -1,4 +1,4 @@
-import Error from "../../components/Error/error";
+import Error from "../../components/Error/error.ts";
 
 export default class Error500 extends Error {
   constructor() {

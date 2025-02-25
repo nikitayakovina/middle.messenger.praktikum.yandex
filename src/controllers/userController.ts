@@ -1,6 +1,6 @@
-import UserAPI from "../api/userAPI";
+import UserAPI from "../api/userAPI.ts";
 import { IPassword, IProfile } from "../models/profile.ts";
-import AuthController from "./authController";
+import AuthController from "./authController.ts";
 
 class UserController {
   async changeUser(data: IProfile) {

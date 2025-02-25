@@ -1,5 +1,5 @@
 import { StoreEnum } from "../models/store.ts";
-import EventBus from "./eventBus";
+import EventBus from "./eventBus.ts";
 
 export enum StoreEvents {
   Updated = "Updated"
