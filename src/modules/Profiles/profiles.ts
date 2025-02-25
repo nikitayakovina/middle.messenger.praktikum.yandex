@@ -245,15 +245,14 @@ class Profiles extends Block {
           }
         });
         this.children.profiles = [this.props?.user as IChatUserWithAvatar].map(
-          (userProps: IChatUserWithAvatar) =>
-            new Profile({
-              ...userProps,
-              avatar: new Icon({
-                src: userProps.avatar,
-                alt: "Фото профиля",
-                style: "width: 50px",
-              }),
+          (userProps: IChatUserWithAvatar) => new Profile({
+            ...userProps,
+            avatar: new Icon({
+              src: userProps.avatar,
+              alt: "Фото профиля",
+              style: "width: 50px",
             }),
+          }),
         );
       }
       if ("children" in this.children.defaultAvatar) {
