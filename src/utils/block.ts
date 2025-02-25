@@ -200,6 +200,7 @@ export default class Block {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected render(_props: IProps): string {
+    _props;
     return "";
   }
 
