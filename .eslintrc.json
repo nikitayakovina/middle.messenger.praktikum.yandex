@@ -7,6 +7,7 @@
   },
   "rules": {
     "max-len": [2, 200],
+    "@typescript-eslint/no-unused-vars": 2,
     "import/no-extraneous-dependencies": [
       "error",
       {
@@ -33,7 +34,6 @@
     "no-unsafe-optional-chaining": "off",
     "no-constructor-return": "off",
     "no-extra-bind": "off",
-    "no-extra-boolean-cast": "off",
-    "@typescript-eslint/no-unused-vars": "off"
+    "no-extra-boolean-cast": "off"
   }
 }
