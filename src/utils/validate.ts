@@ -107,7 +107,7 @@ const validateName = (text: string) => {
   return error;
 };
 
-const validateNumber = (text: string) => /^[0-9]/.test(text) ? "" : "Поле должно содержать только числа";
+const validateNumber = (text: string) => (/^[0-9]/.test(text) ? "" : "Поле должно содержать только числа");
 
 export const validate = (value: string, type: ValidateType) => {
   if (!value.length) {
