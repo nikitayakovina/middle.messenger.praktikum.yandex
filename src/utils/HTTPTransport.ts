@@ -47,20 +47,13 @@ export const queryStringify = (data: RecordData | null): string | never => {
           }
         });
       } else if (typeof value === "object" && value !== null) {
-        const recGetValue = (value: DataValue, key: string): string => {
-          if (typeof value === "object" && value !== null) {
-            return Object.keys(value)
-              .map((k: string) =>
-                recGetValue(
-                  (value as Record<string, PrimitiveValue | PrimitiveValue[]>)[
-                    k
-                  ],
-                  `${key}[${k}]`,
-                ),
-              )
+        const recGetValue = (dataValue: DataValue, keyDataValue: string): string => {
+          if (typeof dataValue === "object" && dataValue !== null) {
+            return Object.keys(dataValue)
+              .map((k: string) =>recGetValue((dataValue as Record<string, PrimitiveValue | PrimitiveValue[]>)[k],`${keyDataValue}[${k}]`))
               .join("&");
           }
-          return `${key}=${value}`;
+          return `${keyDataValue}=${dataValue}`;
         };
         result += recGetValue(value, key);
       } else {
@@ -72,17 +65,13 @@ export const queryStringify = (data: RecordData | null): string | never => {
 };
 
 export class HTTPTransport {
-  get: HTTPMethod = (url, options) =>
-    this.request(url, { ...options, method: METHODS.GET });
+  get: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.GET });
 
-  put: HTTPMethod = (url, options) =>
-    this.request(url, { ...options, method: METHODS.PUT });
+  put: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.PUT });
 
-  post: HTTPMethod = (url, options) =>
-    this.request(url, { ...options, method: METHODS.POST });
+  post: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.POST });
 
-  delete: HTTPMethod = (url, options) =>
-    this.request(url, { ...options, method: METHODS.DELETE });
+  delete: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.DELETE });
 
   request = <R>(
     url: string,
