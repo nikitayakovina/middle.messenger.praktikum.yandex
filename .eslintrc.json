@@ -31,6 +31,8 @@
     "no-use-before-define": "off",
     "import/prefer-default-export": "off",
     "no-console": "off",
-    "no-unsafe-optional-chaining": "off"
+    "no-unsafe-optional-chaining": "off",
+    "no-constructor-return": "off",
+    "no-extra-bind": "off"
   }
 }

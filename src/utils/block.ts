@@ -198,7 +198,7 @@ export default class Block {
     return template(props);
   }
 
-  // @ts-ignore
+  // @ts-expect-error
   protected render(props: IProps): string {
     return "";
   }

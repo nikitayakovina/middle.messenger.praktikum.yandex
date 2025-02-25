@@ -51,9 +51,9 @@ class Router {
     }
 
     if (
-      pathname !== RouterPath.HOME &&
-      pathname !== RouterPath.SIGN_UP &&
-      !user
+      pathname !== RouterPath.HOME
+      && pathname !== RouterPath.SIGN_UP
+      && !user
     ) {
       this.go(RouterPath.HOME);
       return;
@@ -80,7 +80,6 @@ class Router {
     this.history.forward();
   }
 
-  getRoute = (pathname: string) =>
-    this.routes.find((route) => route.match(pathname));
+  getRoute = (pathname: string) => this.routes.find((route) => route.match(pathname));
 }
 export default new Router(".app");

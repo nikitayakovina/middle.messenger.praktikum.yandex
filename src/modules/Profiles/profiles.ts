@@ -244,8 +244,7 @@ class Profiles extends Block {
             input.setProps({ value: user[profileLayoutInput] });
           }
         });
-        const profiles = this.props?.user as IChatUserWithAvatar;
-        this.children.profiles = [profiles].map(
+        this.children.profiles = [this.props?.user as IChatUserWithAvatar].map(
           (userProps: IChatUserWithAvatar) =>
             new Profile({
               ...userProps,
