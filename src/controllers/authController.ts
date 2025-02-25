@@ -25,9 +25,11 @@ class AuthController {
 
   async signUp(data: ISignUp) {
     try {
-      await AuthAPI.signUp(data).then(() => {
-        Router.go(RouterPath.MESSENGER)
-      });
+      await AuthAPI.signUp(data)
+        .then(() => this.getUserInfo())  
+        .then(() => {
+          Router.go(RouterPath.MESSENGER)
+        });
     } catch (e) {
       console.error(e);
     }

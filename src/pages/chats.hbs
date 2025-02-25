@@ -36,7 +36,8 @@
         </div>
         <div class="chats__container-header__action">
           {{{searchMessageIcon}}}
-          {{{toggleIcon}}}
+          {{{removeIcon}}}
+          {{{addUserIcon}}}
         </div>
       </header>
       <main class="chats__container-messages">
@@ -57,6 +58,18 @@
   {{#if isViewPopupCreateChat}}
     <div class="chats__popup">
       {{{popupCreateChat}}}
+    </div>
+  {{/if}}
+
+  {{#if isViewPopupAddUser}}
+    <div class="chats__popup">
+      {{{popupAddUser}}}
+    </div>
+  {{/if}}
+
+  {{#if isViewPopupRemoveUser}}
+    <div class="chats__popup">
+      {{{popupRemoveUser}}}
     </div>
   {{/if}}
 

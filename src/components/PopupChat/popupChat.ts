@@ -1,8 +1,8 @@
 import Block, { IProps } from "../../utils/block.ts";
-import popupCreateChat from "./popupCreateChat.hbs";
-import "./popupCreateChat.scss";
+import popupChat from "./popupChat.hbs";
+import "./popupChat.scss";
 
-export default class PopupCreateChat extends Block {
+export default class PopupChat extends Block {
   constructor(props: IProps) {
     super(props);
   }
@@ -12,6 +12,6 @@ export default class PopupCreateChat extends Block {
   }
 
   render(props: IProps) {
-    return this.compile(popupCreateChat, props);
+    return this.compile(popupChat, props);
   }
 }

@@ -25,7 +25,8 @@ export default class SignIn extends Block {
           click: (event: Event) => {
             event.stopPropagation();
             event.preventDefault();
-            Router.go(RouterPath.SIGN_UP)
+            
+            Router.go(RouterPath.SIGN_UP);
           },
         },
       }),

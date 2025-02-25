@@ -5,6 +5,7 @@ import { IChat, IToken } from "../models/chat";
 import { StoreEnum } from "../models/store";
 import { IMessage } from "../models/message";
 import { IUser } from "../models/user";
+import { IChatUser } from "../models/profile";
 
 class ChatsController {
   _sortedMessages = (message: IMessage[]) =>
@@ -121,7 +122,10 @@ class ChatsController {
 
   async addUserChat(chatId: number, userId: number) {
     try {
-      return ChatsAPI.addUserChat(chatId, userId);
+      return ChatsAPI.addUserChat(chatId, userId)
+        .then(() => {
+          this.getChatUsers(chatId);
+        });
     } catch (e) {
       console.error(e);
     }
@@ -132,7 +136,12 @@ class ChatsController {
       ChatsAPI.removeUserChat(chatId, userId)
         .then(() => {
           this.getChats();
-          Store.set(StoreEnum.SELECTED_CHAT_ID, undefined);
+          this.getChatUsers(chatId);
+          const { usersChat } = Store.getState();
+
+          if (!(usersChat as IChatUser[]).length) {
+            Store.set(StoreEnum.SELECTED_CHAT_ID, undefined);
+          }
         });
     } catch (e) {
       console.error(e);

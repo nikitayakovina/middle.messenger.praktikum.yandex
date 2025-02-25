@@ -4,7 +4,7 @@ import ChatFooter from "../../components/ChatFooter/chatFooter.ts";
 import Icon from "../../components/Icon/icon.ts";
 import Input from "../../components/Input/input.ts";
 import Message from "../../components/Message/message.ts";
-import PopupCreateChat from "../../components/PopupCreateChat/popupCreateChat.ts";
+import PopupChat from "../../components/PopupChat/popupChat.ts";
 import ChatsController from "../../controllers/chatsController.ts";
 import { IChat } from "../../models/chat.ts";
 import { IMessage } from "../../models/message.ts";
@@ -24,7 +24,7 @@ import "./chats.scss";
 class Chats extends Block {
   constructor() {
     const chatFooter: Block = new ChatFooter();
-    const popupCreateChat = new PopupCreateChat({
+    const popupCreateChat = new PopupChat({
       header: 'Создание чата',
       inputs: [
         new Input({
@@ -81,19 +81,137 @@ class Chats extends Block {
           } 
         }
       }
+    });
+    const popupAddUser = new PopupChat({
+      header: 'Добавление пользователя в чат',
+      inputs: [
+        new Input({
+          labelFor: "user",
+          label: "ID пользователя",
+          id: "user",
+          name: "user",
+          placeholder: "Введите ID пользователя",
+        })
+      ],
+      button: new Button({
+        title: "Добавить",
+        type: "submit" 
+      }),
+      buttonClose: new Button({
+        type: "submit",
+        mode: ModeButton.ICON,
+        icon: new Icon({
+          src: "/img/close.svg",
+          alt: "Закрыть",
+        }),
+        events: {
+          click: (event: Event) => {
+            event.stopPropagation();
+            event.preventDefault(); 
+
+            this.setProps({
+              isViewPopupAddUser: false,
+            });
+          }
+        }
+      }),
+      events: {
+        submit: (event: Event) => {
+          event.stopPropagation();
+          event.preventDefault();
+
+          const formDataValid = validateForm<{ user: number }>(popupAddUser.children.inputs, event);
+          const { selectedChatId } = Store.getState();
+          console.log(formDataValid)
+
+          if (formDataValid !== null) {
+            this.setProps({
+              isViewPopupAddUser: false,
+            });
+
+            ChatsController.addUserChat(Number(selectedChatId), formDataValid.user);
+            (popupAddUser.children.inputs as Block[]).forEach(input => input.setProps({ value: "" }));
+          } 
+        }
+      }
+    });
+    const popupRemoveUser = new PopupChat({
+      header: 'Удаление пользователя из чата',
+      inputs: [
+        new Input({
+          labelFor: "user",
+          label: "ID пользователя",
+          id: "user",
+          name: "user",
+          placeholder: "Введите ID пользователя",
+        })
+      ],
+      button: new Button({
+        title: "Удалить",
+        type: "submit" 
+      }),
+      buttonClose: new Button({
+        type: "submit",
+        mode: ModeButton.ICON,
+        icon: new Icon({
+          src: "/img/close.svg",
+          alt: "Закрыть",
+        }),
+        events: {
+          click: (event: Event) => {
+            event.stopPropagation();
+            event.preventDefault(); 
+
+            this.setProps({
+              isViewPopupRemoveUser: false,
+            });
+          }
+        }
+      }),
+      events: {
+        submit: (event: Event) => {
+          event.stopPropagation();
+          event.preventDefault();
+
+          const formDataValid = validateForm<{ user: number }>(popupRemoveUser.children.inputs, event);
+          const { selectedChatId } = Store.getState();
+
+          if (formDataValid !== null) {
+            this.setProps({
+              isViewPopupRemoveUser: false,
+            });
+
+            ChatsController.removeUserChat(Number(selectedChatId), formDataValid.user);
+            (popupRemoveUser.children.inputs as Block[]).forEach(input => input.setProps({ value: "" }));
+          } 
+        }
+      }
     })
     const data = {
       searchMessageIcon: new Icon({
         src: "/img/search-message.svg",
         alt: "Поиск по сообщениям",
       }),
-      toggleIcon: new Icon({
+      removeIcon: new Icon({
         src: "/img/remove.svg",
         alt: "Удалить пользователя из чата",
         events: {
           click: () => {
-            const { selectedChatId, user } = Store.getState();
-            ChatsController.removeUserChat(Number(selectedChatId), (user as IUser).id);
+            this.setProps({
+              isViewPopupRemoveUser: true,
+            });
+          }
+        }
+      }),
+      addUserIcon: new Icon({
+        src: "/img/add.svg",
+        alt: "Добавить пользователя в чат",
+        style: "width: 24px",
+        events: {
+          click: () => {
+            this.setProps({
+              isViewPopupAddUser: true
+            });
           }
         }
       }),
@@ -127,6 +245,8 @@ class Chats extends Block {
       }),
       chatFooter,
       popupCreateChat,
+      popupAddUser,
+      popupRemoveUser
     };
 
     super({ ...data });

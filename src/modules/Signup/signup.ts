@@ -16,6 +16,7 @@ export default class SignUp extends Block {
       title: "Регистрация",
       button: new Button({
         title: "Зарегистрироваться",
+        type: "submit",
       }),
       link: new Link({
         href: "/signin",
@@ -35,6 +36,7 @@ export default class SignUp extends Block {
           event.stopPropagation();
 
           const formDataValid = validateForm<ISignUp>(this.children.inputs, event);
+          console.log(formDataValid)
 
           if (formDataValid !== null) {
             AuthController.signUp(formDataValid);
