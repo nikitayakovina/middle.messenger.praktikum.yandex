@@ -305,6 +305,6 @@ export default Connect(Chats, (state: StoreType) => ({
   selectedChat: state?.selectedChatId,
   usersChat: (state?.usersChat as IChatUser[])?.map((userChat) => ({
     ...userChat,
-    avatar: userChat?.avatar ? BASE_URL_RESOURCE + userChat?.avatar : null,
+    avatar: userChat?.avatar ? BASE_URL_RESOURCE + userChat?.avatar : "/img/circle_gray.svg",
   })),
 }));

@@ -20,7 +20,7 @@ class ChatsAPI extends BaseAPI {
   }
 
   addUserChat(chatId: number, userId: number) {
-    return this.update("/users", { data : { chatId, users: [userId] } });
+    return this.update("/users", { data: { chatId, users: [userId] } });
   }
 
   removeUserChat(chatId: number, userId: number) {
