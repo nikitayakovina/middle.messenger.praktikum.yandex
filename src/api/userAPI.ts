@@ -1,4 +1,4 @@
-import { IProfile } from "../models/profile";
+import { IProfile } from "../models/profile.ts";
 import { BaseAPI } from "./baseAPI";
 
 class UserAPI extends BaseAPI {

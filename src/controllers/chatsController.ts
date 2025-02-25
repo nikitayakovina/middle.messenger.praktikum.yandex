@@ -1,11 +1,11 @@
 import Store from "../utils/store";
 import ChatsAPI from "../api/chatsAPI";
 import WebSocketTransport from "../utils/webSocketTransport";
-import { IChat, IToken } from "../models/chat";
-import { StoreEnum } from "../models/store";
-import { IMessage } from "../models/message";
-import { IUser } from "../models/user";
-import { IChatUser } from "../models/profile";
+import { IChat, IToken } from "../models/chat.ts";
+import { StoreEnum } from "../models/store.ts";
+import { IMessage } from "../models/message.ts";
+import { IUser } from "../models/user.ts";
+import { IChatUser } from "../models/profile.ts";
 
 class ChatsController {
   _sortedMessages = (message: IMessage[]) =>

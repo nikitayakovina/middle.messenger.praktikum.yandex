@@ -1,5 +1,5 @@
-import { IChat, IToken } from "../models/chat";
-import { IChatUser } from "../models/profile";
+import { IChat, IToken } from "../models/chat.ts";
+import { IChatUser } from "../models/profile.ts";
 import { BaseAPI } from "./baseAPI";
 
 class ChatsAPI extends BaseAPI {

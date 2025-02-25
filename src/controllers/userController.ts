@@ -1,5 +1,5 @@
 import UserAPI from "../api/userAPI";
-import { IPassword, IProfile } from "../models/profile";
+import { IPassword, IProfile } from "../models/profile.ts";
 import AuthController from "./authController";
 
 class UserController {

@@ -1,4 +1,4 @@
-import { StoreEnum } from "../models/store";
+import { StoreEnum } from "../models/store.ts";
 import EventBus from "./eventBus";
 
 export enum StoreEvents {

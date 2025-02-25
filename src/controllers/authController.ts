@@ -1,7 +1,7 @@
 import AuthAPI from "../api/authAPI";
-import { ISignIn, ISignUp } from "../models/auth";
-import { RouterPath } from "../models/router";
-import { StoreEnum } from "../models/store";
+import { ISignIn, ISignUp } from "../models/auth.ts";
+import { RouterPath } from "../models/router.ts";
+import { StoreEnum } from "../models/store.ts";
 import { BASE_URL_RESOURCE } from "../utils/HTTPTransport";
 import Router from "../utils/router";
 import Store from "../utils/store";

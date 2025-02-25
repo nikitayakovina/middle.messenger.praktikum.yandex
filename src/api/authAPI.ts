@@ -1,5 +1,5 @@
-import { ISignIn, ISignUp } from "../models/auth";
-import { IUser } from "../models/user";
+import { ISignIn, ISignUp } from "../models/auth.ts";
+import { IUser } from "../models/user.ts";
 import { BaseAPI } from "./baseAPI";
 
 class AuthAPI extends BaseAPI {

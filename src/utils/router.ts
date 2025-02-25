@@ -1,4 +1,4 @@
-import { RouterPath } from "../models/router";
+import { RouterPath } from "../models/router.ts";
 import Block from "./block";
 import Route from "./route";
 import Store from "./store";
