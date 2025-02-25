@@ -230,7 +230,7 @@ class Profiles extends Block {
     super({ ...data });
   }
 
-  //@typescript-eslint/no-unused-vars
+  // @typescript-eslint/no-unused-vars
   componentDidUpdate(_oldProps: object, _newProps: object): boolean {
     const user: IUser = this.props?.user as IUser;
 

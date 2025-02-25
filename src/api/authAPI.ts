@@ -8,11 +8,11 @@ class AuthAPI extends BaseAPI {
   }
 
   signIn(data: ISignIn) {
-    return this.create("/signin", {data});
+    return this.create("/signin", { data });
   }
 
   signUp(data: ISignUp) {
-    return this.create("/signup", {data});
+    return this.create("/signup", { data });
   }
 
   logOut() {
