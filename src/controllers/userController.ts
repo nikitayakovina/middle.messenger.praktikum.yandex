@@ -4,7 +4,6 @@ import AuthController from "./authController";
 
 class UserController {
   async changeUser(data: IProfile) {
-    console.log(data)
     try {
       await UserAPI.changeUser({...data})
         .then(() => AuthController.getUserInfo())

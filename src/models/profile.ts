@@ -12,6 +12,8 @@ export interface IChatUser extends IProfile {
   avatar: string;
 }
 
+export type IChatUserWithAvatar = Omit<IChatUser, "role">;
+
 export interface IPassword {
   newPassword: string;
   oldPassword: string;

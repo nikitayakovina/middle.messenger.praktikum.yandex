@@ -122,7 +122,6 @@ class Chats extends Block {
 
           const formDataValid = validateForm<{ user: number }>(popupAddUser.children.inputs, event);
           const { selectedChatId } = Store.getState();
-          console.log(formDataValid)
 
           if (formDataValid !== null) {
             this.setProps({

@@ -12,7 +12,7 @@ import { Connect } from "../../utils/connect.ts";
 import UserController from "../../controllers/userController.ts";
 import { IUser } from "../../models/user.ts";
 import Router from "../../utils/router.ts";
-import { IPassword, IProfile } from "../../models/profile.ts";
+import { IChatUser, IChatUserWithAvatar, IPassword, IProfile } from "../../models/profile.ts";
 import { StoreType } from "../../utils/store.ts";
 import { StoreEnum } from "../../models/store.ts";
 
@@ -233,8 +233,9 @@ class Profiles extends Block {
             }
           });
         })
-        this.children.profiles = [this.props.user].map((userProps: any) =>
-          new Profile({ 
+        const profiles = this.props?.user as IChatUserWithAvatar[];
+        this.children.profiles = profiles.map((userProps: IChatUserWithAvatar) =>
+          new Profile({
             ...userProps, 
             avatar: new Icon({ 
               src: userProps.avatar, 

@@ -99,7 +99,6 @@ class ChatsController {
           
           socket.addEventListener('message', event => {
             const data = JSON.parse(event.data) as IMessage[] | IMessage;
-            console.log('message', data)
   
             if (Array.isArray(data)) {
                 Store.set(StoreEnum.MESSAGE, this._sortedMessages(data));
@@ -109,7 +108,6 @@ class ChatsController {
           });
 
           socket.addEventListener('close', event => {
-            console.log('close')
             clearInterval(interval);
             interval = 0;
           });
