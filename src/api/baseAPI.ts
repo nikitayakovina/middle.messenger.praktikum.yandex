@@ -11,18 +11,18 @@ export class BaseAPI {
   }
 
   create<T, R = never>(url: string, data?: T) {
-    return this._httpTransport.post<R>(this._endpoint + url, { data });
+    return this._httpTransport.post<R>(this._endpoint + url, { ...data });
   }
 
   request<T>(url: string, data?: T) {
     return this._httpTransport.get<T>(this._endpoint + url, { ...data });
   }
 
-  update<T>(url: string, data: T) {
-    return this._httpTransport.put<T>(this._endpoint + url, { data });
+  update<T>(url: string, data?: T) {
+    return this._httpTransport.put<T>(this._endpoint + url, { ...data });
   }
 
-  delete<T>(url: string, data: T) {
-    return this._httpTransport.delete<T>(this._endpoint + url, { data });
+  delete<T>(url: string, data?: T) {
+    return this._httpTransport.delete<T>(this._endpoint + url, { ...data });
   }
 }
