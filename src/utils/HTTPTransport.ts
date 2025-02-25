@@ -21,7 +21,7 @@ type Options = {
 };
 type HTTPMethod = <R>(
   url: string,
-  options?: Pick<Options, "timeout" | "data">,
+  options?: Pick<Options, "timeout" | "data"> | null,
 ) => Promise<R>;
 type PrimitiveValue = string | number | boolean;
 type DataValue =

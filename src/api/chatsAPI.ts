@@ -12,7 +12,7 @@ class ChatsAPI extends BaseAPI {
   }
 
   createChat(data: Pick<IChat, "title"> & { userId: number }) {
-    return this.create<typeof data, IChat>("", { ...data });
+    return this.create<typeof data, IChat>("", data);
   }
 
   getToken(id: number) {
@@ -20,11 +20,11 @@ class ChatsAPI extends BaseAPI {
   }
 
   addUserChat(chatId: number, userId: number) {
-    return this.update("/users", { data: { chatId, users: [userId] } });
+    return this.update("/users", { chatId, users: [userId] });
   }
 
   removeUserChat(chatId: number, userId: number) {
-    return this.delete("/users", { data: { chatId, users: [userId] } });
+    return this.delete("/users", { chatId, users: [userId] });
   }
 
   getChatUsers(chatId: number) {
