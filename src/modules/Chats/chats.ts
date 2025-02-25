@@ -72,9 +72,7 @@ class Chats extends Block {
           const formDataValid = validateForm<IChat & { user: number }>(popupCreateChat.children.inputs, event);
 
           if (formDataValid !== null) {
-            this.setProps({
-              isViewPopupCreateChat: false,
-            });
+            this.setProps({ isViewPopupCreateChat: false });
             ChatsController.createChat({ title: formDataValid.title, userId: formDataValid.user});
             (popupCreateChat.children.inputs as Block[]).forEach(input => input.setProps({ value: "" }));
           } 

@@ -17,7 +17,7 @@ class Store extends EventBus {
 
     const state = localStorage.getItem(StoreName.STORE);
 
-    this._state = state !== null? JSON.parse(state) : {};
+    this._state = state !== null ? JSON.parse(state) : {};
     this.on(StoreEvents.Updated, () => {
       localStorage.setItem(StoreName.STORE, JSON.stringify(this._state));
     });

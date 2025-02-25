@@ -195,7 +195,7 @@ export default class Block {
     return template(props);
   }
 
-  protected render(props: IProps): string {
+  protected render(_props: IProps): string {
     return "";
   };
 

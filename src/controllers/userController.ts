@@ -5,8 +5,7 @@ import AuthController from "./authController.ts";
 class UserController {
   async changeUser(data: IProfile) {
     try {
-      await UserAPI.changeUser({...data})
-        .then(() => AuthController.getUserInfo())
+      await UserAPI.changeUser({ ...data }).then(() => AuthController.getUserInfo())
     } catch (e) {
       console.error(e);
     }
@@ -14,8 +13,7 @@ class UserController {
 
   async changeAvatar(data: FormData) {
     try {
-      await UserAPI.changeAvatar(data)
-        .then(() => AuthController.getUserInfo())
+      await UserAPI.changeAvatar(data).then(() => AuthController.getUserInfo())
     } catch (e) {
       console.error(e);
     }
@@ -23,8 +21,7 @@ class UserController {
 
   async changePassword(data: IPassword) {
     try {
-      await UserAPI.changePassword({...data})
-        .then(() => AuthController.getUserInfo())
+      await UserAPI.changePassword({ ...data }).then(() => AuthController.getUserInfo())
     } catch (e) {
       console.error(e);
     }

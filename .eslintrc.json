@@ -7,6 +7,7 @@
   },
   "rules": {
     "max-len": [2, 200],
+    "semi": [2, "never"],
     "@typescript-eslint/no-unused-vars": 2,
     "import/no-extraneous-dependencies": [
       "error",
@@ -30,6 +31,7 @@
     "no-else-return": "off",
     "no-use-before-define": "off",
     "import/prefer-default-export": "off",
-    "no-console": "off"
+    "no-console": "off",
+    "no-unsafe-optional-chaining": "off"
   }
 }

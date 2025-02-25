@@ -12,7 +12,7 @@ import { Connect } from "../../utils/connect.ts";
 import UserController from "../../controllers/userController.ts";
 import { IUser } from "../../models/user.ts";
 import Router from "../../utils/router.ts";
-import { IChatUser, IChatUserWithAvatar, IPassword, IProfile } from "../../models/profile.ts";
+import { IChatUserWithAvatar, IPassword, IProfile } from "../../models/profile.ts";
 import { StoreType } from "../../utils/store.ts";
 import { StoreEnum } from "../../models/store.ts";
 
@@ -126,13 +126,13 @@ class Profiles extends Block {
                       click: () => {
                         isPasswordMode = false;
                         profileLayout.setProps(initialProps);
-                      }
-                    }
+                      },
+                    },
                   }),
                 ],
               });
-            }
-          }
+            },
+          },
         }),
         new Button({
           mode: ModeButton.LINK,
@@ -147,7 +147,6 @@ class Profiles extends Block {
             click: (event: Event) => {
               event.stopPropagation();
               event.preventDefault();
-              
               AuthController.logOut();
             },
           },
@@ -161,24 +160,21 @@ class Profiles extends Block {
           if ("children" in this.children.profileLayout && Array.isArray(this.children.profileLayout.children.inputs)) {
             if (isPasswordMode) {
               const formDataValidPassword = validateForm<IPassword>(this.children.profileLayout.children.inputs, event);
-              
               if (formDataValidPassword !== null) {
                 UserController.changePassword(formDataValidPassword);
                 profileLayout.setProps(initialProps);
               }
             } else {
               const formDataValidProfile = validateForm<IProfile>(this.children.profileLayout.children.inputs, event);
-
               if (formDataValidProfile !== null) {
                 UserController.changeUser(formDataValidProfile);
               }
             }
           }
         }
-      }
+      },
     });
     const initialProps: IProps = { ...profileLayout.props };
-
     const data: IProps = {
       back: new Button({
         mode: ModeButton.LINK,
@@ -214,14 +210,14 @@ class Profiles extends Block {
 
           formData.append("avatar", target.files[0]);
           UserController.changeAvatar(formData);
-        }
+        },
       },
     };
 
     super({ ...data });
   }
 
-  componentDidUpdate(oldProps: object, newProps: object): boolean {
+  componentDidUpdate(_oldProps: object, _newProps: object): boolean {
     const user: IUser = this.props?.user as IUser;
 
     if (user) {

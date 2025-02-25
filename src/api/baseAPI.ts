@@ -1,7 +1,8 @@
-import { HTTPTransport } from "../utils/HTTPTransport";
+import { HTTPTransport } from "../utils/HTTPTransport.ts";
 
 export class BaseAPI {
   _httpTransport: HTTPTransport = new HTTPTransport();
+  
   _endpoint: string = "";
 
   constructor(endPoint: string) {

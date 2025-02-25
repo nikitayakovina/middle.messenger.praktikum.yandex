@@ -5,9 +5,13 @@ import Store from "./store.ts";
 
 class Router {
   routes: Route[] = [];
+
   _rootQuery: string = "";
+
   _currentRoute: Route|null = null;
+
   static _instance: Router;
+  
   history = window.history;
 
   constructor(rootQuery: string = ".app") {

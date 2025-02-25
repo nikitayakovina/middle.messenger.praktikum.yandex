@@ -7,7 +7,6 @@ import "./message.scss";
 export default class Message extends Block {
   constructor(props: IProps) {
     const { user } = (Store.getState() as { user: IUser });
-    
     super({ ...props, isMy: user?.id === props?.user_id });
   }
 

@@ -19,19 +19,16 @@ export const queryStringify = (data: RecordData | null): string | never => {
   if (data) {
     Object.keys(data).forEach((key: string, index: number) => {
       const value = data[key];
-  
       if (index > 0) {
         result += "&";
       }
-      
       if (Array.isArray(value)) {
         (value as PrimitiveValue[]).forEach((k, i) => {
           result += `${key}[${i}]=${k}`;
-          
           if (value.length - i !== 1) {
-            result += "&"
-          };
-        })
+            result += "&";
+          }
+        });
       } else if (typeof value === "object" && value !== null) {
           const recGetValue = (value: DataValue, key: string): string => {
             if (typeof value === "object" && value !== null) {
@@ -41,14 +38,12 @@ export const queryStringify = (data: RecordData | null): string | never => {
             }
             return `${key}=${value}`;
           };
-        
           result += recGetValue(value, key);
       } else {
         result += `${key}=${value}`;
       }
     });
   }
-  
   return result;
 }
 
@@ -71,7 +66,6 @@ export class HTTPTransport {
 
     return new Promise<R>((resolve, reject) => {
       xhr.open(method, BASE_URL + url + (method === METHODS.GET ? queryParams : "" ));
-
       if (!(data instanceof FormData)) {
         xhr.setRequestHeader("Content-Type", "application/json");
       }

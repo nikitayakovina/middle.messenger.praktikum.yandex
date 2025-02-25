@@ -4,7 +4,7 @@ import "./icon.scss";
 
 export default class Icon extends Block {
   constructor(props: IProps) {
-    super({ ...props});
+    super({ ...props });
   }
 
   render(props: IProps) {

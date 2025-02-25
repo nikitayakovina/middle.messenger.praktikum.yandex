@@ -24,7 +24,7 @@ class ChatsAPI extends BaseAPI {
   }
 
   removeUserChat(chatId: number, userId: number) {
-    return this.delete("/users", { chatId, users: [userId]});
+    return this.delete("/users", { chatId, users: [userId] });
   }
 
   getChatUsers(chatId: number) {
