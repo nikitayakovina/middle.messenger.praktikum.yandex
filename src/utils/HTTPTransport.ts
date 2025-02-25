@@ -50,7 +50,7 @@ export const queryStringify = (data: RecordData | null): string | never => {
         const recGetValue = (dataValue: DataValue, keyDataValue: string): string => {
           if (typeof dataValue === "object" && dataValue !== null) {
             return Object.keys(dataValue)
-              .map((k: string) =>recGetValue((dataValue as Record<string, PrimitiveValue | PrimitiveValue[]>)[k],`${keyDataValue}[${k}]`))
+              .map((k: string) => recGetValue((dataValue as Record<string, PrimitiveValue | PrimitiveValue[]>)[k], `${keyDataValue}[${k}]`))
               .join("&");
           }
           return `${keyDataValue}=${dataValue}`;

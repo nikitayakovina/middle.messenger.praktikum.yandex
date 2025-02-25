@@ -107,9 +107,7 @@ const validateName = (text: string) => {
   return error;
 };
 
-const validateNumber = (text: string) => {
-  return /^[0-9]/.test(text) ? "" : "Поле должно содержать только числа";
-};
+const validateNumber = (text: string) => /^[0-9]/.test(text) ? "" : "Поле должно содержать только числа";
 
 export const validate = (value: string, type: ValidateType) => {
   if (!value.length) {
@@ -117,26 +115,26 @@ export const validate = (value: string, type: ValidateType) => {
   }
 
   switch (type) {
-    case ValidateType.EMAIL:
-      return validateEmail(value);
+  case ValidateType.EMAIL:
+    return validateEmail(value);
 
-    case ValidateType.PASSWORD:
-      return validatePassword(value);
+  case ValidateType.PASSWORD:
+    return validatePassword(value);
 
-    case ValidateType.PHONE:
-      return validatePhone(value);
+  case ValidateType.PHONE:
+    return validatePhone(value);
 
-    case ValidateType.NAME:
-      return validateName(value);
+  case ValidateType.NAME:
+    return validateName(value);
 
-    case ValidateType.LOGIN:
-      return validateLogin(value);
+  case ValidateType.LOGIN:
+    return validateLogin(value);
 
-    case ValidateType.NUMBER:
-      return validateNumber(value);
+  case ValidateType.NUMBER:
+    return validateNumber(value);
 
-    default:
-      return "";
+  default:
+    return "";
   }
 };
 
