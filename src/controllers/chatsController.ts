@@ -8,14 +8,9 @@ import { IUser } from "../models/user.ts";
 import { IChatUser } from "../models/profile.ts";
 
 class ChatsController {
-  _sortedMessages = (message: IMessage[]) => {
-    return message
-      .filter((m) => m?.type === "message")
-      .sort(
-        (prev, next) =>
-          new Date(prev.time).getTime() - new Date(next.time).getTime(),
-      );
-  };
+  _sortedMessages = (message: IMessage[]) => message
+    .filter((m) => m?.type === "message")
+    .sort((prev, next) => new Date(prev.time).getTime() - new Date(next.time).getTime());
 
   async getChats() {
     try {

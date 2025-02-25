@@ -12,7 +12,7 @@ class ChatsAPI extends BaseAPI {
   }
 
   createChat(data: Pick<IChat, "title"> & { userId: number }) {
-    return this.create<typeof data, IChat>("", data);
+    return this.create<typeof data, IChat>("", { ...data });
   }
 
   getToken(id: number) {

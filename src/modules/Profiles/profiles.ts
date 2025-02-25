@@ -162,8 +162,8 @@ class Profiles extends Block {
           event.preventDefault();
 
           if (
-            "children" in this.children.profileLayout &&
-            Array.isArray(this.children.profileLayout.children.inputs)
+            "children" in this.children.profileLayout
+            && Array.isArray(this.children.profileLayout.children.inputs)
           ) {
             if (isPasswordMode) {
               const formDataValidPassword = validateForm<IPassword>(
@@ -230,20 +230,20 @@ class Profiles extends Block {
     super({ ...data });
   }
 
+  //@typescript-eslint/no-unused-vars
   componentDidUpdate(_oldProps: object, _newProps: object): boolean {
     const user: IUser = this.props?.user as IUser;
 
     if (user) {
       if (
-        "children" in this.children.profileLayout &&
-        Array.isArray(this.children.profileLayout.children.inputs)
+        "children" in this.children.profileLayout
+        && Array.isArray(this.children.profileLayout.children.inputs)
       ) {
         this.children.profileLayout.children.inputs.forEach((input: Block) => {
-          Object.keys(user).find((key: string) => {
-            if (key === input.props.id) {
-              input.setProps({ value: user[key] });
-            }
-          });
+          const profileLayoutInput = Object.keys(user).find((key: string) => key === input.props.id);
+          if (profileLayoutInput) {
+            input.setProps({ value: user[profileLayoutInput] });
+          }
         });
         const profiles = this.props?.user as IChatUserWithAvatar;
         this.children.profiles = [profiles].map(

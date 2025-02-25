@@ -80,9 +80,7 @@ class Chats extends Block {
               title: formDataValid.title,
               userId: formDataValid.user,
             });
-            (popupCreateChat.children.inputs as Block[]).forEach((input) =>
-              input.setProps({ value: "" }),
-            );
+            (popupCreateChat.children.inputs as Block[]).forEach((input) => input.setProps({ value: "" }));
           }
         },
       },
@@ -140,9 +138,7 @@ class Chats extends Block {
               Number(selectedChatId),
               formDataValid.user,
             );
-            (popupAddUser.children.inputs as Block[]).forEach((input) =>
-              input.setProps({ value: "" }),
-            );
+            (popupAddUser.children.inputs as Block[]).forEach((input) => input.setProps({ value: "" }));
           }
         },
       },
@@ -200,9 +196,7 @@ class Chats extends Block {
               Number(selectedChatId),
               formDataValid.user,
             );
-            (popupRemoveUser.children.inputs as Block[]).forEach((input) =>
-              input.setProps({ value: "" }),
-            );
+            (popupRemoveUser.children.inputs as Block[]).forEach((input) => input.setProps({ value: "" }));
           }
         },
       },

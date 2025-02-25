@@ -7,15 +7,15 @@ class UserAPI extends BaseAPI {
   }
 
   changeUser(data: IProfile) {
-    return this.update("/profile", { ...data });
+    return this.update("/profile", { data });
   }
 
   changeAvatar(data: FormData) {
-    return this.update("/profile/avatar", data);
+    return this.update("/profile/avatar", { data });
   }
 
   changePassword(data: {}) {
-    return this.update("/password", data);
+    return this.update("/password", { data });
   }
 }
 export default new UserAPI();
