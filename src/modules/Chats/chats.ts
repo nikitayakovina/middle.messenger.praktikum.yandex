@@ -266,8 +266,7 @@ class Chats extends Block {
     super({ ...data });
   }
 
-  // @typescript-eslint/no-unused-vars
-  componentDidUpdate(oldProps: object, newProps: object): boolean {
+  componentDidUpdate(): boolean {
     if (this.props?.chats) {
       this.children.chats = (this.props.chats as [])
         .map((chat: IChat) => ({
@@ -301,12 +300,11 @@ class Chats extends Block {
   }
 }
 export default Connect(Chats, (state: StoreType) => ({
-    chats: state?.chats,
-    messages: state?.messages,
-    selectedChat: state?.selectedChatId,
-    usersChat: (state?.usersChat as IChatUser[])?.map((userChat) => ({
-      ...userChat,
-      avatar: BASE_URL_RESOURCE + userChat?.avatar,
-    })),
-  })
-);
+  chats: state?.chats,
+  messages: state?.messages,
+  selectedChat: state?.selectedChatId,
+  usersChat: (state?.usersChat as IChatUser[])?.map((userChat) => ({
+    ...userChat,
+    avatar: BASE_URL_RESOURCE + userChat?.avatar,
+  })),
+}));

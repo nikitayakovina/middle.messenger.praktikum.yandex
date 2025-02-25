@@ -230,8 +230,7 @@ class Profiles extends Block {
     super({ ...data });
   }
 
-  // @typescript-eslint/no-unused-vars
-  componentDidUpdate(_oldProps: object, _newProps: object): boolean {
+  componentDidUpdate(): boolean {
     const user: IUser = this.props?.user as IUser;
 
     if (user) {
@@ -272,9 +271,7 @@ class Profiles extends Block {
     return this.compile(profiles, props);
   }
 }
-export default Connect(Profiles, (state: StoreType) => {
-  return {
-    user: state?.user,
-    first_name: (state[StoreEnum.USER] as { first_name: string })?.first_name,
-  };
-});
+export default Connect(Profiles, (state: StoreType) => ({
+  user: state?.user,
+  first_name: (state[StoreEnum.USER] as { first_name: string })?.first_name,
+}));
