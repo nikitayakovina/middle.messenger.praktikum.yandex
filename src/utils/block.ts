@@ -198,8 +198,8 @@ export default class Block {
     return template(props);
   }
 
-  // @eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected render(props: IProps): string {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected render(_props: IProps): string {
     return "";
   }
 
