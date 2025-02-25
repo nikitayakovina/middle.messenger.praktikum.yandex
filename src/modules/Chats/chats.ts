@@ -25,7 +25,7 @@ class Chats extends Block {
   constructor() {
     const chatFooter: Block = new ChatFooter();
     const popupCreateChat = new PopupChat({
-      header: 'Создание чата',
+      header: "Создание чата",
       inputs: [
         new Input({
           labelFor: "title",
@@ -83,7 +83,7 @@ class Chats extends Block {
       }
     });
     const popupAddUser = new PopupChat({
-      header: 'Добавление пользователя в чат',
+      header: "Добавление пользователя в чат",
       inputs: [
         new Input({
           labelFor: "user",
@@ -135,7 +135,7 @@ class Chats extends Block {
       }
     });
     const popupRemoveUser = new PopupChat({
-      header: 'Удаление пользователя из чата',
+      header: "Удаление пользователя из чата",
       inputs: [
         new Input({
           labelFor: "user",

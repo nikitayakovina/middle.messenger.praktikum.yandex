@@ -67,10 +67,10 @@ export class HTTPTransport {
   ): Promise<R> => {
     const { method, data } = options;
     const xhr = new XMLHttpRequest();
-    const queryParams = data ? queryStringify(data) : '';
+    const queryParams = data ? queryStringify(data) : "";
 
     return new Promise<R>((resolve, reject) => {
-      xhr.open(method, BASE_URL + url + (method === METHODS.GET ? queryParams : ""));
+      xhr.open(method, BASE_URL + url + (method === METHODS.GET ? queryParams : "" ));
 
       if (!(data instanceof FormData)) {
         xhr.setRequestHeader("Content-Type", "application/json");
@@ -91,7 +91,7 @@ export class HTTPTransport {
       xhr.ontimeout = reject;
 
       xhr.withCredentials = true;
-      xhr.responseType = 'json';
+      xhr.responseType = "json";
 
       if (method === METHODS.GET || !data) {
         xhr.send();

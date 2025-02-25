@@ -1,18 +1,18 @@
-import { IChat, IToken } from '../models/chat';
-import { IChatUser } from '../models/profile';
-import { BaseAPI } from './baseAPI';
+import { IChat, IToken } from "../models/chat";
+import { IChatUser } from "../models/profile";
+import { BaseAPI } from "./baseAPI";
 
 class ChatsAPI extends BaseAPI {
   constructor() {
-    super('/chats');
+    super("/chats");
   }
 
   getChats() {
-    return this.request('');
+    return this.request("");
   }
 
   createChat(data: Pick<IChat, "title"> & { userId: number }) {
-    return this.create<typeof data, IChat>('', data);
+    return this.create<typeof data, IChat>("", data);
   }
 
   getToken(id: number) {
@@ -20,11 +20,11 @@ class ChatsAPI extends BaseAPI {
   }
 
   addUserChat(chatId: number, userId: number) {
-    return this.update('/users', { chatId, users: [userId] });
+    return this.update("/users", { chatId, users: [userId] });
   }
 
   removeUserChat(chatId: number, userId: number) {
-    return this.delete('/users', { chatId, users: [userId]});
+    return this.delete("/users", { chatId, users: [userId]});
   }
 
   getChatUsers(chatId: number) {

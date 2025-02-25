@@ -85,10 +85,10 @@ class ChatsController {
           const { user } = (Store.getState() as { user: IUser })
           const socket = WebSocketTransport.getWebSocket(user.id, id, token);
           let interval = setInterval(() => {
-            socket.send(JSON.stringify({ type: 'ping' }))
+            socket.send(JSON.stringify({ type: "ping" }))
           }, 5000);
 
-          socket.addEventListener('open', () => {
+          socket.addEventListener("open", () => {
             socket.send(
               JSON.stringify({
                 content: "0",
@@ -97,7 +97,7 @@ class ChatsController {
             );
           });
           
-          socket.addEventListener('message', event => {
+          socket.addEventListener("message", event => {
             const data = JSON.parse(event.data) as IMessage[] | IMessage;
   
             if (Array.isArray(data)) {
@@ -107,7 +107,7 @@ class ChatsController {
             }
           });
 
-          socket.addEventListener('close', event => {
+          socket.addEventListener("close", () => {
             clearInterval(interval);
             interval = 0;
           });

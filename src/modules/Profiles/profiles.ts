@@ -158,7 +158,7 @@ class Profiles extends Block {
           event.stopPropagation();
           event.preventDefault();
 
-          if ('children' in this.children.profileLayout && Array.isArray(this.children.profileLayout.children.inputs)) {
+          if ("children" in this.children.profileLayout && Array.isArray(this.children.profileLayout.children.inputs)) {
             if (isPasswordMode) {
               const formDataValidPassword = validateForm<IPassword>(this.children.profileLayout.children.inputs, event);
               
@@ -225,7 +225,7 @@ class Profiles extends Block {
     const user: IUser = this.props?.user as IUser;
 
     if (user) {
-      if ('children' in this.children.profileLayout && Array.isArray(this.children.profileLayout.children.inputs)) {
+      if ("children" in this.children.profileLayout && Array.isArray(this.children.profileLayout.children.inputs)) {
         this.children.profileLayout.children.inputs.forEach((input: Block) => {
           Object.keys(user).find((key: string) => {
             if (key === input.props.id) {
@@ -233,8 +233,8 @@ class Profiles extends Block {
             }
           });
         })
-        const profiles = this.props?.user as IChatUserWithAvatar[];
-        this.children.profiles = profiles.map((userProps: IChatUserWithAvatar) =>
+        const profiles = this.props?.user as IChatUserWithAvatar;
+        this.children.profiles = [profiles].map((userProps: IChatUserWithAvatar) =>
           new Profile({
             ...userProps, 
             avatar: new Icon({ 
@@ -244,7 +244,7 @@ class Profiles extends Block {
             }),
           }));
       }
-      if ('children' in this.children.defaultAvatar) {
+      if ("children" in this.children.defaultAvatar) {
         const icon = this.children.defaultAvatar.children.icon as Block;
 
         icon.setProps({ src: user.avatar});
