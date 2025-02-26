@@ -50,10 +50,15 @@ class Router {
       return;
     }
 
-    if (
-      pathname !== RouterPath.HOME
-      && pathname !== RouterPath.SIGN_UP
-      && !user
+    if (user
+      && (pathname === RouterPath.HOME
+        || pathname === RouterPath.SIGN_UP)
+    ) {
+      this.go(RouterPath.MESSENGER);
+      return;
+    } else if (!user
+        && (pathname === RouterPath.MESSENGER
+          || pathname === RouterPath.SETTINGS)
     ) {
       this.go(RouterPath.HOME);
       return;
