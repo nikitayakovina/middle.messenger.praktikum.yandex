@@ -78,10 +78,20 @@ class Router {
   }
 
   back() {
+    const { user } = Store.getState();
+    if (!user) {
+      this.go(RouterPath.HOME);
+      return;
+    }
     this.history.back();
   }
 
   forward() {
+    const { user } = Store.getState();
+    if (!user) {
+      this.go(RouterPath.HOME);
+      return;
+    }
     this.history.forward();
   }
 
