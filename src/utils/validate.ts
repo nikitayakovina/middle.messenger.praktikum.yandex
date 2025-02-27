@@ -139,23 +139,23 @@ export const validate = (value: string, type: ValidateType) => {
 };
 
 export const validateForm = <T>(
-  input: Block | Block[],
+  inputBlock: Block | Block[],
   event: Event,
 ): T | null => {
   const form = event.target as HTMLFormElement;
   const inputs = form.querySelectorAll("input");
   inputs.forEach((input) => {
-    let value = input.value;
-
+    const { value } = input;
     if (value) {
-      value = value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-      input.value = value;
+      const updatedValue = value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      const newInput = { ...input, value: updatedValue };
+      input.value = newInput.value;
     }
   });
   const formData = new FormData(form);
   const formFields: Partial<T> = {};
 
-  const isValidForm = (Array.isArray(input) ? input : [input]).every(
+  const isValidForm = (Array.isArray(inputBlock) ? inputBlock : [inputBlock]).every(
     (block: Block) => {
       const inputElement = block.element.querySelector(
         "input",
