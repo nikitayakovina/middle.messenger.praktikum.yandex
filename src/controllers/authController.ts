@@ -55,7 +55,9 @@ class AuthController {
     } catch (e) {
       console.error(e);
       Store.clearState();
-      Router.go(RouterPath.HOME);
+      if (window.location.pathname !== RouterPath.SIGN_UP) {
+        Router.go(RouterPath.HOME);
+      }
     }
   }
 }
