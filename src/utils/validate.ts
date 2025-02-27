@@ -142,7 +142,17 @@ export const validateForm = <T>(
   input: Block | Block[],
   event: Event,
 ): T | null => {
-  const formData = new FormData(event.target as HTMLFormElement);
+  const form = event.target as HTMLFormElement;
+  const inputs = form.querySelectorAll("input");
+  inputs.forEach((input) => {
+    let value = input.value;
+
+    if (value) {
+      value = value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      input.value = value;
+    }
+  });
+  const formData = new FormData(form);
   const formFields: Partial<T> = {};
 
   const isValidForm = (Array.isArray(input) ? input : [input]).every(

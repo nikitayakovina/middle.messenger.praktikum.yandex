@@ -54,6 +54,8 @@ class AuthController {
       });
     } catch (e) {
       console.error(e);
+      Store.clearState();
+      Router.go(RouterPath.HOME);
     }
   }
 }

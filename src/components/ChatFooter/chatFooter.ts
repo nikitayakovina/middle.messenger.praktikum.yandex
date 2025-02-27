@@ -24,7 +24,6 @@ export default class ChatFooter extends Block {
         submit: (event: Event) => {
           event.preventDefault();
           event.stopPropagation();
-
           const formDataValid = validateForm<ISendMessage>(
             this.children.input,
             event,
