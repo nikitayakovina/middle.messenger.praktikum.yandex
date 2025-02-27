@@ -5,9 +5,10 @@ import Block, { IProps } from "../../utils/block.ts";
 import Button from "../../components/Button/button.ts";
 import Link from "../../components/Link/link.ts";
 import { ValidateType, validateForm } from "../../utils/validate.ts";
-import { renderDom } from "../../utils/renderDom.ts";
-import SignUp from "../Signup/signup.ts";
-import Chats from "../Chats/chats.ts";
+import AuthController from "../../controllers/authController.ts";
+import Router from "../../utils/router.ts";
+import { ISignIn } from "../../models/auth.ts";
+import { RouterPath } from "../../models/router.ts";
 
 export default class SignIn extends Block {
   constructor() {
@@ -24,7 +25,7 @@ export default class SignIn extends Block {
           click: (event: Event) => {
             event.stopPropagation();
             event.preventDefault();
-            renderDom(".app", new SignUp());
+            Router.go(RouterPath.SIGN_UP);
           },
         },
       }),
@@ -33,8 +34,13 @@ export default class SignIn extends Block {
           event.preventDefault();
           event.stopPropagation();
 
-          if (validateForm(this.children.inputs, event)) {
-            renderDom(".app", new Chats());
+          const formDataValid = validateForm<ISignIn>(
+            this.children.inputs,
+            event,
+          );
+
+          if (formDataValid !== null) {
+            AuthController.signIn(formDataValid);
           }
         },
       },

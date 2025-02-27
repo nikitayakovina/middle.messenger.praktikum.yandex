@@ -30,6 +30,10 @@
     "no-else-return": "off",
     "no-use-before-define": "off",
     "import/prefer-default-export": "off",
-    "no-console": "off"
+    "no-console": "off",
+    "no-unsafe-optional-chaining": "off",
+    "no-constructor-return": "off",
+    "no-extra-bind": "off",
+    "no-extra-boolean-cast": "off"
   }
 }

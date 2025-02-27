@@ -21,28 +21,56 @@
     </div>
   </aside>
 
-  <div class="chats__container">
-    <header class="chats__container-header">
-      <div class="chats__container-header__info">
-        <div class="chats__container-header__info-avatar">
-          {{{defaultAvatar}}}
+  {{#if selectedChat}}
+    <div class="chats__container">
+      <header class="chats__container-header">
+        <div class="chats__container-header__info">
+          {{#each usersChat}}
+            <div class="chats__container-header__info-avatar">
+              <img src="{{avatar}}" alt="Фото профиля" />
+            </div>
+            <div class="chats__container-header__info-name">
+              {{first_name}}
+            </div>
+          {{/each}}
         </div>
-        <div class="chats__container-header__info-name">
-          {{first_name}}
+        <div class="chats__container-header__action">
+          {{{searchMessageIcon}}}
+          {{{removeIcon}}}
+          {{{addUserIcon}}}
         </div>
-      </div>
-      <div class="chats__container-header__action">
-        {{{searchMessageIcon}}}
-        {{{toggleIcon}}}
-      </div>
-    </header>
-    <main class="chats__container-messages">
-      {{#each messages}}
-        {{{this}}}
-      {{/each}}
-    </main>
-    <footer class="chats__container-footer">
-      {{{chatFooter}}}
-    </footer>
-  </div>
+      </header>
+      <main class="chats__container-messages">
+        {{#each messages}}
+          {{{this}}}
+        {{/each}}
+      </main>
+      <footer class="chats__container-footer">
+        {{{chatFooter}}}
+      </footer>
+    </div>
+  {{/if}}
+
+  {{#unless selectedChat}}
+    <span>Выберите чат или создайте новый</span>
+  {{/unless}}
+
+  {{#if isViewPopupCreateChat}}
+    <div class="chats__popup">
+      {{{popupCreateChat}}}
+    </div>
+  {{/if}}
+
+  {{#if isViewPopupAddUser}}
+    <div class="chats__popup">
+      {{{popupAddUser}}}
+    </div>
+  {{/if}}
+
+  {{#if isViewPopupRemoveUser}}
+    <div class="chats__popup">
+      {{{popupRemoveUser}}}
+    </div>
+  {{/if}}
+
 </div>

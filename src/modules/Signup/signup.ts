@@ -5,8 +5,10 @@ import Input from "../../components/Input/input.ts";
 import Button from "../../components/Button/button.ts";
 import Link from "../../components/Link/link.ts";
 import { ValidateType, validateForm } from "../../utils/validate.ts";
-import { renderDom } from "../../utils/renderDom.ts";
-import SignIn from "../SignIn/signin.ts";
+import AuthController from "../../controllers/authController.ts";
+import Router from "../../utils/router.ts";
+import { ISignUp } from "../../models/auth.ts";
+import { RouterPath } from "../../models/router.ts";
 
 export default class SignUp extends Block {
   constructor() {
@@ -14,6 +16,7 @@ export default class SignUp extends Block {
       title: "Регистрация",
       button: new Button({
         title: "Зарегистрироваться",
+        type: "submit",
       }),
       link: new Link({
         href: "/signin",
@@ -22,7 +25,8 @@ export default class SignUp extends Block {
           click: (event: Event) => {
             event.stopPropagation();
             event.preventDefault();
-            renderDom(".app", new SignIn());
+
+            Router.go(RouterPath.HOME);
           },
         },
       }),
@@ -31,7 +35,14 @@ export default class SignUp extends Block {
           event.preventDefault();
           event.stopPropagation();
 
-          validateForm(this.children.inputs, event);
+          const formDataValid = validateForm<ISignUp>(
+            this.children.inputs,
+            event,
+          );
+
+          if (formDataValid !== null) {
+            AuthController.signUp(formDataValid);
+          }
         },
       },
     };
@@ -56,6 +67,14 @@ export default class SignUp extends Block {
         name: "second_name",
         validateType: ValidateType.NAME,
         placeholder: "Введите фамилию",
+      }),
+      new Input({
+        labelFor: "email",
+        label: "Почта",
+        id: "email",
+        name: "email",
+        validateType: ValidateType.EMAIL,
+        placeholder: "Введите почту",
       }),
       new Input({
         labelFor: "login",

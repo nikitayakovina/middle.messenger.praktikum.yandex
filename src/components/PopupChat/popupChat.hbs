@@ -1,0 +1,18 @@
+<div class="popup">
+    <div class="popup__header">
+        <div class="popup__header-title">
+            <h3>{{{header}}}</h1>
+        </div>
+        <div class="popup__header-btn">
+            {{{buttonClose}}}
+        </div>
+    </div>
+    <form class="popup__form">
+        {{#each inputs}}
+            {{{this}}}
+        {{/each}}
+        <div class="popup__actions">
+            {{{button}}}
+        </div>
+    </form>
+</div>

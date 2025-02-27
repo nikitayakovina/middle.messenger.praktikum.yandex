@@ -1,5 +1,6 @@
 import { v4 as makeUUID } from "uuid";
 import EventBus from "./eventBus.ts";
+import { renderDom } from "./renderDom.ts";
 
 type EventBusType = { [key: string]: string };
 type Meta = { [key: string]: string | object };
@@ -8,7 +9,7 @@ export type IProps = { [key: string]: string | Block | Block[] | unknown } & {
   events?: Events;
 };
 
-export default abstract class Block {
+export default class Block {
   static EVENTS: EventBusType = {
     INIT: "init",
     FLOW_CDM: "flow:component-did-mount",
@@ -77,7 +78,7 @@ export default abstract class Block {
   _init() {
     this._createResources();
     this.init();
-    this._render();
+    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
   init() {}
@@ -91,6 +92,13 @@ export default abstract class Block {
 
   dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+    Object.values(this.children).forEach((child) => {
+      if (Array.isArray(child)) {
+        child.forEach((c) => c.dispatchComponentDidMount());
+      } else {
+        child.dispatchComponentDidMount();
+      }
+    });
   }
 
   _componentDidUpdate(oldProps: object, newProps: object) {
@@ -112,7 +120,7 @@ export default abstract class Block {
     return false;
   }
 
-  setProps = (nextProps: Record<string, Block | Block[] | string | object>) => {
+  setProps = (nextProps: IProps) => {
     if (!nextProps) {
       return;
     }
@@ -147,7 +155,10 @@ export default abstract class Block {
         if (Array.isArray(child)) {
           const elements = child.map((comp) => this._element.querySelector(`[data-id="${comp._id}"]`));
 
-          if (!elements.length || (elements.length && elements.every((element) => element === null))) {
+          if (
+            !elements.length
+            || (elements.length && elements.every((element) => element === null))
+          ) {
             return;
           }
 
@@ -187,7 +198,10 @@ export default abstract class Block {
     return template(props);
   }
 
-  protected abstract render(props: IProps): string;
+  protected render(_props: IProps): string {
+    console.log(_props); // for no-unused-vars
+    return "";
+  }
 
   getContent(): HTMLElement {
     return this._element;
@@ -220,8 +234,9 @@ export default abstract class Block {
     return document.createElement(tagName) as HTMLTemplateElement;
   }
 
-  show() {
-    this._element.style.display = "block";
+  show(query: string) {
+    this.eventBus().emit(Block.EVENTS.INIT);
+    renderDom(query, this);
   }
 
   hide() {

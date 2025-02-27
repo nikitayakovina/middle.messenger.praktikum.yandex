@@ -9,7 +9,9 @@
       {{text}}
     </span>
   </div>
-  <div class="error__link" id="error__link">
-    <span>Назад к чатам</span>
-  </div>
+  {{#if user}}
+    <div class="error__link" id="error__link">
+      {{{link}}}
+    </div>
+  {{/if}}
 </div>

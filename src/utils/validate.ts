@@ -7,6 +7,7 @@ export enum ValidateType {
   PHONE = "phone",
   NAME = "name",
   TEXT = "text",
+  NUMBER = "number",
 }
 
 const validateEmail = (email: string) => {
@@ -106,6 +107,8 @@ const validateName = (text: string) => {
   return error;
 };
 
+const validateNumber = (text: string) => (/^[0-9]/.test(text) ? "" : "Поле должно содержать только числа");
+
 export const validate = (value: string, type: ValidateType) => {
   if (!value.length) {
     return "Поле не может быть пустым";
@@ -127,18 +130,35 @@ export const validate = (value: string, type: ValidateType) => {
   case ValidateType.LOGIN:
     return validateLogin(value);
 
+  case ValidateType.NUMBER:
+    return validateNumber(value);
+
   default:
     return "";
   }
 };
 
-export const validateForm = (input: Block | Block[], event: Event) => {
-  const formData = new FormData(event.target as HTMLFormElement);
-  const formFields: Record<string, string> = {};
+export const validateForm = <T>(
+  inputBlock: Block | Block[],
+  event: Event,
+): T | null => {
+  const form = event.target as HTMLFormElement;
+  const inputs = form.querySelectorAll("input");
+  inputs.forEach((input) => {
+    const { value } = input;
+    if (value) {
+      const updatedValue = value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      Object.assign(input, { value: updatedValue });
+    }
+  });
+  const formData = new FormData(form);
+  const formFields: Partial<T> = {};
 
-  const isValidForm = (Array.isArray(input) ? input : [input]).every(
+  const isValidForm = (Array.isArray(inputBlock) ? inputBlock : [inputBlock]).every(
     (block: Block) => {
-      const inputElement = block.element.querySelector("input") as HTMLInputElement;
+      const inputElement = block.element.querySelector(
+        "input",
+      ) as HTMLInputElement;
       const errorElement = block.element.querySelector(".form-error");
       const textError = validate(
         inputElement.value,
@@ -157,16 +177,14 @@ export const validateForm = (input: Block | Block[], event: Event) => {
   );
 
   if (!isValidForm) {
-    return false;
+    return null;
   }
 
   formData.forEach((value, key) => {
     if (typeof value === "string") {
-      formFields[key] = value;
+      (formFields as Record<string, string>)[key] = value;
     }
   });
 
-  console.log(formFields);
-
-  return true;
+  return formFields as T;
 };
