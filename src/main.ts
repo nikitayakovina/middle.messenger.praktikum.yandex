@@ -8,6 +8,7 @@ import Error404 from "./modules/Error404/error404.ts";
 import Error500 from "./modules/Error500/error500.ts";
 import { RouterPath } from "./models/router.ts";
 import AuthController from "./controllers/authController.ts";
+import ChatsController from "./controllers/chatsController.ts";
 
 document.addEventListener("DOMContentLoaded", () => {
   Router.use(RouterPath.HOME, SignIn)
@@ -16,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .use(RouterPath.ERROR_500, Error500)
     .use(RouterPath.SETTINGS, Profiles)
     .use(RouterPath.MESSENGER, Chats);
-  AuthController.getUserInfo().then(() => {
-    Router.start();
-  });
+  AuthController.getUserInfo()
+    .then(() => ChatsController.getChats())
+    .then(() => Router.start());
 });
