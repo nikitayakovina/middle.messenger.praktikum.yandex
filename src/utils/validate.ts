@@ -148,8 +148,7 @@ export const validateForm = <T>(
     const { value } = input;
     if (value) {
       const updatedValue = value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-      const newInput = { ...input, value: updatedValue };
-      input.value = newInput.value;
+      Object.assign(input, { value: updatedValue });
     }
   });
   const formData = new FormData(form);
