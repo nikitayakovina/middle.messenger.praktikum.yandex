@@ -85,7 +85,7 @@ class ChatsController {
         if (token) {
           const { user } = Store.getState() as { user: IUser };
           const socket = WebSocketTransport.getWebSocket(user.id, id, token);
-          let interval = setInterval(() => {
+          let interval: number | NodeJS.Timeout= setInterval(() => {
             socket.send(JSON.stringify({ type: "ping" }));
           }, 5000);
 
